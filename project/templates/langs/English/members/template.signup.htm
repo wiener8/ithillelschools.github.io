@@ -1,0 +1,145 @@
+<?if(isset($data['ScriptLoaded'])){?><?if(!$data['PostSent']){?>
+<form method=post>
+<!-- wrapper -->
+	<div id="wrapper">	
+
+		<section class="bg-grey-50">
+			<div class="container">
+				<div class="row">
+
+					<div class="col-md-2">
+
+					</div>
+
+					<div class="col-md-8">
+            
+            <?if($data['Error']){?>
+            <div class="alert alert-danger alert-dismissible">
+									<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> 
+									<strong>Ошибка!</strong> <?=prntext($data['Error'])?> 
+								</div>
+            <?}?>
+
+						<div class="panel panel-default margin-bottom-30">
+								<div class="panel-body">
+									
+									<h3>Регистрация</h3>
+									<p>Это быстро, просто и бесплатно</p>
+										<div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group margin-bottom-15">
+                            <input type="text" class="form-control" placeholder="Номер телефона" name=newphone size=20 maxlength=64 value="<?=prntext($post['newphone'])?>" required>
+                        </div>
+                      </div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<input type="text" class="form-control" placeholder="Логин" name="newuser" value="<?=prntext($post['newuser'])?>" required>
+												</div>
+												<div class="form-group">
+													<input type="text" class="form-control" placeholder="Имя" name="newfname" value="<?=prntext($post['newfname'])?>" required>
+												</div>
+												<div class="form-group">
+													<select name="newcountry" class="form-control">
+													  <option>Страна проживания</option>
+													  <?=showselect($data['Countries'], $post['newcountry'])?>
+													</select>
+												</div>
+												<div class="form-group">
+													<input type="text" class="form-control" placeholder="Адрес" name="newaddress" value="<?=prntext($post['newaddress'])?>" required>
+												</div>
+												<div class="form-group">
+													<input type="text" class="form-control" placeholder="Секретный вопрос" name=newques value="<?=prntext($post['newques'])?>" required>
+												</div>
+												<div class="form-group">
+													<input type="password" class="form-control" placeholder="Пароль" name=newpass value="<?=prntext($post['newpass'])?>" required>
+												</div>
+                        
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<input type="email" class="form-control" placeholder="Email" name=newmail value="<?=prntext($post['newmail'])?>" required>
+												</div>
+												<div class="form-group">
+													<input type="text" class="form-control" placeholder="Фамилия" name=newlname value="<?=prntext($post['newlname'])?>" required>
+												</div>
+												<div class="form-group">
+													<input type="text" class="form-control" placeholder="Город" name=newcity value="<?=prntext($post['newcity'])?>" required>
+												</div>
+												<div class="form-group">
+													<input type="text" class="form-control" placeholder="Индекс" name=newzip value="<?=prntext($post['newzip'])?>" required>
+												</div>
+												<div class="form-group">
+													<input type="text" class="form-control" name=newansw placeholder="Ответ на секретный вопрос" value="<?=prntext($post['newques'])?>" required>
+												</div>
+												<div class="form-group">
+													<input type="password" class="form-control" placeholder="Повторите пароль" name=cfmpass value="<?=prntext($post['cfmpass'])?>" required>
+												</div>
+											</div>
+										</div>
+										
+										<div class="checkbox pull-left margin-top-10">
+											<input type="checkbox" id=terms name=terms<?if($post['terms']=='on'){?> checked<?}?>> 
+											<label for="terms">Я принимаю <a href="#">Условия соглашения</a></label>
+										</div>
+									
+								</div>
+								<div class="panel-footer text-right">
+
+								<button type="submit" name=send value="SIGN UP NOW!" class="btn btn-primary">Продолжить</button>
+							</div>
+						</div>
+
+						<div class="col-md-2">
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	<!-- /#wrapper -->
+ </form>
+<?}else{?>
+
+<!-- wrapper -->
+	<div id="wrapper">	
+
+		<section class="bg-grey-50">
+			<div class="container">
+				<div class="row">
+
+					<div class="col-md-2">
+
+					</div>
+
+					<div class="col-md-8">
+
+						<div class="panel panel-default margin-bottom-30">
+								<div class="panel-body">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="title outline">
+                          <h4><i class="fa fa-check"></i></h4>
+                          <p>Подтвердите адрес электронной почты, перейдя по ссылке, которую мы отправили Вам прямо сейчас.</p>
+                        </div>
+											</div>
+										</div>
+								</div>
+								<div class="panel-footer text-right">
+								<a href="confirm.htm" class="btn btn-primary">Ввести код подтверждения</a>
+							</div>
+						</div>
+
+						<div class="col-md-2">
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	<!-- /#wrapper -->
+
+<?}?><?}else{?>SECURITY ALERT: Access Denied<?}?>

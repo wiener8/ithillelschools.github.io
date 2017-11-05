@@ -1,0 +1,220 @@
+<?
+
+###############################################################################
+$data['PageName']='DEPOSIT FUNDS TO YOUR ACCOUNT';
+$data['PageFile']='deposit';
+###############################################################################
+include('../config.htm');
+###############################################################################
+if(!$_SESSION['login']){
+        header("Location:{$data['Host']}/index.htm");
+        echo('ACCESS DENIED.');
+        exit;
+}
+if(is_info_empty($uid)){
+        header("Location:{$data['Host']}/members/profile.htm");
+        echo('ACCESS DENIED.');
+        exit;
+}
+###############################################################################
+$data['Balance']=select_balance($uid);
+$post=select_info($uid, $post);
+$balance=select_balance($uid);
+###############################################################################
+if($post['send']){
+	$post['LastDeposit']=get_transactions($uid, 'incoming', 1, 1, 0, 1);
+	$post['LastDeposit']=$post['LastDeposit'][0];
+	if(!$post['amount']){
+		$data['Error']='Пожалуйста, введите действительную сумму для перевода.';
+	}elseif($post['amount']<$data['DepositMinSum']){
+		$data['Error']="Минимальная сумма, которую Вы можете внести на счет {$data['Currency']}{$data['DepositMinSum']}";
+	}elseif(!$post['dtype']){
+		$data['Error']='Пожалуйста, выберите способ оплаты.';
+	}elseif(get_member_status($uid)<2&&isset($post['LastDeposit']['period'])&&$post['LastDeposit']['period']<30){
+		if($post['LastDeposit']['period']==0)$days='today';
+		elseif($post['LastDeposit']['period']==1)$days='yesterday';
+		else $days="{$post['LastDeposit']['period']} дней назад";
+		$data['Error']="Вы не можете внести более".
+			" {$data['Currency']}{$data['DepositMaxSum']}".
+			" каждые 30 дней, поскольку Вы неидентифицированный пользователь.".
+			" Ваше последнее пополненее было {$days}.";
+	}else{
+		$post['BanksInfo']=select_banks($uid);
+		$post['CardsInfo']=select_cards($uid);
+		$fees=$data['DepositMethod'][$post['dtype']]['fees'];
+		$prcn=$data['DepositMethod'][$post['dtype']]['prcn'];
+		$post['fees']=round(($post['amount']*$prcn/100)+$fees, 2);
+		$post['total']=$post['amount']+$post['fees'];
+                if($post['manual']){
+                        if($post['dtype']=='echeck'){
+                                if(!$post['fname']){
+                                        $data['Error']='Пожалуйста, введите Ваше имя.';
+                                }elseif(!$post['lname']){
+                                        $data['Error']='Пожалуйста, введите Вашу фамилию.';
+                                }elseif(!$post['address']){
+                                        $data['Error']='Пожалуйста, введите адрес Вашего проживания.';
+                                }elseif(!$post['city']){
+                                        $data['Error']='Пожалуйста, укажите город, в котором Вы живете.';
+                                }elseif(!$post['country']){
+                                        $data['Error']='Пожалуйста, укажите страну проживания.';
+                                }elseif(!$post['zip']){
+                                        $data['Error']='Пожалуйста, укажите свой почтовый индекс.';
+                                }elseif(!$post['phone']){
+                                        $data['Error']='Пожалуйста, введите Ваш номер телефона.';
+                                }elseif(!$post['chknum']){
+                                        $data['Error']='Пожалуйста, введите действительный номер чека.';
+                                }elseif(!$post['fdrnum']){
+                                        $data['Error']='Введите действительный федеральный ID номер.';
+                                }elseif($post['bank']==-1){
+                                        if(!$post['bname']){
+                                                $data['Error']='Пожалуйста, введите название Вашего банка.';
+                                        }elseif(!$post['baddress']){
+                                                $data['Error']='Пожалуйста, введите адрес Вашего банка.';
+                                        }elseif(!$post['bcity']){
+                                                $data['Error']='Пожалуйста, введите город Вашего банка.';
+                                        }elseif(!$post['bzip']){
+                                                $data['Error']='Пожалуйста, введите почтовый индекс Вашего банка.';
+                                        }elseif(!$post['bcountry']){
+                                                $data['Error']='Пожалуйста, выберите страну Вашего банка.';
+                                        }elseif(!$post['bphone']){
+                                                $data['Error']='Пожалуйста, введите телефонный номер Вашего банка.';
+                                        }elseif(!$post['bnameacc']){
+                                                $data['Error']='Пожалуйста, введите имя учетной записи.';
+                                        }elseif(!$post['baccount']){
+                                                $data['Error']='Пожалуйста, введите номер счета.';
+                                        }
+                                }else{
+                                        $bankinfo=select_banks($uid, $post['bank'], true);
+                                        if($bankinfo[0]){
+                                                foreach($bankinfo[0] as $key=>$val)$post[$key]=$val;
+                                        }else{
+                                                $data['Error']='Неверный банковский счет.';
+                                        }
+                                }
+                                if(!$data['Error']){
+                                        $echeckinfo=
+                                                "   � Ф.И.О.                    : {$post['lname']}, {$post['fname']}\n".
+                                                "   � Название компании            : {$post['company']}\n".
+                                                "   � Адрес                 : {$post['address']}\n".
+                                                "   � Город                    : {$post['city']}\n".
+                                                "   � Страна                 : {$data['Countries'][$post['country']]}\n".
+                                                "   � Регион                   : {$post['state']}\n".
+                                                "   � Почтовый индекс             : {$post['zip']}\n".
+                                                "   � Телефон                   : {$post['phone']}\n".
+                                                "   � Номер чека            : {$post['chknum']}\n".
+                                                "   � Федеральный ID номер       : {$post['fdrnum']}\n".
+                                                "   � Название банка               : {$post['bname']}\n".
+                                                "   � Адрес банка            : {$post['baddress']}\n".
+                                                "   � Город банка               : {$post['bcity']}\n".
+                                                "   � Банковский почтовый индекс           : {$post['bzip']}\n".
+                                                "   � Страна банка            : {$data['Countries'][$post['bcountry']]}\n".
+                                                "   � Регион банка              : {$post['bstate']}\n".
+                                                "   � Телефон банка              : {$post['bphone']}\n".
+                                                "   � Имя владельца счета   : {$post['bnameacc']}\n".
+                                                "   � Номер счета          : {$post['baccount']}\n".
+                                                "   � Тип счета            : {$data['AccountTypes'][$post['btype']]}\n".
+                                                "   � БИК банка : {$post['brtgnum']}\n".
+                                                "   �S.W.I.F.T. Код         : {$post['bswift']}\n".
+                                                "   � Дополнительная информация  : {$post['comments']}"
+                                        ;
+                                        /*
+                                                TODO: Send notification emails
+                                        */
+                                        transaction(
+                                                -1,
+                                                $uid,
+                                                $post['amount']+$post['fees'],
+                                                $post['fees'],
+                                                1,
+                                                0,
+                                                'Online eCheck Depositing',
+                                                "TRANSACTION DETAILS:\n".$echeckinfo
+                                        );
+                                        $post['CheckInfo']=$echeckinfo;
+                                        $post['ShowCheckInfo']=true;
+                                }
+                        }elseif($post['dtype']=='mail'){
+                                $mcheckinfo=
+                                        "    Логин       : ".prnuser($uid)."\n".
+                                        "    E-Mail : ".get_member_email($uid)
+                                ;
+                                transaction(
+                                        -1,
+                                        $uid,
+                                        $post['amount']+$post['fees'],
+                                        $post['fees'],
+                                        1,
+                                        0,
+                                        'Regular Mail Check Depositing',
+                                        "TRANSACTION DETAILS:\n".$mcheckinfo
+                                );
+                                $post['CheckInfo']=$mcheckinfo;
+                                $post['ShowCheckInfo']=true;
+                        }elseif($post['dtype']=='autorize'||$post['dtype']=='checkout'){
+                                if(!$post['fname']){
+                                        $data['Error']='Пожалуйста, введите Ваше имя.';
+                                }elseif(!$post['lname']){
+                                        $data['Error']='Пожалуйста, введите свою фамилию.';
+                                }elseif(!$post['address']){
+                                        $data['Error']='Пожалуйста, введите свой адрес проживания.';
+                                }elseif(!$post['city']){
+                                        $data['Error']='Пожалуйста, укажите город, в котором Вы живете.';
+                                }elseif(!$post['country']){
+                                        $data['Error']='Пожалуйста, введите страну проживания.';
+                                }elseif(!$post['zip']){
+                                        $data['Error']='Пожалуйста, введите свой почтовый индекс.';
+                                }elseif(!$post['phone']){
+                                        $data['Error']='Пожалуйста, введите Ваш номер телефона.';
+                                }elseif($post['card']==-1){
+                                        if(!$post['ctype']){
+                                                $data['Error']='Пожалуйста, выберите тип кредитной карты.';
+                                        }elseif(!$post['cname']){
+                                                $data['Error']='Пожалуйста, введите свое полное имя с кредитной карты.';
+                                        }elseif(!$post['cnumber']||!is_number($post['cnumber'])){
+                                                $data['Error']='Пожалуйста, введите действительный номер кредитной карты.';
+                                        }elseif(!$post['ccvv']||!is_number($post['ccvv'])){
+                                                $data['Error']='Пожалуйста, введите действительный CVV номер кредитной карты.';
+                                        }elseif(!$post['cmonth']){
+                                                $data['Error']='Пожалуйста, введите месяц истечения срока действия карты.';
+                                        }elseif(!$post['cyear']){
+                                                $data['Error']='Пожалуйста, введите год истечения срока действия карты.';
+                                        }
+                                }else{
+                                        $cardinfo=select_cards($uid, false, $post['card'], true);
+                                        if($cardinfo[0]){
+                                                foreach($cardinfo[0] as $key=>$val)$post[$key]=$val;
+                                        }else{
+                                                $data['Error']='Недействительная карта.';
+                                        }
+                                }
+                                if(!$data['Error']){
+                                        $result=autorize($uid, $post);
+                                        if($result=='--DONE--'){
+                                                /*
+                                                        TODO: Send notification emails
+                                                */
+                                                transaction(
+                                                        -1,
+                                                        $uid,
+                                                        $post['amount']+$post['fees'],
+                                                        $post['fees'],
+                                                        1,
+                                                        'Credit Card Depositing'
+                                                );
+                                                $post['ShowCheckInfo']=true;
+                                        }else $data['Error']=$result;
+                                }
+                        }
+      }else{
+         $_SESSION['fees']=$post['fees'];
+         $_SESSION['amount']=$post['amount'];
+         $_SESSION['dtype']=$post['dtype'];
+         $_SESSION['action']='automatic';
+      }
+           $post['PostSent']=true;
+        }
+}elseif($post['cancel'])$post['PostSent']=false;
+###############################################################################
+display('members');
+###############################################################################
+?>

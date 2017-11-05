@@ -1,0 +1,352 @@
+<?if(isset($data['ScriptLoaded'])){?><?if($post['step']<4){?>
+<form method=post>
+    <input type=hidden name=step value="<?=$post['step']?>"><?if($post['step']==1){?>
+<div id="wrapper">
+  <section class="bg-primary">
+			<div class="container">
+				<h3 class="color-white font-weight-300">Здравствуйте, <?=prntext($post['fname'])?> <?=prntext($post['lname'])?>!</h3>
+			</div>
+		</section>
+    <section class="profile-nav height-50 border-bottom-1 border-grey-300  hidden-xs">
+			<div class="tab-select sticky">
+				<div class="container">
+					<?showmenu('accv')?>
+				</div>
+			</div>
+		</section>
+    <section class="bg-grey-50">
+      <div class="container">
+				<div class="row">
+          <div class="col-md-3">
+            <div class="panel panel-default margin-bottom-30">
+							<div class="panel-body">
+								<p class="margin-bottom-5 color-black">Ваш остаток на счете</p>
+								<h3 class="text-success no-padding-top"><?=balance($data['Balance'])?> <?=prntext($data['Currency'])?></h3>
+							</div>
+						</div>
+            <a href="request.htm" class="btn btn-block btn-primary btn-outline margin-bottom-30"><i class="fa fa-plus" aria-hidden="true"></i> Выставить новый счет</a>
+            <?showmenu('vert')?>
+          </div>
+          <div class="col-md-9">
+            
+            <?if($data['Error']){?>
+            <div class="alert alert-danger alert-dismissible">
+									<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> 
+									<strong>Ошибка!</strong> <?=prntext($data['Error'])?> 
+								</div>
+            <?}?>
+
+						<div class="panel panel-default margin-bottom-30">
+							<div class="panel-heading color-black">Вывод средств</div>
+								<div class="panel-body">
+									 <div class="form-group">
+									 	<label for="exampleInputEmail1">Сумма вывода, <?=prntext($data['Currency'])?></label>
+										<input type="text" class="form-control" placeholder="50.00" name=amount value="<?=prntext($post['amount'])?>">
+										<p class="help-block">Минимальная сумма для вывода <?=prnsumm($data['WithdrawMinSum'])?> <?=prntext($data['Currency'])?></p>
+									</div>
+									<div class="form-group">
+                        
+										    <div class="plan-card-group">
+                          <?foreach($data['WithdrawMethod'] as $key=>$value){if($value['actv']){?>
+										      <div class="radio-card">
+										        <input type="radio" class="planes-radio" name=wtype id="wtype_<?=$key?>" value="<?=$key?>"<?if($key==$post['wtype']){?> checked<?}?>/>
+										        <label for="wtype_<?=$key?>" id="wtype_<?=$key?>">
+										          <span class="card-title"><img src="<?=$data['Host']?>/theme/img/pay/<?=prntext($value['img'])?>" alt=""></span>
+										        </label>
+										      </div>
+                          <?}}?>
+										    </div>
+                        
+									</div>
+								</div>
+								<div class="panel-footer text-right">
+								<button type="submit" name=send value="WITHDRAW NOW!" class="btn btn-primary">Далее</button>
+							</div>
+						</div>
+
+					</div>
+				</div
+        </div>
+      </div>
+  </section>
+</div>
+
+<?}elseif($post['step']==2){?>
+    <input type=hidden name=amount value="<?=$post['amount']?>"><input type=hidden name=wtype value="<?=$post['wtype']?>"><?if($post['wtype']=='paypal'||$post['wtype']=='stormpay'||$post['wtype']=='netpay'||$post['wtype']=='egold'||$post['wtype']=='moneybookers'||$post['wtype']=='intgold'||$post['wtype']=='ebullion'||$post['wtype']=='pecunix'||$post['wtype']=='epaydirect'||$post['wtype']=='evocash'||$post['wtype']=='goldmoney'||$post['wtype']=='virtualgold'||$post['wtype']=='payemo'){?>
+      
+ <div id="wrapper">
+  <section class="bg-primary">
+			<div class="container">
+				<h3 class="color-white font-weight-300">Здравствуйте, <?=prntext($post['fname'])?> <?=prntext($post['lname'])?>!</h3>
+			</div>
+		</section>
+    <section class="profile-nav height-50 border-bottom-1 border-grey-300  hidden-xs">
+			<div class="tab-select sticky">
+				<div class="container">
+					<?showmenu('accv')?>
+				</div>
+			</div>
+		</section>
+    <section class="bg-grey-50">
+      <div class="container">
+				<div class="row">
+          <div class="col-md-3">
+             <div class="panel panel-default margin-bottom-30">
+							<div class="panel-body">
+								<p class="margin-bottom-5 color-black">Ваш остаток на счете</p>
+								<h3 class="text-success no-padding-top"><?=balance($data['Balance'])?> <?=prntext($data['Currency'])?></h3>
+							</div>
+						</div>
+            <a href="request.htm" class="btn btn-block btn-primary btn-outline margin-bottom-30"><i class="fa fa-plus" aria-hidden="true"></i> Выставить новый счет</a>
+            <?showmenu('vert')?>
+          </div>
+          	<div class="col-md-9">
+              
+              <?if($data['Error']){?>
+            <div class="alert alert-danger alert-dismissible">
+									<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> 
+									<strong>Ошибка!</strong> <?=prntext($data['Error'])?> 
+								</div>
+            <?}?>
+
+						<div class="panel panel-default margin-bottom-30">
+							<div class="panel-heading color-black">Реквизиты <?=strtoupper($data['WithdrawMethod'][$post['wtype']]['name'])?></div>
+								<div class="panel-body">
+									 <div class="form-group">
+									 	<label for="exampleInputEmail1">Укажите реквизиты Вашего счета</label>
+										<input type="text" class="form-control" name=payee1 value="<?=prntext($post['payee1'])?>">
+									</div>
+									<div class="form-group">
+									 	<label for="exampleInputEmail1">Подтвердите реквизиты Вашего счета</label>
+										<input type="text" class="form-control" name=payee2 value="<?=prntext($post['payee2'])?>">
+									</div>
+								</div>
+								<div class="panel-footer text-right">
+								<button type="submit" class="btn btn-primary" name=send value="CONTINUE">Далее</button>
+							</div>
+						</div>
+
+					</div>
+        </div>
+      </div>
+   </section>
+</div>
+ <?}elseif($post['wtype']=='bwire'){?>
+  
+  
+<div id="wrapper">
+  <section class="bg-primary">
+			<div class="container">
+				<h3 class="color-white font-weight-300">Здравствуйте, <?=prntext($post['fname'])?> <?=prntext($post['lname'])?>!</h3>
+			</div>
+		</section>
+    <section class="profile-nav height-50 border-bottom-1 border-grey-300  hidden-xs">
+			<div class="tab-select sticky">
+				<div class="container">
+					<?showmenu('accv')?>
+				</div>
+			</div>
+		</section>
+    <section class="bg-grey-50">
+      <div class="container">
+				<div class="row">
+          <div class="col-md-3">
+            <div class="panel panel-default margin-bottom-30">
+							<div class="panel-body">
+								<p class="margin-bottom-5 color-black">Ваш остаток на счете</p>
+								<h3 class="text-success no-padding-top"><?=balance($data['Balance'])?> <?=prntext($data['Currency'])?></h3>
+							</div>
+						</div>
+            <a href="request.htm" class="btn btn-block btn-primary btn-outline margin-bottom-30"><i class="fa fa-plus" aria-hidden="true"></i> Выставить новый счет</a>
+            <?showmenu('vert')?>
+          </div>
+          <div class="col-md-9">
+            
+            <?if($data['Error']){?>
+            <div class="alert alert-danger alert-dismissible">
+									<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> 
+									<strong>Ошибка!</strong> <?=prntext($data['Error'])?> 
+								</div>
+            <?}?>
+
+						<div class="panel panel-default margin-bottom-30">
+							<div class="panel-heading color-black">Реквизиты Вашего банковского счета</div>
+								<div class="panel-body">
+                  <div style="display:none">
+                   <?if($post['BanksInfo']){?><?foreach($post['BanksInfo'] as $key=>$val){?>
+                   <input type=radio name=bank value="<?=$val['id']?>"<?if($val['id']==$post['bank']){?><?$bankchecked=true;?> checked<?}?> id="<?=$val['id']?>bank" style="border:0">
+                    <label for="<?=$val['id']?>bank"></label>
+                     <?}?><?}?>
+<input type=radio name=bank value="-1"<?if(!$bankchecked){?> checked<?}?> id="cbank" style="border:0"><label for="cbank">CUSTOM BANK ACCOUNT</label>
+                    </div>
+									 <div class="form-group">
+									 	<label for="exampleInputEmail1">Название банка</label>
+										<input type="text" class="form-control" name=bname value="<?=prntext($post['bname'])?>">
+									</div>
+                  <div class="form-group">
+									 	<label for="exampleInputEmail1">Адрес банка</label>
+										<input type="text" class="form-control" name=baddress value="<?=prntext($post['baddress'])?>">
+									</div>
+                  <div class="form-group">
+									 	<label for="exampleInputEmail1">Город банка</label>
+										<input type="text" class="form-control" name=bcity value="<?=prntext($post['bcity'])?>">
+									</div>
+                  
+                  <div class="form-group">
+									 	<label for="exampleInputEmail1">Индекс банка</label>
+										<input type="text" class="form-control" name=bzip value="<?=prntext($post['bzip'])?>">
+									</div>
+                  
+                  <div class="form-group">
+									 	<label for="exampleInputEmail1">Страна банка</label>
+										<select class="form-control" name=bcountry><?=showselect($data['Countries'], $post['bcountry'])?></select>
+									</div>
+                  
+                  <div class="form-group">
+									 	<label for="exampleInputEmail1">Регион банка</label>
+										<input type="text" class="form-control" name=bstate value="<?=prntext($post['bstate'])?>">
+									</div>
+                  
+                  <div class="form-group">
+									 	<label for="exampleInputEmail1">Телефон банка</label>
+										<input type="text" class="form-control" name=bphone value="<?=prntext($post['bphone'])?>">
+									</div>
+                  
+                  <div class="form-group">
+									 	<label for="exampleInputEmail1">Имя владельца счета</label>
+										<input type="text" class="form-control" name=bnameacc value="<?=prntext($post['bnameacc'])?>">
+									</div>
+          
+          <div class="form-group">
+									 	<label for="exampleInputEmail1">Номер счета</label>
+										<input type="text" class="form-control" name=baccount value="<?=prntext($post['baccount'])?>">
+									</div>
+                  
+                  <div class="form-group">
+									 	<label for="exampleInputEmail1">Тип счета</label>
+										<select class="form-control" name=btype><?=showselect($data['BankAccountType'], $post['btype'])?></select>
+									</div>
+                  <div class="form-group">
+									 	<label for="exampleInputEmail1">9 значный номер</label>
+										<input type="text" class="form-control" name=brtgnum value="<?=prntext($post['brtgnum'])?>">
+									</div>
+                  
+                  <div class="form-group">
+									 	<label for="exampleInputEmail1">SWIFT номер</label>
+										<input type="text" class="form-control" name=bswift value="<?=prntext($post['bswift'])?>">
+									</div>
+									
+								</div>
+								<div class="panel-footer text-right">
+								<button type="submit" class="btn btn-primary" name=send value="CONTINUE">Далее</button>
+							</div>
+						</div>
+
+					</div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+
+<?}?><?}elseif($post['step']==3){?>
+  <input type=hidden name=amount value="<?=$post['amount']?>"><input type=hidden name=wtype value="<?=$post['wtype']?>"><input type=hidden name=payee1 value="<?=$post['payee1']?>">
+  
+ <div id="wrapper">
+  <section class="bg-primary">
+			<div class="container">
+				<h3 class="color-white font-weight-300">Здравствуйте, <?=prntext($post['fname'])?> <?=prntext($post['lname'])?>!</h3>
+			</div>
+		</section>
+    <section class="profile-nav height-50 border-bottom-1 border-grey-300  hidden-xs">
+			<div class="tab-select sticky">
+				<div class="container">
+					<?showmenu('accv')?>
+				</div>
+			</div>
+		</section>
+    <section class="bg-grey-50">
+      <div class="container">
+				<div class="row">
+          <div class="col-md-3">
+             <div class="panel panel-default margin-bottom-30">
+							<div class="panel-body">
+								<p class="margin-bottom-5 color-black">Ваш остаток на счете</p>
+								<h3 class="text-success no-padding-top"><?=balance($data['Balance'])?> <?=prntext($data['Currency'])?></h3>
+							</div>
+						</div>
+            <a href="request.htm" class="btn btn-block btn-primary btn-outline margin-bottom-30"><i class="fa fa-plus" aria-hidden="true"></i> Выставить новый счет</a>
+            <?showmenu('vert')?>
+          </div>
+          <div class="col-md-9">
+
+						<div class="panel panel-default margin-bottom-30">
+							<div class="panel-heading color-black">Детали транзакции</div>
+								<div class="panel-body">
+									 <div class="form-group">
+									 	<label for="exampleInputEmail1">Электронная квитанция</label>
+                     <textarea class="form-control" rows="11" disabled><?=$post['info']?></textarea>
+									</div>
+									
+								</div>
+								<div class="panel-footer text-right">
+								<button type="submit" class="btn btn-primary" name=send value="CONTINUE">Далее</button>
+							</div>
+						</div>
+
+					</div>
+        </div>
+      </div>
+   </section>
+  </div>
+    <?}?>
+</form>
+<?}else{?>
+
+<div id="wrapper">
+  <section class="bg-primary">
+			<div class="container">
+				<h3 class="color-white font-weight-300">Здравствуйте, <?=prntext($post['fname'])?> <?=prntext($post['lname'])?>!</h3>
+			</div>
+		</section>
+    <section class="profile-nav height-50 border-bottom-1 border-grey-300  hidden-xs">
+			<div class="tab-select sticky">
+				<div class="container">
+					<?showmenu('accv')?>
+				</div>
+			</div>
+		</section>
+    <section class="bg-grey-50">
+      <div class="container">
+				<div class="row">
+          <div class="col-md-3">
+            <div class="panel panel-default margin-bottom-30">
+							<div class="panel-body">
+								<p class="margin-bottom-5 color-black">Ваш остаток на счете</p>
+								<h3 class="text-success no-padding-top"><?=balance($data['Balance'])?> <?=prntext($data['Currency'])?></h3>
+							</div>
+						</div>
+            <a href="request.htm" class="btn btn-block btn-primary btn-outline margin-bottom-30"><i class="fa fa-plus" aria-hidden="true"></i> Выставить новый счет</a>
+            <?showmenu('vert')?>
+          </div>
+          <div class="col-md-9">
+
+						<div class="row">
+							<div class="col-md-8 col-md-offset-2">
+								<div class="title outline">
+									<h4><i class="fa fa-check"></i> Транзакция в обработке</h4>
+									<p>Вы получите Email уведомление об успешной операции. Как правило, вывод производится в течении 24 часов. Благодарим за ожидание!</p>
+									<a href="index.htm" class="btn btn-primary margin-top-20">Обзор счета</a>
+								</div>
+							</div>
+						</div>
+
+					</div>
+        </div>
+      </div>
+  </section>
+  </div>
+  
+  
+  
+<?}?><?}else{?>SECURITY ALERT: Access Denied<?}?>

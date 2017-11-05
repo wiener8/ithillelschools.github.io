@@ -1,0 +1,74 @@
+<?if(isset($data['ScriptLoaded'])){?><?if(!$data['PostSent']){?>
+<form method=post>
+<!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Отправить деньги
+      </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <div class="row">
+        
+        <!-- /.col -->
+        <div class="col-md-12">
+          <div class="box">
+            <div class="box-header ui-sortable-handle">
+              <h3 class="box-title">Массовая выплата</h3>
+            </div>
+            <?if($data['Error']){?>
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <?=$data['Error']?>
+              </div>
+             <?}?>
+            <div class="box-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                          <label for="exampleInputEmail1">Получатели</label>
+                          <textarea class="form-control" name=receivers rows="5"><?=prntext($post['receivers'])?></textarea>
+                          <span class="help-block">Укажите логин или Email пользователя по одному в каждой строчке без знаков пунктуации</span>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Сумма</label>
+                          <input type="text" class="form-control" name=amount value="<?=prnsumm($post['amount'])?>">
+                          <span class="help-block">Сумма должна быть более <?=$data['PaymentMinSum']?> <?=prntext($data['Currency'])?></span>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Комментарий</label>
+                          <textarea class="form-control" name=comments rows="5"><?=$post['comments']?></textarea>
+                        </div>
+                 </div>
+              </div>
+            </div>
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary pull-right" name=send value="SEND NOW!">Отправить деньги</button>
+              </div>
+          </div>
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+      
+    </section>
+  
+  </form>
+<?}else{?>
+
+<section class="content">
+      <div class="row">
+        <!-- /.col -->
+        <div class="col-md-12">
+          <div class="callout callout-success">
+                <h4>Успешная операция!</h4>
+
+                <p><?=prnsumm($post['amount'])?> <?=prntext($data['Currency'])?> отправлено пользователям..</p>
+              </div>
+        </div>
+      </div>
+    </section>
+
+<?}?><?}else{?>SECURITY ALERT: Access Denied<?}?>

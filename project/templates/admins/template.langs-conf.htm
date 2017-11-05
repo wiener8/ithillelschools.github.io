@@ -1,0 +1,57 @@
+<?if(isset($data['ScriptLoaded'])){?>
+
+<!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Локализация проекта
+      </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Категории</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive">
+              <table class="table table-bordered table-hover">
+                <tbody><tr>
+                  <th>ID</th>
+                  <th>Название</th>
+                </tr>
+                 <? show_langs(); ?>
+              </tbody></table>
+            </div>
+          </div>
+          <!-- /.box -->
+        </div>
+        <div class="col-md-12">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Новая локализация</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <form method=post>
+              <div class="form-group">
+                  <label for="exampleInputEmail1">Название локализации</label>
+                  <input type="text" class="form-control" value="Например, Русский" name="n_lang_name">
+               </div>
+            </div>
+            <div class="box-footer">
+                <button type="submit" class="btn btn-success pull-right" value="ADD NEW" name="add" class="submit">Добавить</button>
+              </div>
+            </form>
+          </div>
+          <!-- /.box -->
+        </div>
+      </div>
+
+    </section>
+    <!-- /.content -->
+
+<?}else{?>SECURITY ALERT: Access Denied<?}?>

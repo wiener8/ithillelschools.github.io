@@ -1,0 +1,69 @@
+<!-- wrapper -->
+	<div id="wrapper">	
+		<section class="bg-primary">
+			<div class="container">
+				<h3 class="color-white font-weight-300">Здравствуйте, <?=prntext($post['fname'])?> <?=prntext($post['lname'])?>!</h3>
+			</div>
+		</section>
+    <section class="profile-nav height-50 border-bottom-1 border-grey-300  hidden-xs">
+			<div class="tab-select sticky">
+				<div class="container">
+					<?showmenu('accv')?>
+				</div>
+			</div>
+		</section>
+		
+		<section class="bg-grey-50">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-2">
+
+					</div>
+					
+					<div class="col-md-8">
+
+						<div class="panel panel-default margin-bottom-30">
+							<div class="panel-heading color-black">Информация о владельце счета</div>
+								<div class="panel-body">
+									
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+												<label>Логин</label>
+                        <input type="text" class="form-control" value="<?=prntext($post['Profile']['username'])?>" disabled>
+											</div>
+                      <div class="form-group">
+												<label>Имя</label>
+                        <input type="text" class="form-control" value="<?=prntext($post['Profile']['fname'])?> <?=prntext($post['Profile']['lname'])?>" disabled>
+											</div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+												<label>Электронная почта</label>
+                        <p class="form-control-static"><?=$post['useremails']?></p>
+											</div>
+                      <div class="form-group">
+												<label>Компания</label>
+                        <input type="text" class="form-control" value="<?=prntext($post['Profile']['company'])?>" disabled>
+											</div>
+                    </div>
+                  </div>
+									
+									
+								</div>
+								<div class="panel-footer text-right">
+								<a href="<?=$post['bp']?>.htm?page=<?=$post['StartPage']?>" class="btn btn-primary">Назад</a>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="col-md-2">
+
+					</div>
+
+				</div>
+			</div>
+		</section>
+	</div>
+	<!-- /#wrapper -->

@@ -1,0 +1,60 @@
+<?if(isset($data['ScriptLoaded'])){?>
+
+<div id="wrapper">
+  <section class="bg-primary">
+			<div class="container">
+				<h3 class="color-white font-weight-300">Здравствуйте, <?=prntext($post['fname'])?> <?=prntext($post['lname'])?>!</h3>
+			</div>
+		</section>
+    <section class="profile-nav height-50 border-bottom-1 border-grey-300  hidden-xs">
+			<div class="tab-select sticky">
+				<div class="container">
+					<?showmenu('accv')?>
+				</div>
+			</div>
+		</section>
+    <section class="bg-grey-50">
+      <div class="container">
+				<div class="row">
+          <div class="col-md-3">
+            <div class="panel panel-default margin-bottom-30">
+							<div class="panel-body">
+								<p class="margin-bottom-5 color-black">Ваш остаток на счете</p>
+								<h3 class="text-success no-padding-top"><?=balance($data['Balance'])?> <?=prntext($data['Currency'])?></h3>
+							</div>
+						</div>
+            <a href="request.htm" class="btn btn-block btn-primary btn-outline margin-bottom-30"><i class="fa fa-plus" aria-hidden="true"></i> Выставить новый счет</a>
+            <?showmenu('vert')?>
+          </div>
+          <div class="col-md-9">
+            
+            <div class="panel panel-default margin-bottom-30">
+							<div class="panel-heading color-black">Скопируйте этот код и вставьте на свою HTML страницу</div>
+								<div class="panel-body">
+                  
+                  <div class="form-group">
+									 	<label for="exampleInputEmail1">POST форма запроса на оплату</label>
+										<textarea class="form-control" rows="8"><?=$post['PostHtmlCode']?></textarea>
+									</div>
+                  
+                  <div class="form-group">
+									 	<label for="exampleInputEmail1">GET запрос на оплату</label>
+										<textarea class="form-control" rows="8"><?=$post['GetHtmlCode']?></textarea>
+									</div>
+                  
+                </div>
+              <div class="panel-footer text-right">
+								<a href="javascript:history.back()" class="btn btn-primary">Назад</a>
+							</div>
+              </div>
+            </div>
+              
+            
+          </div>
+        </div>
+      </div>
+  </section>
+</div>
+
+
+<?}else{?>SECURITY ALERT: Access Denied<?}?>

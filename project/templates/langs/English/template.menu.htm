@@ -1,0 +1,79 @@
+<?if($data['mode']=='horz'){?>
+
+  <nav>
+		<div class="nav-control">
+			<ul>
+				<li><a href="<?=$data['Host']?>/index.htm">Главная</a></li>
+				<li><a href="<?=$data['Host']?>/fees.htm">Тарифы</a></li>
+				<li><a href="<?=$data['Host']?>/policy.htm">Идентификация</a></li>
+				<li><a href="<?=$data['Host']?>/about.htm">Валюта</a></li>
+				<li><a href="<?=$data['Host']?>/faq.htm">Помощь</a></li>
+				<li><a href="<?=$data['Host']?>/contact.htm">Служба поддержки</a></li>
+			</ul>
+		</div>
+	</nav>
+
+<?}elseif($data['mode']=='vert'){?>
+<div class="panel panel-default margin-bottom-30">
+								<div class="panel-heading color-black">Решения для бизнеса</div>
+								<div class="panel-body no-padding">
+									<ul class="panel-list-bordered">
+										<li><a href="<?=$data['Members']?>/products.htm"><i class="fa fa-shopping-bag"></i> Товары</a></li>
+										<li><a href="<?=$data['Members']?>/donations.htm"><i class="fa fa-heartbeat"></i> Донаты</a></li>
+										<li><a href="<?=$data['Members']?>/subscriptions.htm"><i class="fa fa-hourglass"></i> Регулярные платежи</a></li>
+										<li><a href="<?=$data['Members']?>/payment.htm"><i class="fa fa-credit-card"></i> Простая оплата</a></li>
+										<li><a href="<?=$data['Members']?>/escrow.htm"><i class="fa fa-shield"></i> Сделка под протекцией</a></li>
+									</ul>
+								</div>
+							</div>
+						<div class="panel panel-default margin-bottom-30">
+								<div class="panel-heading color-black">Партнерская программа</div>
+								<div class="panel-body no-padding">
+									<ul class="panel-list-bordered">
+										<li><a href="<?=$data['Members']?>/affdetails.htm"><i class="fa fa-bullhorn"></i> Условия программы</a></li>
+										<li><a href="<?=$data['Members']?>/affdownline.htm"><i class="fa fa-pie-chart"></i> Отчет по партнерам</a></li>
+										<li><a href="<?=$data['Members']?>/affbanners.htm"><i class="fa fa-file-image-o"></i> Рекламные материалы</a></li>
+									</ul>
+								</div>
+							</div>
+
+
+<?if($data['PageFile']=='shop'){?>
+<br>
+<table class=frame width=100% border=0 cellspacing=1 cellpadding=2>
+    <tr>
+        <th class=caption nowrap>CATEGORIES</th>
+    </tr>
+    <?foreach($data['RootCategoriesList'] as $key=>$value){?>
+    <tr>
+        <td>
+            <a href="shop.htm?cid=<?=$value['id']?>&action=view"><?=$value['name']?></a>
+        </td>
+    </tr>
+    <?}?>
+</table>
+<?}?>
+<?}elseif($data['mode']=='acch'){?>
+  <div class="nav-profile dropdown">
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="<?=$data['Host']?>/theme/img/user/avatar.jpg" alt=""> <span><?=prntext($post['Username'])?></span></a>
+		<ul class="dropdown-menu">
+			<li><a href="<?=$data['Members']?>/index.htm"><i class="fa fa-dashboard"></i> Обзор счета</a></li>
+			<li><a href="<?=$data['Members']?>/profile.htm"><i class="fa fa-user"></i> Профиль</a></li>
+			<li><a href="<?=$data['Members']?>/password.htm"><i class="fa fa-lock"></i> Безопасность</a></li>
+			<li class="divider"></li>
+			<li><a href="<?=$data['Members']?>/logout.htm"><i class="fa fa-power-off"></i> Выход</a></li>
+		</ul>
+	</div>
+
+<?}elseif($data['mode']=='accv'){?>
+
+<ul class="nav nav-tabs" role="tablist">
+						<li <?if($data['PageFile']=='index'){?> class="active"<?}?>><a href="<?=$data['Members']?>/index.htm">Обзор счета</a></li>
+						<li <?if($data['PageFile']=='send'){?> class="active"<?}?>><a href="<?=$data['Members']?>/send.htm#">Отправить деньги</a></li>
+						<li <?if($data['PageFile']=='deposit'){?> class="active"<?}?>><a href="<?=$data['Members']?>/deposit.htm">Пополнить баланс</a></li>
+						<li <?if($data['PageFile']=='withdraw'){?> class="active"<?}?>><a href="<?=$data['Members']?>/withdraw.htm">Вывести средства</a></li>
+						<li <?if($data['PageFile']=='mass'){?> class="active"<?}?>><a href="<?=$data['Members']?>/mass.htm">Массовая выплата</a></li>
+						<li <?if($data['PageFile']=='escrow'){?> class="active"<?}?>><a href="<?=$data['Members']?>/escrow.htm">Протекция</a></li>
+					</ul>
+
+<?}?>

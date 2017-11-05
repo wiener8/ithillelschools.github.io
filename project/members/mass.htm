@@ -1,0 +1,80 @@
+<?
+
+###############################################################################
+$data['PageName']='SEND MASS PAYMENTS TO ANOTHER ACCOUNT';
+$data['PageFile']='mass';
+###############################################################################
+include('../config.htm');
+###############################################################################
+if(!$_SESSION['login']){
+	header("Location:{$data['Host']}/index.htm");
+	echo('ACCESS DENIED.');
+	exit;
+}
+if(is_info_empty($uid)){
+	header("Location:{$data['Host']}/members/profile.htm");
+	echo('ACCESS DENIED.');
+	exit;
+}
+###############################################################################
+$post=select_info($uid, $post);
+$data['Balance']=select_balance($uid);
+$data['PostFile']=false;
+###############################################################################
+if($post['send']){
+	if(!$post['receivers']){
+		$data['Error']='Пожалуйста, введите по крайней мере одно имя пользователя или адрес электронной почты получателя.';
+	}elseif(!$post['amount']){
+		$data['Error']='Пожалуйста, введите действительную сумму для перевода.';
+	}elseif($post['amount']<$data['PaymentMinSum']){
+		$data['Error']="Сумма не может быть менее".
+			" {$data['Currency']}{$data['PaymentMinSum']}.";
+	}elseif($post['amount']>$data['Balance']){
+		$data['Error']='Недостаточно средств на Вашем счете.';
+	}elseif(get_member_status($uid)<2&&$post['amount']>$data['PaymentMaxSum']){
+		$data['Error']="Вы не можете отправить более".
+			" {$data['Currency']}{$data['PaymentMaxSum']} за транзакцию".
+			" потому что Вы неидентифицированный пользователь.";
+	}else{
+		$fees=($post['amount']*$data['PaymentPercent']/100)+$data['PaymentFees'];
+		$receivers=explode("\n", $post['receivers']);
+		$post['SentUsers']=array();
+		$post['UnsentUsers']=array();
+		foreach($receivers as $value){
+			$value=trim($value);
+			if($uid==get_member_id($value)||!is_member_active($value))continue;
+			$receiver=get_member_id($value);
+			$post['user_count']++;
+			transaction(
+				$uid,
+				$receiver,
+				$post['amount'],
+				$fees,
+				0,
+				1,
+				$post['comments']
+			);
+			$post['fees']=$fees;
+			$post['emailadr']=get_member_email($uid);
+			$post['fullname']=get_member_name($uid);
+			$post['username']=get_member_name($receiver);
+			$post['product']="Internal Transfer";
+			$post['email']=get_member_email($receiver);
+			send_email('SEND-MONEY', $post);
+		}
+		$post['sendername']=get_member_name($uid);
+		$post['fullname']=get_member_name($receiver);
+		$post['emailadr']=get_member_email($receiver);
+		$post['product']="Internal Transfer";
+		$post['email']=get_member_email($uid);
+
+$message_ins = $message_ins . "Amount: $".$post['amount']." - Paid To: ".$post['fullname']." - ".$post['emailadr']."\n";
+		$post['message_ins']=$message_ins;
+				$data['PostSent']=true;
+	}
+      send_email('MASSPAY-RECEIPT', $post);
+}
+###############################################################################
+display('members');
+###############################################################################
+?>

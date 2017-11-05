@@ -1,0 +1,38 @@
+<?
+
+###############################################################################
+$data['PageName']='INVEST MONEY';
+$data['PageFile']='investment';
+###############################################################################
+include('../config.htm');
+###############################################################################
+if(!$_SESSION['adm_login']){
+	header("Location:{$data['Admins']}/login.htm");
+	echo('ACCESS DENIED.');
+	exit;
+}
+###############################################################################
+if($post['send']){
+	if(!$post['amount']){
+		$data['Error']='Please enter valid amount for investing.';
+	}elseif($post['amount']<$data['PaymentMinSum']){
+		$data['Error']="Amount for investing can not be less than {$data['Currency']}{$data['PaymentMinSum']}.";
+	}else{
+		transaction(
+			-1,
+			-1,
+			-$post['amount'],
+			0,
+			0,
+			1,
+			$post['comments']
+		);
+		$data['PostSent']=true;
+	}
+}
+###############################################################################
+$data['SystemBalance']=select_balance(-1);
+###############################################################################
+display('admins');
+###############################################################################
+?>

@@ -1,0 +1,94 @@
+<? header('Content-type: text/html; charset=utf-8');
+
+###############################################################################
+
+$data['PageName']='HTML TEMPLATES';
+
+$data['PageFile']='html-conf';
+
+###############################################################################
+
+include('../config.htm');
+
+###############################################################################
+
+if(!$_SESSION['adm_login']){
+
+	header("Location:{$data['Admins']}/login.htm");
+
+	echo('ACCESS DENIED.');
+
+	exit;
+
+}
+
+###############################################################################
+
+if($post['read']){
+
+	if($post['template']){
+
+		$path="{$data['Templates']}/langs/{$post['lang']}/{$post['template']}";
+
+		$file=fopen($path, 'r');
+
+		$post['content']=@fread($file, @filesize($path));
+
+		@fclose($file);
+
+	}
+
+}elseif($post['send']){
+
+	$path="{$data['Templates']}/langs/{$post['lang']}/{$post['template']}";
+
+	$file=@fopen($path, 'w');
+
+	@fwrite($file, stripslashes($post['content']));
+
+	@fclose($file);
+
+}
+
+function showselectlangs(){
+
+	global $post;
+
+	global $data;
+
+	if(!$post['lang']){$post['lang']="";}
+
+	$langs_dir_obj = dir($data['Templates']."/langs/");
+
+	while($entry = $langs_dir_obj->read()){
+
+     if ($entry != "." && $entry != ".." && $entry != "default") {
+
+       if($post['lang']==$entry){$select="selected";}else{$select="";}
+
+       echo "<option value='".$entry."' ".$select.">".$entry."</option>";
+
+     }
+
+	}
+
+}
+
+
+
+$post['content']=htmlspecialchars($post['content'], ENT_QUOTES);
+
+$post['Templates']=get_html_templates();
+
+###############################################################################
+
+$data['SystemBalance']=select_balance(-1);
+
+###############################################################################
+
+display('admins');
+
+###############################################################################
+
+?>
+

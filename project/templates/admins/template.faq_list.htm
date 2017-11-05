@@ -1,0 +1,114 @@
+<?if(isset($data['ScriptLoaded'])){?>
+<form method=post>
+<!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        FAQ вопросы
+      </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Список вопросов и ответов</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive">
+              <table class="table table-bordered table-hover">
+                <tbody><tr>
+                  <th style="width:5%"></th>
+                  <th class="text-center" style="width:10%">ID</th>
+                  <th style="width:60%">Контент</th>
+									<th>Категория</th>
+                </tr>
+									 <?
+            $qr1 = mysql_query("SELECT * FROM dp_faq_list ORDER BY cat");
+            while ($a = mysql_fetch_object($qr1)){
+            ?>
+                <tr>
+                  <td class="text-center">
+                    <div class="form-group">
+                      <label>
+                       <?=($a->id ? "<input type=radio class=minimal name=delete value=$a->id>" : "&nbsp;")?>
+                      </label>
+                    </div>
+                  </td>
+                  <td class="text-center"><?=$a->id?></td>
+                  <td>
+										<input type="text" class="form-control" name=question<?=$a->id?> value="<?=htmlspecialchars($a->question)?>">
+										<textarea class="form-control" rows="3" name="answer<?=$a->id?>" style="margin-top:5px"><?=htmlspecialchars($a->answer)?></textarea>
+									</td>
+									<td class="text-center">
+										<select class="form-control" name="cat<?=$a->id?>">
+											<?
+                  // Selection Header
+                  $qr2 = mysql_query("SELECT * FROM dp_faq_cat_list ORDER BY id");
+                  while ($n = mysql_fetch_object($qr2)){
+                     echo "<option value=".$n->id." ".($a->cat == $n->id ? ' selected' : '')."> ". $n->title;
+                  }
+                  ?>
+										</select>
+									</td>
+                </tr>
+								<?
+               $i++;
+               }
+               ?>
+              </tbody></table>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix">
+              <button type=submit class="btn btn-primary pull-right" name=change_list value="UPDATE FAQS" style="margin-left:5px">Обновить</button> <button type=submit class="btn btn-danger pull-right" name=change_list value="DELETE SELECTED" <?=$del_confirm?>>Удалить выбранное</button>
+            </div>
+          </div>
+          <!-- /.box -->
+        </div>
+			 <!-- /.col -->
+        <div class="col-md-12">
+          <div class="box">
+            <div class="box-header ui-sortable-handle">
+              <h3 class="box-title">Новый вопрос</h3>
+            </div>
+            <div class="box-body">
+              <div class="row">
+                <div class="col-md-12">
+												<div class="form-group">
+                          <label for="exampleInputEmail1">Категория</label>
+                          <select name="catnew" class="form-control">
+														<?
+                  // Selection Header
+                  $qr3 = mysql_query("SELECT * FROM dp_faq_cat_list ORDER BY id");
+                  while ($a = mysql_fetch_object($qr3)){
+                     echo "<option value=".$a->id."> ". $a->title;
+                  }
+                  ?>
+													</select>
+                        </div>
+                  			<div class="form-group">
+                          <label for="exampleInputEmail1">Вопрос</label>
+                          <input type="text" class="form-control" name=questionnew>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Ответ</label>
+                          <textarea class="form-control" name="answernew" rows=5></textarea>
+
+                        </div>
+                 </div>
+              </div>
+            </div>
+            <div class="box-footer">
+                <button type="submit" class="btn btn-success pull-right" name=change_list value="ADD NEW RECORD">Сохранить</button>
+              </div>
+          </div>
+        </div>
+        <!-- /.col -->
+      </div>
+
+    </section>
+    <!-- /.content -->
+</form>
+<?}else{?>SECURITY ALERT: Access Denied<?}?>

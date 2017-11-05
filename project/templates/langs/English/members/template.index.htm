@@ -1,0 +1,116 @@
+<?if(isset($data['ScriptLoaded'])){?>
+<div id="wrapper">	
+		<section class="bg-primary">
+			<div class="container">
+				<h3 class="color-white font-weight-300">Здравствуйте, <?=prntext($post['fname'])?> <?=prntext($post['lname'])?>!</h3>
+			</div>
+		</section>
+    <section class="profile-nav height-50 border-bottom-1 border-grey-300  hidden-xs">
+			<div class="tab-select sticky">
+				<div class="container">
+					<?showmenu('accv')?>
+				</div>
+			</div>
+		</section>
+    <section class="bg-grey-50">
+      <div class="container">
+				<div class="row">
+          <div class="col-md-3">
+						<div class="panel panel-default margin-bottom-30">
+							<div class="panel-body">
+								<p class="margin-bottom-5 color-black">Ваш остаток на счете</p>
+								<h3 class="text-success no-padding-top"><?=balance($data['Balance'])?> <?=prntext($data['Currency'])?></h3>
+							</div>
+						</div>
+            <a href="request.htm" class="btn btn-block btn-primary btn-outline margin-bottom-30"><i class="fa fa-plus" aria-hidden="true"></i> Выставить новый счет</a>
+            <?showmenu('vert')?>
+          </div>
+          <div class="col-md-9">
+            <div class="alert alert-<?=prntext($data['MemberStatus'][$post['status']]['color'])?> alert-lg fade in margin-bottom-30">
+							<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+							<h4 class="alert-title"><?=prntext($data['MemberStatus'][$post['status']]['status'])?></h4>
+							<p><?=prntext($data['MemberStatus'][$post['status']]['text'])?></p>
+							<a href="<?=$data['Host']?>/policy.htm" class="btn btn-<?=prntext($data['MemberStatus'][$post['status']]['color'])?>">Подробнее</a>
+						</div>
+            
+            <div class="panel panel-default margin-bottom-30">
+							<div class="panel-heading color-black">История операций (Последние 20 транзакций)</div>
+							<div class="panel-body">
+								 <table class="table table-hover">
+									<thead>
+										<tr>
+											<th></th>
+											<th class="hidden-xs">Дата</th>
+											<th>Тип</th>
+											<th class="hidden-xs">Счет</th>
+											<th class="hidden-xs">Сумма</th>
+											<th class="hidden-xs">Комиссия</th>
+											<th>Итого</th>
+											<th>Статус</th>
+										</tr>
+									</thead>
+									<tbody>
+                     <?if($post['Transactions']){?>
+                    <?$idx=0;foreach($post['Transactions'] as $value){$bgcolor=$idx%2?'#EEEEEE':'#E7E7E7'?>
+										<tr>
+											<td><button class="btn btn-<?=$value['direction3']?> btn-circle btn-sm" data-toggle="tooltip" title="<?=$value['direction']?>"><i class="<?=$value['direction2']?>"></i></button></td>
+											<td class="hidden-xs"><?=prndate($value['tdate'])?></td>
+											<td><?=$value['type']?></td>
+											<td class="hidden-xs"><?if($value['userid']>0){?>
+                <a href="userinfo.htm?id=<?=$value['userid']?>&bp=<?=$data['PageFile']?>"><?=prntext($value['username'])?></a><?}else{?><?=prntext($value['username'])?><?}?></td> 
+											<td class="hidden-xs"><?=$value['amount']?> <?=prntext($data['Currency'])?></td> 
+											<td class="hidden-xs"><?=$value['fees']?> <?=prntext($data['Currency'])?></td>   
+											<td><?=$value['nets']?> <?=prntext($data['Currency'])?></td>
+											<td><?=$value['status']?></td>                      
+										</tr>
+										<?$idx++;}?>
+										<?}else{?>
+										<tr>
+												<td align=center>Вы еще не совершали операций на сайте</td>
+										</tr>
+										<?}?>
+									</tbody>
+								</table>	
+							</div>
+							<div class="panel-footer text-center">
+								<a href="transactions.htm" class="btn btn-primary">Смотреть все транзакции</a>
+							</div>
+						</div>
+						
+						<div class="panel panel-default margin-bottom-30">
+							<div class="panel-heading color-black">Переводы незарегистрированным пользователям</div>
+							<div class="panel-body">
+								 <table class="table table-hover">
+									<thead>
+										<tr>
+											<th class="hidden-xs">Дата</th>
+											<th>Email</th>
+											<th>Сумма</th>
+											<th>Комиссия</th>
+										</tr>
+									</thead>
+									<tbody>
+										<?if($post['PaysToUnregMembers']){?><?$idx=0;foreach($post['PaysToUnregMembers'] as $value){$bgcolor=$idx%2?'#EEEEEE':'#E7E7E7'?>
+										<tr>
+											<td class="hidden-xs"><?=prndate($post['tdate'])?></td> 
+											<td><?=prntext($value['receiver'])?></td> 
+											<td><?=$value['amount']?></td>   
+											<td><?=prnfees($value['fees'])?></td>                     
+										</tr>
+										<?$idx++;}?><?}else{?>
+										<tr>
+												<td align=center>Вы еще не совершали операций на сайте</td>
+										</tr>
+										<?}?>
+									</tbody>
+								</table>	
+							</div>
+						</div>
+            
+            
+          </div>
+        </div>
+      </div>
+    </section>
+</div>
+<?}else{?>SECURITY ALERT: Access Denied<?}?>

@@ -1,0 +1,36 @@
+<?
+
+###############################################################################
+$data['PageName']='ONLINE CONFIRMATION OF YOUR E-MAIL ADDRESS';
+$data['PageFile']='confirm';
+###############################################################################
+include('../config.htm');
+###############################################################################
+if($post['cid']){
+	if(!isset($post['email'])||empty($post['email'])){
+		$cid=select_confirmation('', '', strtolower($post['cid']));
+	}else{
+		$cid=select_confirmation($post['cid'], $post['email']);
+	}
+	if($cid){
+		update_confirmation($cid);
+		$data['PostSent']=true;
+	}else $data['Error']='Неправильный URL подтверждения.';
+}elseif($post['confirm']){
+	if(!$post['ccode']){
+		$data['Error']='Пожалуйста, введите код подтверждения.';
+	}elseif(!$cid&&!$eid){
+		$data['Error']='Пожалуйста, введите действительный код подтверждения.';
+	}else{
+		if($cid)update_confirmation($cid);
+		elseif($eid){
+			update_email_confirmation($eid);
+			$data['Email']=true;
+		}
+		$data['PostSent']=true;
+	}
+}
+###############################################################################
+display('members');
+###############################################################################
+?>

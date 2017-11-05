@@ -1,0 +1,30 @@
+<?
+
+###############################################################################
+$data['PageName']='E-MAIL TEMPLATES';
+$data['PageFile']='mail-conf';
+###############################################################################
+include('../config.htm');
+###############################################################################
+if(!$_SESSION['adm_login']){
+	header("Location:{$data['Admins']}/login.htm");
+	echo('ACCESS DENIED.');
+	exit;
+}
+###############################################################################
+if($post['read']){
+	if($post['template']){
+		$mail=select_mail_template($post['template']);
+		$post['subject']=stripslashes($mail['name']);
+		$post['content']=stripslashes($mail['value']);
+	}
+}elseif($post['send']){
+	update_mail_template($post['template'], addslashes($post['subject']), addslashes($post['content']));
+}
+$post['Templates']=get_mail_templates();
+###############################################################################
+$data['SystemBalance']=select_balance(-1);
+###############################################################################
+display('admins');
+###############################################################################
+?>

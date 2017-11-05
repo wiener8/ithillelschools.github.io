@@ -1,0 +1,66 @@
+<?
+
+###############################################################################
+$data['PageName']='EDIT YOUR INFORMATION';
+$data['PageFile']='profile';
+###############################################################################
+include('../config.htm');
+###############################################################################
+if(!$_SESSION['login']){
+	header("Location:{$data['Host']}/index.htm");
+	echo('ACCESS DENIED.');
+	exit;
+}
+###############################################################################
+if($post['action']=='delemail'){
+        delete_email_info($post['gid']);
+}elseif($post['action']=='setdefault'){
+        set_default_email($post['gid']);
+}elseif($post['action']=='sendemail'){
+        send_email_request($post['gid']);
+        $data['PostSent']=false;
+        $data['EmailSent']=true;
+}
+###############################################################################
+$data['Balance']=select_balance($uid);
+if($post['change']){
+	if(!$post['fname']){
+		$data['Error']='Пожалуйста, введите Ваше имя.';
+	}elseif(!$post['lname']){
+		$data['Error']='Пожалуйста, введите свою фамилию.';
+	}elseif(!$post['address']){
+		$data['Error']='Пожалуйста, введите адрес проживания.';
+	}elseif(!$post['city']){
+		$data['Error']='Пожалуйста, введите город, в котором Вы живете.';
+	}elseif(!$post['country']){
+		$data['Error']='Укажите страну проживания.';
+	}elseif(!$post['zip']){
+		$data['Error']='Укажите свой почтовый индекс.';
+	}elseif(!$post['phone']){
+		$data['Error']='Введите свой номер телефона.';
+	}else{
+		update_profile_info($post, $uid);
+		$data['InfoIsEmpty']=false;
+		$data['PostSent']=true;
+	}
+}elseif($post['addemail']){
+        if(!$post['newemail']){
+                $data['Error']='Пожалуйста, введите адрес электронной почты.';
+        }elseif(!is_mail_available($post['newemail'])){
+                $data['Error']='Извините, но этот адрес электронной почты уже занят.';
+        }elseif(verify_email($post['newemail'])){
+                $data['Error']='Введите действующий адрес электронной почты участника.';
+        }else{
+                insert_email_info($post['newemail'],$uid);
+                $data['PostSent']=false;
+                $data['EmailSent']=true;
+        }
+}
+###############################################################################
+$post=select_info($uid, $post);
+$post['emails']=prnmemberemails($uid);
+$data['InfoIsEmpty']=is_info_empty($uid);
+###############################################################################
+display('members');
+###############################################################################
+?>

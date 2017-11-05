@@ -1,0 +1,60 @@
+<?if(isset($data['ScriptLoaded'])){?><?if(!$data['PostSent']){?>
+<form method="post">
+<!-- wrapper -->
+	<div id="wrapper">	
+		<section class="bg-grey-50">
+			<div class="container">
+				<div class="row">
+
+					<div class="col-md-3">
+
+					</div>
+
+					<div class="col-md-6">
+            <?if(!$data['CantLogin']){?>
+            <?if($data['Error']){?>
+            <div class="alert alert-danger alert-dismissible">
+									<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> 
+									<strong>Ошибка!</strong> <?=prntext($data['Error'])?> 
+								</div>
+            <?}?>
+						<div class="panel panel-default margin-bottom-30">
+								<div class="panel-body">
+									
+									<h3>Авторизация</h3>
+						<p>Еще нет аккаунта? <a href="signup.htm">Откройте быстро и бесплатно!</a></p>
+							<div class="form-group">
+								<input type="text" name="username" class="form-control" placeholder="Логин" value="<?=prntext($post['username'])?>">
+							</div>
+							<div class="form-group">
+								<input type="password" name="password" class="form-control" placeholder="Пароль" value="<?=prntext($post['password'])?>">
+							</div>
+                  
+              
+							<div class="pull-left margin-top-10">
+								<a href="forgot.htm">Забыли пароль?</a>
+							</div>
+              <div class="pull-right margin-top-10">
+								<label>Совершено попыток <?=prnintg($data['attempts'])?> из <?=prnintg($data['PassAtt'])?></label>
+							</div>
+              <div class="form-group">
+							</div>
+									
+								</div>
+								<div class="panel-footer text-right">
+									<button type="submit" name="send" value="LOGIN NOW!" class="btn btn-primary">Продолжить</button>
+							</div>
+						</div>
+            <?}?>
+						<div class="col-md-3">
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+</form>
+	<!-- /#wrapper -->
+<?}else{?><?}?><?}else{?>SECURITY ALERT: Access Denied<?}?>

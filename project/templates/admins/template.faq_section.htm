@@ -1,0 +1,72 @@
+<?if(isset($data['ScriptLoaded'])){?>
+
+<form method=post>
+
+<!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        FAQ на сайте
+      </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Категории</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive">
+              <table class="table table-bordered table-hover">
+                <tbody><tr>
+                  <th style="width:5%"></th>
+                  <th class="text-center" style="width:10%">ID</th>
+                  <th>Название</th>
+                </tr>
+								<?
+            $qr1 = mysql_query("SELECT * FROM dp_faq_cat_list ORDER BY id");
+            while ($a = mysql_fetch_object($qr1)){
+            ?>
+                <tr>
+                  <td class="text-center">
+                    <div class="form-group">
+                      <label>
+                        <?=($a->id ? "<input type=radio class=minimal name=delete value=$a->id>" : "&nbsp;")?>
+                      </label>
+                    </div>
+                  </td>
+                  <td class="text-center"><?=$a->id?></td>
+                  <td><input type=text class="form-control" name=title<?=$a->id?> value="<?=htmlspecialchars($a->title)?>"></td>
+                </tr>
+								<?
+               $i++;
+               }
+               ?>
+							<tr>
+                  <td class="text-center"></td>
+                  <td class="text-center"></td>
+                  <td><input type="text" class="form-control" name=title_new value="Новая категория"></td>
+                </tr>
+                
+
+              </tbody></table>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix">
+							<button type=submit class="btn btn-success pull-right" name=change_section value="ADD NEW RECORD" style="margin-left:5px">Создать</button>
+              <button type=submit class="btn btn-primary pull-right" name=change_section value="UPDATE HEADER LIST" style="margin-left:5px">Обновить</button> <button type=submit class="btn btn-danger pull-right" name=change_section value="DELETE SELECTED" <?=$del_confirm?>>Удалить выбранное</button>
+            </div>
+          </div>
+          <!-- /.box -->
+        </div>
+      </div>
+
+    </section>
+    <!-- /.content -->
+	
+</form>
+
+<?}else{?>SECURITY ALERT: Access Denied<?}?>

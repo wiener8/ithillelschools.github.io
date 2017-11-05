@@ -1,0 +1,82 @@
+<?if(isset($data['ScriptLoaded'])){?>
+<form method="post">
+<!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        HTML шаблоны
+      </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <div class="row">
+        
+        <!-- /.col -->
+        <div class="col-md-12">
+          <div class="box">
+            <div class="box-header ui-sortable-handle">
+              <h3 class="box-title">Выбор HTML шаблона для редактирования</h3>
+            </div>
+            <div class="box-body">
+              <div class="row">
+                <div class="col-md-8">
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Страница</label>
+                          <select class="form-control" name=template style="width: 100%;">
+                            <?=showselect($post['Templates'], $post['template'])?>
+                          </select>
+                        </div>
+                 </div>
+                 <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Локализация</label>
+                          <select class="form-control" name=lang style="width: 100%;">
+                            <? showselectlangs(); ?>
+                          </select>
+                        </div>
+                 </div>
+              </div>
+            </div>
+            <div class="box-footer">
+               <button type="submit" class="btn btn-primary pull-right" name=read value="OPEN NOW!">Открыть</button>
+            </div>
+          </div>
+        </div>
+        <!-- /.col -->
+        
+        <?if($post['template']){?>
+
+        <!-- /.col -->
+        <div class="col-md-12">
+          <div class="box">
+            <div class="box-header ui-sortable-handle">
+              <h3 class="box-title">Изменение страницы <span class="text-success"><?=$post['template']?></span></h3>
+            </div>
+            <div class="box-body">
+              <div class="row">
+                <div class="col-md-12">
+                        <div class="form-group">
+                          <textarea class="form-control" name="content"><?=stripslashes($post['content'])?></textarea>
+                          <script>
+                              CKEDITOR.replace( 'content' );
+                          </script>
+                        </div>
+                 </div>
+              </div>
+            </div>
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary pull-right" name=send value="CHANGE NOW!">Сохранить</button>
+              </div>
+          </div>
+        </div>
+        <!-- /.col -->
+        
+        <?}?>
+
+      </div>
+      <!-- /.row -->
+      
+    </section>
+</form>
+<?}else{?>SECURITY ALERT: Access Denied<?}?>

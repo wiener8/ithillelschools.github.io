@@ -1,0 +1,387 @@
+<?if(isset($data['ScriptLoaded'])){?>
+<?if($post['action']=='select'){?>
+<!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Управление пользователями
+      </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Список <?if($post['type']=='found'){?>найденных<?} else if($post['type']=='active'){?>активных<?}elseif($post['type']=='suspended'){?>ограниченных<?}elseif($post['type']=='closed'){?>закрытых<?}elseif($post['type']=='online'){?>онлайн<?}?> клиентов<?if($post['type']!='online'){?> (всего <?=$data['MembersCount']?>)<?}?></h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive">
+              <table class="table table-bordered table-hover">
+                <tbody><tr>
+                  <th>Логин</th>
+                  <th>Имя</th>
+                  <th>Email</th>
+                  <th>Партнер</th>
+                  <th class="text-center">Транзакций</th>
+                  <th>Действия</th>
+                </tr>
+                <?foreach($data['MembersList'] as $key=>$value){$bgcolor=$key%2?'':''?>
+                <tr>
+                  <td><?=$value['username']?></td>
+                  <td><?=$value['fname']?> <?=$value['lname']?><?if($post['type']=='online'){?> (<?=$value['last_ip']?>)<?}?></td>
+                  <td><?=$value['email']?></td>
+                  <td><a href="members.htm?id=<?=$value['sponsor']?>&action=detail&type=<?=$post['type']?>&page=<?=$post['StartPage']?>"><?=$value['sname']?></a></td>
+                  <td class="text-center"><a href="transactions.htm?bid=<?=$value['id']?>&action=select"><?=$value['transactions']?></a></td>
+                  <td>
+                    <?if($post['type']=='online'){?>---<?}else{?>
+                    <a href="members.htm?id=<?=$value['id']?>&action=detail&type=<?=$post['type']?>&page=<?=$post['StartPage']?>" class="btn btn-success btn-xs" data-toggle="tooltip" title="Смотреть"><i class="fa fa-eye"></i></a> <a href="members.htm?id=<?=$value['id']?>&action=update&type=<?=$post['type']?>&page=<?=$post['StartPage']?>" class="btn btn-warning btn-xs" data-toggle="tooltip" title="Редактировать"><i class="fa fa-edit"></i></a> <?if($post['type']=='active'){?><a href="members.htm?id=<?=$value['id']?>&action=suspend&type=<?=$post['type']?>&page=<?=$post['StartPage']?>" class="btn btn-info btn-xs" data-toggle="tooltip" title="Перевести в неактивные"><i class="fa fa-clock-o"></i></a> <a href="members.htm?id=<?=$value['id']?>&action=close&type=<?=$post['type']?>&page=<?=$post['StartPage']?>" class="btn btn-danger btn-xs"><i class="fa fa-close" data-toggle="tooltip" title="Закрыть"></i></a><?}else{?><a href="members.htm?id=<?=$value['id']?>&action=activate&type=<?=$post['type']?>&page=<?=$post['StartPage']?>" class="btn btn-info btn-xs" data-toggle="tooltip" title="В активные"><i class="fa fa-check"></i></a>  <?}?><?if($value['candelete']){?> <a href="members.htm?id=<?=$value['id']?>&action=delete&type=<?=$post['type']?>&page=<?=$post['StartPage']?>" class="btn btn-danger btn-xs" data-toggle="tooltip" title="Удалить"><i class="fa fa-close"></i></a></td>
+                  <?}}?>
+                </tr>
+                <?}?>
+                </tbody>
+              </table>
+            </div>
+            <!-- /.box-body -->
+            <?if($data['Pages']){?>
+            <div class="box-footer text-right">
+                <?$count=count($data['Pages']);for($i=0; $i<$count; $i++){?><?if($data['Pages'][$i]==$post['StartPage']){?><?=$i+1?><?}else{?><a href="members.htm??action=<?=$post['action']?>&type=<?=$post['type']?>&page=<?=$data['Pages'][$i]?>"><?=$i+1?></a><?}?><?if($i<$count-1)echo(" | ");}?>
+            </div>
+            <?}?>
+          </div>
+          <!-- /.box -->
+        </div>
+      </div>
+    </section>
+
+<?}elseif($post['action']=='detail'){?>
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Профиль пользователя
+      </h1>
+    </section>
+
+<!-- Main content -->
+    <section class="content">
+      
+       <div class="row">
+         <div class="col-md-3">
+
+          <!-- Profile Image -->
+          <div class="box">
+            <div class="box-body box-profile">
+
+              <img class="profile-user-img img-responsive img-circle" src="<?=$data['Host']?>/theme/admin/dist/img/wallet.png">
+
+              <h3 class="profile-username text-center text-success"><?=balance($post['MemberInfo']['balance'])?> <?=prntext($data['Currency'])?></h3>
+
+              <p class="text-muted text-center"><?if($post['MemberInfo']['admin_status']<2){?><?}else{?><?}?><?=$data['MemberStatus'][$post['MemberInfo']['status']]['status']?></p>
+              
+
+                        	<?if($post['MemberInfo']['active']==1){?>
+                        	<a class="btn btn-success btn-block" href="members.htm?id=<?=$post['MemberInfo']['id']?>&action=<?if($post['MemberInfo']['status']==0){?>verify<?}elseif($post['MemberInfo']['status']==1){?>certify<?}else{?>unverify<?}?>&page=<?=$post['StartPage']?>" onclick="return cfmform()"><?}?><?if($post['MemberInfo']['status']==0){?>Идентифицировать<?}elseif($post['MemberInfo']['status']==1){?>Сертифицировать<?}elseif($post['MemberInfo']['status']==2){?>Анонимизировать<?}?><?if($post['MemberInfo']['status']<2){?></a><?}?>
+
+              <a href="<?=$data['Admins']?>/history.htm?member=<?=$post['MemberInfo']['id']?>" onclick="window.open('<?=$data['Admins']?>/history.htm?member=<?=$post['MemberInfo']['id']?>','…','…'); return false" class="btn btn-warning btn-block"><b>История IP</b></a>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+        </div>
+         <!-- /.col -->
+        <div class="col-md-9">
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#activity" data-toggle="tab">Информация о клиенте</a></li>
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                  История операций <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="transactions.htm?bid=<?=$post['MemberInfo']['id']?>&action=select">Все транзакции</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="transactions.htm?bid=<?=$post['MemberInfo']['id']?>&action=select&type=1">Все депозиты</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="transactions.htm?bid=<?=$post['MemberInfo']['id']?>&action=select&type=2">Вывод средств</a></li>
+                  <li role="presentation" class="divider"></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="transactions.htm?bid=<?=$post['MemberInfo']['id']?>&action=select&type=1&status=0">Депозиты в ожидании</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="transactions.htm?bid=<?=$post['MemberInfo']['id']?>&action=select&type=2&status=0">Вывод средств в ожидании</a></li>
+                </ul>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div class="active tab-pane" id="activity">
+                <form role="form">
+                  <div class="box-body">
+                    <div class="row">
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="info-box bg-green">
+                          <span class="info-box-icon"><i class="fa fa-sign-in"></i></span>
+
+                          <div class="info-box-content">
+                            <span class="info-box-text">Регистрация</span>
+                            <span class="info-box-number"><?=prndate($post['MemberInfo']['cdate'])?></span>
+
+                            <div class="progress">
+                              <div class="progress-bar" style="width: 100%"></div>
+                            </div>
+                                <span class="progress-description">
+                                  Пароль <?=$post['MemberInfo']['password']?>
+                                </span>
+                          </div>
+                          <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                      </div>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="info-box bg-aqua">
+                          <span class="info-box-icon"><i class="fa fa-lock"></i></span>
+
+                          <div class="info-box-content">
+                            <span class="info-box-text">Последний вход</span>
+                            <span class="info-box-number"><?=prndate($post['MemberInfo']['ldate'])?></span>
+
+                            <div class="progress">
+                              <div class="progress-bar" style="width: 100%"></div>
+                            </div>
+                                <span class="progress-description">
+                                  <?if($post['MemberInfo']['last_ip']){?> <?=$post['MemberInfo']['last_ip']?><?}?>
+                                </span>
+                          </div>
+                          <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Логин</label>
+                          <p class="form-control-static">admin</p>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Компания</label>
+                          <p class="form-control-static"><?=$post['MemberInfo']['company']?></p>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Страна</label>
+                          <p class="form-control-static"><?=$data['Countries'][$post['MemberInfo']['country']]?></p>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Адрес</label>
+                          <p class="form-control-static"><?=$post['MemberInfo']['address']?></p>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Телефон</label>
+                          <p class="form-control-static"><?=$post['MemberInfo']['phone']?></p>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Электронная почта</label>
+                          <?if($post['MemberInfo']['emails']){?><?foreach($post['MemberInfo']['emails'] as $key=>$val){$bgcolor=($key+1)%2?'':''?>
+                          <p class="form-control-static"><?=$val['email']?> </p>
+                           <?}?><?}?>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Номер компании</label>
+                          <p class="form-control-static"><?=$post['MemberInfo']['regnum']?></p>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Город</label>
+                          <p class="form-control-static"><?=$post['MemberInfo']['city']?></p>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Индекс</label>
+                          <p class="form-control-static"><?=$post['MemberInfo']['zip']?></p>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Факс</label>
+                          <p class="form-control-static"><?=$post['MemberInfo']['fax']?></p>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Рефер</label>
+                          <p class="form-control-static"><?if($post['MemberInfo']['sponsor']){?><a href="members.htm?id=<?=$post['MemberInfo']['sponsor']?>&action=detail"><?=$post['MemberInfo']['sname']?></a> (<a href="mailto:<?=$post['MemberInfo']['smail']?>"><?=$post['MemberInfo']['smail']?></a>)<?}else{?>---<?}?></p>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Имя</label>
+                          <p class="form-control-static"><?=$post['MemberInfo']['fname']?> <?=$post['MemberInfo']['lname']?> </p>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Область/Провиция/Штат</label>
+                          <p class="form-control-static"><?=$post['MemberInfo']['state']?></p>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Серия и номер паспорта</label>
+                          <p class="form-control-static"><?=$post['MemberInfo']['drvnum']?></p>
+                        </div>
+                        
+                      </div>
+                    </div>
+                  </div>
+              <!-- /.box-body -->
+
+              <div class="box-footer">
+                <?if($post['type']=='active'||$post['type']==1){?>
+                <a href="members.htm?id=<?=$post['MemberInfo']['id']?>&action=suspend&type=<?=$post['MemberInfo']['active']?>&page=<?=$post['StartPage']?>" class="btn btn-danger pull-left">Заморозить аккаунт</a>
+                <?}else{?>
+                <a href="members.htm?id=<?=$post['MemberInfo']['id']?>&action=activate&type=<?=$post['MemberInfo']['active']?>&page=<?=$post['StartPage']?>" class="btn btn-success pull-left">Разморозить аккаунт</a>
+                <?}?>
+                <a href="members.htm?id=<?=$post['MemberInfo']['id']?>&action=update&type=<?=$post['MemberInfo']['active']?>&page=<?=$post['StartPage']?>" class="btn btn-primary pull-right">Изменить</a>
+              </div>
+            </form>
+              </div>
+              <!-- /.tab-pane -->
+            </div>
+            <!-- /.tab-content -->
+          </div>
+          <!-- /.nav-tabs-custom -->
+        </div>
+        <!-- /.col -->
+       </div>
+      
+    </section>
+
+
+
+<?}elseif($post['action']=='insert'||$post['action']=='update'){?>
+    <?if(!$post['PostSent']){?>
+    <form method=post>
+      <input type=hidden name=action value="<?=$post['action']?>">
+      <input type=hidden name=gid value="<?=$post['id']?>">
+      <input type=hidden name=type value="<?=$post['type']?>">
+      <input type=hidden name=StartPage value="<?=$post['StartPage']?>">
+      
+     <section class="content-header">
+      <h1>
+        Изменение пользователя
+      </h1>
+    </section>
+      
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <!-- /.col -->
+        <div class="col-md-12">
+          <div class="box">
+            <div class="box-header ui-sortable-handle">
+              <h3 class="box-title"><?if($post['action']=='insert'){?>Создание пользователя<?}else{?>Редактирование информации<?}?></h3>
+            </div>
+            <?if($data['Error']){?>
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <?=$data['Error']?>
+              </div>
+            <?}?>
+            <div class="box-body">
+              <div class="row">
+                <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Логин</label>
+                          <input type="text" class="form-control" name=username value="<?=$post['username']?>">
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Компания</label>
+                          <input type="text" class="form-control" name=company value="<?=$post['company']?>">
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Страна</label>
+                          <select class="form-control select2" name=country style="width: 100%;">
+                            <?=showselect($data['Countries'], $post['country'])?>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Адрес</label>
+                          <input type="text" class="form-control" name=address value="<?=$post['address']?>">
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Телефон</label>
+                          <input type="text" class="form-control" name=phone value="<?=$post['phone']?>">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Электронная почта</label>
+                          <input type="text" class="form-control" name=email value="<?=$post['email']?>">
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Регистрационный номер</label>
+                          <input type="text" class="form-control" name=regnum value="<?=$post['regnum']?>">
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Город</label>
+                          <input type="text" class="form-control" name=city value="<?=$post['city']?>">
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Индекс</label>
+                          <input type="text" class="form-control" name=zip value="<?=$post['zip']?>">
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Факс</label>
+                          <input type="text" class="form-control" name=fax value="<?=$post['fax']?>">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Рефер</label>
+                          <select class="form-control select2" style="width: 100%;" name=sponsor>
+                            <?=showselect($data['Sponsors'], $post['sponsor'])?>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Имя</label>
+                          <input type="text" class="form-control" name=fname value="<?=$post['fname']?>">
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Область/Провиция/Штат</label>
+                          <input type="text" class="form-control" name=state value="<?=$post['state']?>">
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Серия и номер паспорта</label>
+                          <input type="text" class="form-control" name=drvnum value="<?=$post['drvnum']?>">
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Пароль</label>
+                          <input type="text" class="form-control" name=password value="<?=$post['password']?>">
+                        </div>
+                        
+                      </div>
+              </div>
+            </div>
+            <div class="box-footer">
+                <button type="submit" name=cancel value="BACK" class="btn btn-danger pull-left">Назад</button>
+                <button type="submit" name=send value="SAVE CHANGES" class="btn btn-primary pull-right">Сохранить</button>
+              </div>
+          </div>
+        </div>
+      </div>
+    </section>
+        
+    </form>
+    <?}else{?>
+
+ <section class="content-header">
+      <h1>
+        Управление пользователями
+      </h1>
+    </section>
+      
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <!-- /.col -->
+        <div class="col-md-12">
+          <div class="callout callout-success">
+                <h4>Успешная операция!</h4>
+
+                <p>Все изменения были сохранены в базе данных. <?if($post['action']=='insert'){?><br><br>Только что созданный пользователь имеет статус "Неактивный", поэтому вам следует изменить статус члена вручную.<?}?></p>
+              </div>
+        </div>
+      </div>
+    </section>
+    <?}?>
+    
+    
+    <?}?>
+<?}else{?>SECURITY ALERT: Access Denied<?}?>

@@ -1,0 +1,192 @@
+<?
+
+###############################################################################
+$data['PageName']='WITHDRAW FUNDS FROM YOUR ACCOUNT';
+$data['PageFile']='withdraw';
+###############################################################################
+include('../config.htm');
+###############################################################################
+if(!$_SESSION['login']){
+        header("Location:{$data['Host']}/index.htm");
+        echo('ACCESS DENIED.');
+        exit;
+}
+if(is_info_empty($uid)){
+        header("Location:{$data['Host']}/members/profile.htm");
+        echo('ACCESS DENIED.');
+        exit;
+}
+###############################################################################
+if(!$post['step'])$post['step']=1;
+$post=select_info($uid, $post);
+$data['Balance']=select_balance($uid);
+$post['BanksInfo']=select_banks($uid);
+###############################################################################
+if($post['send']){
+	$post['LastWithdraw']=get_transactions($uid, 'outgoing', 2, 1, 0, 1);
+	$post['LastWithdraw']=$post['LastWithdraw'][0];
+	if($post['step']==1){
+		if(!$post['amount']){
+			$data['Error']='Пожалуйста, введите действительную сумму для перевода.';
+		}elseif(!$post['wtype']){
+			$data['Error']='Выберите способ оплаты.';
+		}elseif($post['amount']<$data['WithdrawMinSum']+$data['WithdrawMethod'][$post['wtype']]['fees']){
+			$data['Error']=
+				"Минимальная сумма средств, которую Вы можете снять {$data['Currency']}".
+				($data['WithdrawMinSum']+$data['WithdrawMethod'][$post['wtype']]['fees']);
+		}elseif($post['amount']>$data['Balance']){
+				$data['Error']='У Вас недостаточно средств на счете.';
+		}elseif(get_member_status($uid)<2&&isset($post['LastWithdraw']['period'])&&$post['LastWithdraw']['period']<30){
+			if($post['LastWithdraw']['period']==0)$days='today';
+			elseif($post['LastWithdraw']['period']==1)$days='yesterday';
+			else $days="{$post['LastWithdraw']['period']} дней назад";
+			$data['Error']="Вы не можете снять более".
+				" {$data['Currency']}{$data['WithdrawMaxSum']}".
+				" каждые 30 дней, поскольку Вы являетесь не идентифицированным пользователем.".
+				" Ваш последний вывод был {$days}.";
+		}else{
+			$post['step']++;
+		}
+	}elseif($post['step']==2){
+                if($post['wtype']=='bwire'){
+                        if($post['bank']==-1){
+                                if(!$post['bname']){
+                                        $data['Error']='Пожалуйста, введите название Вашего банка.';
+                                }elseif(!$post['baddress']){
+                                        $data['Error']='Пожалуйста, введите адрес Вашего банка.';
+                                }elseif(!$post['bcity']){
+                                        $data['Error']='Пожалуйста, введите город Вашего банка.';
+                                }elseif(!$post['bzip']){
+                                        $data['Error']='Введите почтовый индекс Вашего банка.';
+                                }elseif(!$post['bcountry']){
+                                        $data['Error']='Пожалуйста, введите страну Вашего банка.';
+                                }elseif(!$post['bphone']){
+                                        $data['Error']='Пожалуйста, введите телефонный номер Вашего банка.';
+                                }elseif(!$post['bnameacc']){
+                                        $data['Error']='Введите имя учетной записи.';
+                                }elseif(!$post['baccount']){
+                                        $data['Error']='Пожалуйста, введите номер счета.';
+                                }
+                        }else{
+                                $bankinfo=select_banks($uid, $post['bank'], true);
+                                if($bankinfo[0]){
+                                       foreach($bankinfo[0] as $key=>$val)$post[$key]=$val;
+                                }else{
+                                       $data['Error']='Некорректное банковский счет.';
+                                }
+                        }
+                        if(!$data['Error']){
+                                $bwireinfo=
+                                        "Сумма : {$data['Currency']}".
+                                                prnsumm($post['amount'])."\n".
+                                        "   Комиссия : {$data['Currency']}".
+                                                prnsumm($data['WithdrawMethod'][$post['wtype']]['fees'])."\n".
+                                        "   Всего к выводу : {$data['Currency']}".
+                                                prnsumm($post['amount']-$data['WithdrawMethod'][$post['wtype']]['fees'])."\n\n".
+                                        "  	Тип платежа  : {$data['WithdrawMethod'][$post['wtype']]['name']}\n".
+                                        "   Название банка : {$post['bname']}\n".
+                                        "   Адрес банка : {$post['baddress']}\n".
+                                        "   Город банка : {$post['bcity']}\n".
+                                        "   Почтовый индекс банка : {$post['bzip']}\n".
+                                        "   Страна банка : {$data['Countries'][$post['bcountry']]}\n".
+                                        "   Регион банка : {$post['bstate']}\n".
+                                        "   Телефонный номер банка : {$post['bphone']}\n".
+                                        "   Имя владельца счета : {$post['bnameacc']}\n".
+                                        "   Номер счета : {$post['baccount']}\n".
+                                        "   Тип счета : {$data['BankAccountType'][$post['btype']]}\n".
+                                        "   БИК банка : {$post['brtgnum']}\n".
+                                        "   S.W.I.F.T. Код : {$post['bswift']}\n".
+                                        "   Дополнительная информация : {$post['comments']}"
+                                ;
+                                $_SESSION['transinfo']="TRANSACTION DETAILS:\n".$bwireinfo;
+                                $post['info']=prntext($bwireinfo);
+                                $post['step']++;
+                        }
+                }elseif($post['wtype']=='check'||$post['wtype']=='western'||$post['wtype']=='moneygram'){
+                        if(!$post['fname']){
+                                $data['Error']='Пожалуйста, введите Ваше имя.';
+                        }elseif(!$post['lname']){
+                                $data['Error']='Пожалуйста, введите свою фамилию.';
+                        }elseif(!$post['address']){
+                                $data['Error']='Пожалуйста, введите свой адрес проживания.';
+                        }elseif(!$post['city']){
+                                $data['Error']='Пожалуйста, укажите город, в котором Вы живете.';
+                        }elseif(!$post['country']){
+                                $data['Error']='Пожалуйста, введите страну проживания.';
+                        }elseif(!$post['zip']){
+                                $data['Error']='Пожалуйста, введите свой почтовый индекс.';
+                        }elseif(!$post['phone']){
+                                $data['Error']='Пожалуйста, введите Ваш номер телефона.';
+                        }else{
+                                $checkinfo=
+                                        "   � Сумма          : {$data['Currency']}".
+                                                prnsumm($post['amount'])."\n".
+                                        "   � Комиссия             : {$data['Currency']}".
+                                                prnsumm($data['WithdrawMethod'][$post['wtype']]['fees'])."\n".
+                                        "   � Всего отменено : {$data['Currency']}".
+                                                prnsumm($post['amount']-$data['WithdrawMethod'][$post['wtype']]['fees'])."\n\n".
+                                        "   � Тип платежа : {$data['WithdrawMethod'][$post['wtype']]['name']}\n".
+                                        "   � Ф.И.О.            : {$post['lname']}, {$post['fname']}\n".
+                                        "   � Название компании    : {$post['company']}\n".
+                                        "   � Адрес         : {$post['address']}\n".
+                                        "   � Город            : {$post['city']}\n".
+                                        "   � Страна         : {$data['Countries'][$post['country']]}\n".
+                                        "   � Регион           : {$post['state']}\n".
+                                        "   � Почтовый индекс     : {$post['zip']}\n".
+                                        "   � Телефон           : {$post['phone']}"
+                                ;
+                                if($post['wtype']=='western'||$post['wtype']=='moneygram'){
+                                        $add="{$post['wtype']}#-#-#";
+                                }else $add='';
+                                $_SESSION['transinfo']="{$add}TRANSACTION DETAILS:\n{$checkinfo}";
+                                $post['info']=prntext($checkinfo);
+                                $post['step']++;
+                        }
+                }else{
+                        if(!$post['payee1']){
+                                $data['Error']="Введите Ваше {$data['WithdrawMethod'][$post['wtype']]['name']} имя пользователя.";
+                        }elseif(!$post['payee2']){
+                                $data['Error']="Пожалуйста, подтвердите {$data['WithdrawMethod'][$post['wtype']]['name']} имя пользователя.";
+                        }elseif($post['payee1']!=$post['payee2']){
+                                $data['Error']="Ваше {$data['WithdrawMethod'][$post['wtype']]['name']} имя пользователя не совпадает с подтвержденным.";
+                        }else{
+                                $traninfo=
+                                        "Сумма : {$data['Currency']}".
+                                                prnsumm($post['amount'])."\n".
+                                        "   Комиссия : {$data['Currency']}".
+                                                prnsumm($data['WithdrawMethod'][$post['wtype']]['fees'])."\n".
+                                        "   Итого к выводу : {$data['Currency']}".
+                                                prnsumm($post['amount']-$data['WithdrawMethod'][$post['wtype']]['fees'])."\n\n".
+                                        "   Тип платежа : {$data['WithdrawMethod'][$post['wtype']]['name']}\n".
+                                        "   Имя получателя платежей : {$post['payee1']}"
+                                ;
+                                $_SESSION['transinfo']=
+                                        "{$post['wtype']}#".($post['amount']-$data['WithdrawMethod'][$post['wtype']]['fees'])."#{$post['payee1']}#".
+                                        "TRANSACTION DETAILS:\n".$traninfo
+                                ;
+                                $post['info']=prntext($traninfo);
+                                $post['step']++;
+                        }
+                }
+        }elseif($post['step']==3){
+                transaction(
+                        $uid,
+                        -1,
+                        $post['amount'],
+                        $data['WithdrawMethod'][$post['wtype']]['fees'],
+                        2,
+                        0,
+                        "Wire transfer with {$data['WithdrawMethod'][$post['wtype']]['name']}",
+                        $_SESSION['transinfo']
+                );
+                /*
+                        TODO: Send notification e-mail
+                */
+                unset($_SESSION['transinfo']);
+                $post['step']++;
+        }
+}elseif($post['cancel'])$post['step']--;
+###############################################################################
+display('members');
+###############################################################################
+?>

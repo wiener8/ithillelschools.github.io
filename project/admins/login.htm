@@ -1,0 +1,40 @@
+<?
+
+###############################################################################
+$data['PageName']='SYSTEM ADMINISTRATOR LOGIN';
+$data['PageFile']='login';
+$data['HideMenu']=true;
+###############################################################################
+include('../config.htm');
+###############################################################################
+if($post['send']){
+	if($data['AdminCheckIp']&&($data['Addr']!=$data['AdminIpAddress'])){
+		$data['Error']='You do not have any rights to use this admin area.';
+	}elseif(!$post['username']){
+		$data['Error']='Your username can not be empty.';
+	}elseif(!$post['password']){
+		$data['Error']='Your password can not be empty.';
+	}elseif(
+		$post['username']!=$data['AdminUsername']
+		||
+		$post['password']!=$data['AdminPassword']
+	){
+		$data['Error']='Wrong administrator username or password.';
+	}elseif($data['UseTuringNumber']&&
+		(!$post['turing']||strtoupper($post['turing'])!=$_SESSION['turing'])
+	){
+		$data['Error']='Please enter valid turing number.';
+	}else{
+		if($data['UseTuringNumber'])unset($_SESSION['turing']);
+		$_SESSION['adm_login']=true;
+		header("Location:{$data['Admins']}/index.htm");
+		echo('ACCESS DENIED.');
+		exit;
+	}
+}
+###############################################################################
+if($data['UseTuringNumber'])$_SESSION['turing']=gencode();
+###############################################################################
+display('admins');
+###############################################################################
+?>

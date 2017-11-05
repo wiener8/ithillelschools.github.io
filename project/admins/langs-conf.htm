@@ -1,0 +1,86 @@
+<?
+
+###############################################################################
+$data['PageName']='TEMPLATES LANGS';
+$data['PageFile']='langs-conf';
+###############################################################################
+include('../config.htm');
+###############################################################################
+if(!$_SESSION['adm_login']){
+	header("Location:{$data['Admins']}/login.htm");
+	echo('ACCESS DENIED.');
+	exit;
+}
+###############################################################################
+$new_lang_folder = $data['Templates']."/langs/".$post["n_lang_name"];
+
+function show_langs(){
+  global $data;
+  $langs_dir_obj = dir($data['Templates']."/langs/");
+    while($entry = $langs_dir_obj->read()){
+     if ($entry != "." && $entry != ".." && $entry != "default") {
+     if ($data['DefaultLanguage']==$entry){
+     	$langs_options ='<td>
+            По умолчанию
+          </td>';
+     }else{
+$langs_options='<button type="submit" value="RENAME" name="rename" class="btn btn-primary" style="margin-top:px">Изменить</button>
+          </td>
+          <td>
+<button type="submit" value="DELETE!!!" name="delete" class="btn btn-danger">Удалить</button>
+          </td>';
+     }
+	  echo '<tr>
+          <td class="input">
+           <form method=post>
+            <input type="hidden" value="'.$entry.'" name="o_lang_name" class="form-control">
+            <input type="text" value="'.$entry.'" name="n_lang_name"  class="form-control">
+            '.$langs_options.'
+          </form>
+        </tr>';
+     }
+    }
+}
+
+if($post['rename']){
+	$old_lang_folder = $data['Templates']."/langs/".$post["o_lang_name"];
+	rename($old_lang_folder,$new_lang_folder);
+}
+
+if($post['delete']){
+	$old_lang_folder = $data['Templates']."/langs/".$post["o_lang_name"];
+	$new_lang_folder = $data['Templates']."/langs_deleted/".$post["o_lang_name"];
+	rename($old_lang_folder,$new_lang_folder."-".time());
+}
+
+if($post['add']){
+  if(!is_dir($new_lang_folder)){
+  	mkdir($new_lang_folder);
+    $default_dir = $data['Templates']."/langs/default";
+    $default_dir_obj = dir($default_dir);
+    while($entry = $default_dir_obj->read()){
+      if ($entry != "." && $entry != ".." && !is_dir($default_dir."/".$entry)) {
+      	copy($default_dir."/".$entry, $new_lang_folder."/".$entry);
+      }else  if(is_dir($default_dir."/".$entry) && $entry != "." && $entry != ".."){  // copy members
+      	mkdir($new_lang_folder."/".$entry);
+      	$default_dir_obj_mem = dir($default_dir."/".$entry);
+      	while($entry_mem = $default_dir_obj_mem->read()){
+      	  if ($entry_mem != "." && $entry_mem != "..") {
+      	    copy($default_dir."/".$entry."/".$entry_mem, $new_lang_folder."/".$entry."/".$entry_mem);
+          }
+      	}
+      }
+    }
+  }else{
+		echo "Such Lang already exists!!!!!!!";
+  }
+}
+
+$post['content']=htmlspecialchars($post['content'], ENT_QUOTES);
+$post['Templates']=get_html_templates();
+###############################################################################
+$data['SystemBalance']=select_balance(-1);
+###############################################################################
+display('admins');
+###############################################################################
+?>

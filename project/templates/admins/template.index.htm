@@ -1,0 +1,398 @@
+<?if(isset($data['ScriptLoaded'])){?>
+
+<!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Дашборд
+        <small>Общие сведенья о проекте</small>
+      </h1>
+    </section>
+
+<!-- Main content -->
+    <section class="content">
+      
+      <div class="row">
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-aqua">
+            <div class="inner">
+              <h3><?="{$data['ActiveMembers']}"?></h3>
+
+              <p>Активные клиенты</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-person"></i>
+            </div>
+            <a href="members.htm?action=select&type=active" class="small-box-footer">
+              Подробнее <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green">
+            <div class="inner">
+              <h3><?="{$data['AllTransactions']}"?></h3>
+
+              <p>Транзакции</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-clipboard"></i>
+            </div>
+            <a href="transactions.htm?action=select" class="small-box-footer">
+              Подробнее <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-yellow">
+            <div class="inner">
+              <h3><?="{$data['AllDeposits']}"?></h3>
+
+              <p>Депозиты</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-card"></i>
+            </div>
+            <a href="transactions.htm?type=1&action=select" class="small-box-footer">
+              Подробнее <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-red">
+            <div class="inner">
+              <h3><?="{$data['AllWithdrawals']}"?></h3>
+
+              <p>Вывод средств</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-cash"></i>
+            </div>
+            <a href="transactions.htm?type=2&action=select" class="small-box-footer">
+              Подробнее <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+        <!-- ./col -->
+      </div>
+      
+      <div class="row">
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-aqua">
+            <div class="inner">
+              <h3><?="{$data['AllEscrows']}"?></h3>
+
+              <p>Протекция</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-umbrella"></i>
+            </div>
+            <a href="transactions.htm?type=3&action=select" class="small-box-footer">
+              Подробнее <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green">
+            <div class="inner">
+              <h3><?="{$data['AllSignups']}"?></h3>
+
+              <p>Бонусы</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-trophy"></i>
+            </div>
+            <a href="transactions.htm?type=4&action=select" class="small-box-footer">
+              Подробнее <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-yellow">
+            <div class="inner">
+              <h3><?="{$data['AllCommissions']}"?></h3>
+
+              <p>Комиссионные</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-calculator"></i>
+            </div>
+            <a href="transactions.htm?type=5&action=select" class="small-box-footer">
+              Подробнее <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-red">
+            <div class="inner">
+              <h3><?="{$data['AllRefunds']}"?></h3>
+
+              <p>Возвраты</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-flash"></i>
+            </div>
+            <a href="transactions.htm?type=6&action=select" class="small-box-footer">
+              Подробнее <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+        <!-- ./col -->
+      </div>
+      
+      <div class="row">
+        <div class="col-md-6">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Статистика по транзакциям</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              <table class="table table-bordered table-hover ">
+                <tbody>
+                <tr>
+                  <td><a href="transactions.htm?action=select">Все транзакции</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['AllTransactions']}"?></span></td>
+                </tr>
+                <tr>
+                  <td><a href="transactions.htm?type=-1&status=0&action=select">В ожидании</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['PendingTransactions']}"?></span></td>
+                </tr>
+                <tr>
+                  <td><a href="transactions.htm?type=-1&status=1&action=select">Выполнено</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['CompletedTransactions']}"?></span></td>
+                </tr>
+                <tr>
+                  <td><a href="transactions.htm?type=-1&status=2&action=select">Отменено</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['CancelledTransactions']}"?></span></td>
+                </tr>
+              </tbody></table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Статистика по депозитам</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              <table class="table table-bordered table-hover ">
+                <tbody>
+                <tr>
+                  <td><a href="transactions.htm?type=1&action=select">Все депозиты</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['AllDeposits']}"?></span></td>
+                </tr>
+                <tr>
+                  <td><a href="transactions.htm?type=1&status=0&action=select">В ожидании</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['PendingDeposits']}"?></span></td>
+                </tr>
+                <tr>
+                  <td><a href="transactions.htm?type=1&status=1&action=select">Выполнено</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['CompletedDeposits']}"?></span></td>
+                </tr>
+                <tr>
+                  <td><a href="transactions.htm?type=1&status=2&action=select">Отменено</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['CancelledDeposits']}"?></span></td>
+                </tr>
+              </tbody></table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Статистика по выводу средств</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              <table class="table table-bordered table-hover ">
+                <tbody>
+                <tr>
+                  <td><a href="transactions.htm?type=2&action=select">Все выводы</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['AllWithdrawals']}"?></span></td>
+                </tr>
+                <tr>
+                  <td><a href="transactions.htm?type=2&status=0&action=select">В ожидании</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['PendingWithdrawals']}"?></span></td>
+                </tr>
+                <tr>
+                  <td><a href="transactions.htm?type=2&status=1&action=select">Выполнено</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['CompletedWithdrawals']}"?></span></td>
+                </tr>
+                <tr>
+                  <td><a href="transactions.htm?type=2&status=2&action=select">Отменено</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['CancelledWithdrawals']}"?></span></td>
+                </tr>
+              </tbody></table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Статистика по протекции</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              <table class="table table-bordered table-hover ">
+                <tbody>
+                <tr>
+                  <td><a href="transactions.htm?type=3&action=select">Все сделки</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['AllEscrows']}"?></span></td>
+                </tr>
+                <tr>
+                  <td><a href="transactions.htm?type=3&status=0&action=select">В ожидании</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['PendingEscrows']}"?></span></td>
+                </tr>
+                <tr>
+                  <td><a href="transactions.htm?type=2&status=1&action=select">Выполнено</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['CompletedWithdrawals']}"?></span></td>
+                </tr>
+                <tr>
+                  <td><a href="transactions.htm?type=3&status=2&action=select">Отменено</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['CancelledEscrows']}"?></span></td>
+                </tr>
+              </tbody></table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Статистика по регистрационным бонусам</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              <table class="table table-bordered table-hover ">
+                <tbody>
+                <tr>
+                  <td><a href="transactions.htm?type=4&action=select">Все бонусы</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['AllSignups']}"?></span></td>
+                </tr>
+                <tr>
+                  <td><a href="transactions.htm?type=4&status=0&action=select">В ожидании</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['PendingSignups']}"?></span></td>
+                </tr>
+                <tr>
+                  <td><a href="transactions.htm?type=4&status=1&action=select">Выполнено</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['CompletedSignups']}"?></span></td>
+                </tr>
+                <tr>
+                  <td><a href="transactions.htm?type=4&status=2&action=select">Отменено</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['CancelledSignups']}"?></span></td>
+                </tr>
+              </tbody></table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Статистика по комиссионным</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              <table class="table table-bordered table-hover ">
+                <tbody>
+                <tr>
+                  <td><a href="transactions.htm?type=5&action=select">Все комиссионные</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['AllCommissions']}"?></span></td>
+                </tr>
+                <tr>
+                  <td><a href="transactions.htm?type=5&status=0&action=select">В ожидании</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['PendingCommissions']}"?></span></td>
+                </tr>
+                <tr>
+                  <td><a href="transactions.htm?type=5&status=1&action=select">Выполнено</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['CompletedCommissions']}"?></span></td>
+                </tr>
+                <tr>
+                  <td><a href="transactions.htm?type=5&status=2&action=select">Отменено</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['CancelledCommissions']}"?></span></td>
+                </tr>
+              </tbody></table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Статистика по возвратам</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              <table class="table table-bordered table-hover ">
+                <tbody>
+                <tr>
+                  <td><a href="transactions.htm?type=6&action=select">Все возвраты</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['AllRefunds']}"?></span></td>
+                </tr>
+                <tr>
+                  <td><a href="transactions.htm?type=6&status=0&action=select">В ожидании</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['PendingRefunds']}"?></span></td>
+                </tr>
+                <tr>
+                  <td><a href="transactions.htm?type=6&status=1&action=select">Выполнено</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['CompletedRefunds']}"?></span></td>
+                </tr>
+                <tr>
+                  <td><a href="transactions.htm?type=6&status=2&action=select">Отменено</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['CancelledRefunds']}"?></span></td>
+                </tr>
+              </tbody></table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Статистика по пользователям</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              <table class="table table-bordered table-hover ">
+                <tbody>
+                <tr>
+                  <td><a href="members.htm?action=select&type=active">Активные пользователи</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['ActiveMembers']}"?></span></td>
+                </tr>
+                <tr>
+                  <td><a href="members.htm?action=select&type=suspended">Ограниченные аккаунты</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['SuspendedMembers']}"?></span></td>
+                </tr>
+                <tr>
+                  <td><a href="members.htm?action=select&type=closed">Закрытые</a></td>
+                  <td style="width: 40px"><span class="badge bg-blue"><?="{$data['ClosedMembers']}"?></span></td>
+                </tr>
+              </tbody></table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+        </div>
+      </div>
+      
+    
+    </section>
+
+<?}else{?>SECURITY ALERT: Access Denied<?}?>

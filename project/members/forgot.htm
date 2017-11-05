@@ -1,0 +1,51 @@
+<?
+
+###############################################################################
+$data['PageName']='FORGET YOUR LOGIN OR PASSWORD?';
+$data['PageFile']='forgot';
+
+$data['IsLogin']=true;
+###############################################################################
+include('../config.htm');
+if(!$post['step'])$post['step']=1;
+###############################################################################
+if($post['cancel']){
+	if($_SESSION['email']){
+		$post['email']=$_SESSION['email'];
+		unset($_SESSION['email']);
+	}
+	(int)$post['step']--;
+}elseif($post['send']){
+	if($post['step']==1){
+		if(!$post['email']||verify_email($post['email'])){
+			$data['Error']='Пожалуйста, введите Ваш действительный адрес электронной почты.';
+		}elseif(!is_valid_mail($post['email'])){
+			$data['Error']='Данный адрес электронной почты не найден.';
+		}else{
+			$_SESSION['email']=$post['email'];
+			(int)$post['step']++;
+		}
+	}elseif($post['step']==2){
+		$info=get_member_by_email($_SESSION['email']);
+		if(!$post['answer']||($post['answer']!=$info['answer'])){
+			$data['Error']='Пожалуйста, введите правильный ответ на контрольный вопрос.';
+		}else{
+			$post['email']=$_SESSION['email'];
+			$post['password']=$info['password'];
+			send_email('RESTORE-PASSWORD', $post);
+			unset($_SESSION['email']);
+			(int)$post['step']++;
+		}
+	}elseif($post['step']==3){
+		unset($post['step']);
+	}
+}
+###############################################################################
+if($_SESSION['email']){
+	$info=get_member_by_email($_SESSION['email']);
+	$post['question']=$info['question'];
+}
+###############################################################################
+display('members');
+###############################################################################
+?>

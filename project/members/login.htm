@@ -1,0 +1,49 @@
+<?
+
+###############################################################################
+$data['PageName']='Login members';
+$data['PageFile']='login';
+###############################################################################
+include('../config.htm');
+###############################################################################
+if(!$_SESSION['attempts'])$_SESSION['attempts']=0;
+###############################################################################
+if($post['send']){
+   if($_SESSION['attempts']<$data['PassAtt']-1){
+        if(!$post['username']){
+                $data['Error']='Имя пользователя не может быть пустым.';
+        }elseif(!$post['password']){
+                $data['Error']='Пароль не может быть пустым.';
+        }elseif($data['UseTuringNumber']&&
+                (!$post['turing']||strtoupper($post['turing'])!=$_SESSION['turing'])
+        ){
+                $data['Error']='Пожалуйста, введите корректно капчу.';
+        }elseif(!is_member_active($post['username'])){
+                $data['Error']='Этот участник не найден. Или неактивен, заблокирован или закрыт.';
+        }elseif(!is_member_found($post['username'], $post['password'])){
+           $data['Error']='Вы ввели неверный логин или пароль.';
+        }else{
+			unset($_SESSION['attempts']);
+			$_SESSION['uid']=get_member_id($post['username'], $post['password']);
+			$_SESSION['login']=true;
+			set_last_access($post['username']);
+			save_remote_ip((int)$_SESSION['uid'], $_SERVER["REMOTE_ADDR"]);
+			if($data['UseTuringNumber'])unset($_SESSION['turing']);
+			header("Location:{$data['Host']}/members/index.htm");
+			echo('ACCESS DENIED.');
+			exit;
+        }
+        (int)$_SESSION['attempts']++;
+   }else{
+      if($data['UseTuringNumber'])unset($_SESSION['turing']);
+      unset($_SESSION['attempts']);
+      $data['CantLogin']=true;
+   }
+}
+$data['attempts']=$_SESSION['attempts'];
+###############################################################################
+if($data['UseTuringNumber'])$_SESSION['turing']=gencode();
+###############################################################################
+display('members');
+###############################################################################
+?>

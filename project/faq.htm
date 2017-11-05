@@ -1,0 +1,52 @@
+<?
+
+###############################################################################
+$data['PageName']='FAQ';
+$data['PageFile']='faq';
+###############################################################################
+include('config.htm');
+###############################################################################
+$data['IsLogin']=true;
+$data['IsSignup']=true;
+###############################################################################
+function getCatTitle($cat) {
+	$result=db_rows(
+                "SELECT * FROM dp_faq_cat_list WHERE id=$cat ORDER BY id"
+    );
+    return $result[0]['title'];
+}
+
+function FAQSearch($srch){
+	ob_start();
+	$query="SELECT COUNT(id) AS total FROM dp_faq_list WHERE (question REGEXP '$srch') OR (answer REGEXP '$srch')";
+	$result=mysql_query($query) or die ("Error in query: $query. " . mysql_error());
+	extract(mysql_fetch_array($result) );
+	$query="SELECT * FROM dp_faq_list WHERE (question REGEXP '$srch') OR (answer REGEXP '$srch') ORDER BY cat DESC";
+	$result=mysql_query($query) or die ("Error in query: $query. " . mysql_error());
+	if($total>1){
+		$dd="results";
+	}else{
+		$dd="result";
+	}
+?>
+
+<?	
+	while($r1=mysql_fetch_object($result)){
+		if(!$r1->question) continue;
+?>
+		
+<?		
+		$mycnt++;
+	}
+?>
+		
+	<?=$total?> <?=$dd?> results found<br>
+<?
+	$searchresults=ob_get_contents();
+	ob_end_clean(); 
+	return $searchresults;
+}
+###############################################################################
+display();
+###############################################################################
+?>

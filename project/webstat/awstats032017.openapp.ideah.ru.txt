@@ -1,0 +1,508 @@
+AWSTATS DATA FILE 7.0 (build 1.971)
+# If you remove this file, all statistics for date 201703 will be lost/reset.
+# Last config file used to build this data file was /etc/awstats/awstats.openapp.ideah.ru.conf.
+
+# Position (offset in bytes) in this file for beginning of each section for
+# direct I/O access. If you made changes somewhere in this file, you should
+# also remove completely the MAP section (AWStats will rewrite it at next
+# update).
+BEGIN_MAP 27
+POS_GENERAL 1996                
+POS_TIME 2679                
+POS_VISITOR 10521               
+POS_DAY 13636               
+POS_DOMAIN 3518                
+POS_LOGIN 3751                
+POS_ROBOT 3906                
+POS_WORMS 4111                
+POS_EMAILSENDER 4242                
+POS_EMAILRECEIVER 4385                
+POS_SESSION 13997               
+POS_SIDER 14204               
+POS_FILETYPES 4520                
+POS_DOWNLOADS 4817                
+POS_OS 4865                
+POS_BROWSER 4993                
+POS_SCREENSIZE 5362                
+POS_UNKNOWNREFERER 5436                
+POS_UNKNOWNREFERERBROWSER 5554                
+POS_ORIGIN 5667                
+POS_SEREFERRALS 5809                
+POS_PAGEREFS 5966                
+POS_SEARCHWORDS 6114                
+POS_KEYWORDS 6266                
+POS_MISC 2343                
+POS_ERRORS 6325                
+POS_CLUSTER 3607                
+POS_SIDER_404 6450                
+END_MAP
+
+# LastLine    = Date of last record processed - Last record line number in last log - Last record offset in last log - Last record signature value
+# FirstTime   = Date of first visit for history file
+# LastTime    = Date of last visit for history file
+# LastUpdate  = Date of last update - Nb of parsed records - Nb of parsed old records - Nb of parsed new records - Nb of parsed corrupted - Nb of parsed dropped
+# TotalVisits = Number of visits
+# TotalUnique = Number of unique visitors
+# MonthHostsKnown   = Number of hosts known
+# MonthHostsUnKnown = Number of hosts unknown
+BEGIN_GENERAL 8
+LastLine 20170319230154 794 206126 21747443119130
+FirstTime 20170309132225
+LastTime 20170319230153
+LastUpdate 20170319230232 187 0 187 0 0
+TotalVisits 105                 
+TotalUnique 71                  
+MonthHostsKnown 0                   
+MonthHostsUnknown 78                  
+END_GENERAL
+
+# Misc ID - Pages - Hits - Bandwidth
+BEGIN_MISC 10
+QuickTimeSupport 0 0 0
+JavaEnabled 0 0 0
+JavascriptDisabled 0 0 0
+PDFSupport 0 0 0
+WindowsMediaPlayerSupport 0 0 0
+AddToFavourites 0 0 0
+RealPlayerSupport 0 0 0
+TotalMisc 0 0 0
+DirectorSupport 0 0 0
+FlashSupport 0 0 0
+END_MISC
+
+# Hour - Pages - Hits - Bandwidth - Not viewed Pages - Not viewed Hits - Not viewed Bandwidth
+BEGIN_TIME 24
+0 138 190 3414552 131 255 4107
+1 76 105 2201830 78 150 3767
+2 96 136 2125038 117 209 336
+3 49 93 2006184 48 96 28
+4 42 49 1038070 9 13 6724
+5 29 45 1303705 20 23 150368
+6 2 25 1039687 1 3 14
+7 2 9 579382 0 1 0
+8 0 0 0 0 0 0
+9 166 302 3261604 112 224 210
+10 295 365 5823760 185 321 45496
+11 125 238 3622218 67 121 21574
+12 264 294 5329139 184 342 53511
+13 281 412 9163265 152 366 112193
+14 214 248 3604527 93 176 39530
+15 86 142 2765818 102 193 25809
+16 119 170 1337675 119 227 4013
+17 81 139 2625847 49 96 3311
+18 219 341 5139689 155 281 24356
+19 256 371 6144238 183 354 143153
+20 234 427 5946785 172 321 49806
+21 627 854 11793162 508 971 66654
+22 383 497 6516556 304 545 161589
+23 392 477 7111461 251 474 82038
+END_TIME
+
+# Domain - Pages - Hits - Bandwidth
+# The 10 first Pages must be first (order not required for others)
+BEGIN_DOMAIN 1
+ip 4176 5929 93894192
+END_DOMAIN
+
+# Cluster ID - Pages - Hits - Bandwidth
+BEGIN_CLUSTER 0
+END_CLUSTER
+
+# Login - Pages - Hits - Bandwidth - Last visit
+# The 10 first Pages must be first (order not required for others)
+BEGIN_LOGIN 0
+END_LOGIN
+
+# Robot ID - Hits - Bandwidth - Last visit - Hits on robots.txt
+# The 10 first Hits must be first (order not required for others)
+BEGIN_ROBOT 2
+no_user_agent 19 156987 20170319185102 0
+yandex 3 20095 20170319182504 0
+END_ROBOT
+
+# Worm ID - Hits - Bandwidth - Last visit
+# The 5 first Hits must be first (order not required for others)
+BEGIN_WORMS 0
+END_WORMS
+
+# EMail - Hits - Bandwidth - Last visit
+# The 20 first Hits must be first (order not required for others)
+BEGIN_EMAILSENDER 0
+END_EMAILSENDER
+
+# EMail - Hits - Bandwidth - Last visit
+# The 20 first hits must be first (order not required for others)
+BEGIN_EMAILRECEIVER 0
+END_EMAILRECEIVER
+
+# Files type - Hits - Bandwidth - Bandwidth without compression - Bandwidth after compression
+BEGIN_FILETYPES 12
+css 712 19541875 0 0
+eot 21 1099359 0 0
+png 273 1173830 0 0
+htm 3943 58819000 0 0
+woff 53 1265768 0 0
+php 1 92100 0 0
+map 9 2168776 0 0
+html 148 1037317 0 0
+js 465 8033850 0 0
+jpg 46 116365 0 0
+Unknown 1 7945 0 0
+gif 257 538007 0 0
+END_FILETYPES
+
+# Downloads - Hits - Bandwidth
+BEGIN_DOWNLOADS 0
+END_DOWNLOADS
+
+# OS ID - Hits
+BEGIN_OS 8
+linuxandroid 18
+winxp 149
+winlong 1
+winnt 320
+linux 107
+winvista 18
+win7 5290
+Unknown 26
+END_OS
+
+# Browser ID - Hits
+BEGIN_BROWSER 20
+msie6.0 49
+firefox15.0 1
+firefox3.6 10
+chrome55.0.2883.91 18
+firefox52.0 15
+chrome28.0.1500.95 25
+chrome56.0.2924.87 5510
+chrome31.0.1650.57 20
+chrome31.0.1650.63 30
+opera9.80 30
+firefox45.0 16
+msie8.0 90
+chrome51.0.2704.103 9
+mozilla 20
+firefox25.0 10
+msie7.0 1
+msie10.0 37
+chrome56.0.2924.88 2
+msie9.0 10
+Unknown 26
+END_BROWSER
+
+# Screen size - Hits
+BEGIN_SCREENSIZE 0
+END_SCREENSIZE
+
+# Unknown referer OS - Last visit date
+BEGIN_UNKNOWNREFERER 1
+Dispatch/0.11.3 20170312055341
+END_UNKNOWNREFERER
+
+# Unknown referer Browser - Last visit date
+BEGIN_UNKNOWNREFERERBROWSER 1
+Dispatch/0.11.3 20170312055341
+END_UNKNOWNREFERERBROWSER
+
+# Origin - Pages - Hits 
+BEGIN_ORIGIN 6
+From0 449 470
+From1 0 0
+From2 28 28
+From3 0 0
+From4 3699 5431
+From5 0 0
+END_ORIGIN
+
+# Search engine referers ID - Pages - Hits
+BEGIN_SEREFERRALS 1
+yandex 28 28
+END_SEREFERRALS
+
+# External page referers - Pages - Hits
+# The 10 first Pages must be first (order not required for others)
+BEGIN_PAGEREFS 0
+END_PAGEREFS
+
+# Search keyphrases - Number of search
+# The 10 first number of search must be first (order not required for others)
+BEGIN_SEARCHWORDS 0
+END_SEARCHWORDS
+
+# Search keywords - Number of search
+# The 10 first number of search must be first (order not required for others)
+BEGIN_KEYWORDS 0
+END_KEYWORDS
+
+# Errors - Hits - Bandwidth
+BEGIN_ERRORS 4
+302 196 2744
+500 221 816479
+301 7 2282
+404 5269 0
+END_ERRORS
+
+# URL with 404 errors - Hits - Last URL referer
+BEGIN_SIDER_404 79
+/admins/dist/img/credit/paypal2.png 2 http://openapp.ideah.ru/admins/transactions.htm
+/ 4 -
+/robots.txt 9 -
+/members/admin/Zeocmsumf3722 1 -
+/js/kitchen-sink.js 4 http://openapp.ideah.ru/
+/theme/plugins/bootstrap/js/ 1 -
+/img/user/avatar.jpg 35 http://openapp.ideah.ru/index.htm
+/img/icon/shield.png 2 http://openapp.ideah.ru/process.htm
+/admins/support/index.htm 1 -
+/enterprise/js/script.js 3 http://openapp.ideah.ru/
+/enterprise/contact.htm 3 http://openapp.ideah.ru/
+/enterprise/fees.htm 1 http://openapp.ideah.ru/
+/members/img/pay/paypal.png 5 http://openapp.ideah.ru/members/products.htm
+/img/pay/swift.png 1 http://openapp.ideah.ru/process.htm
+/img/pay/paypal.png 1 http://openapp.ideah.ru/process.htm
+/theme/css/custom.css 2526 http://openapp.ideah.ru/
+/admin/Zeocmsumf3722 1 -
+/members/img/user/avatar.jpg 5 http://openapp.ideah.ru/members/index.htm
+/css/kitchen-sink.css 2 http://openapp.ideah.ru/
+/members/.htm 1 http://openapp.ideah.ru/members/userinfo.htm
+/img/user/avatar4.jpg 2 http://openapp.ideah.ru/faq.htm
+/media-lists.html 2 -
+/members/img/pay/btc.png 5 http://openapp.ideah.ru/members/products.htm
+/css/material-icons.css 2 http://openapp.ideah.ru/
+/popover.html 2 -
+/img/icon.png 4 http://openapp.ideah.ru/
+/theme/plugins/bootstrap/js/3.3.7 1 -
+/theme/js/shown.bs.modal 1 -
+/admins/lang-conf.htm 1 http://openapp.ideah.ru/admins/main-conf.htm
+/scripts/framework.plugins.js 4 http://openapp.ideah.ru/
+/police.htm 1 http://openapp.ideah.ru/members/index.htm
+/images/banners/02.GIF 1 -
+/img/pay/yandex.png 1 http://openapp.ideah.ru/process.htm
+/theme/plugins/bootstrap/css/bootstrap.min.css.map 88 -
+/theme/plugins/font-awesome/fonts/fontawesome-webfont.woff2 2432 http://openapp.ideah.ru/theme/plugins/font-awesome/css/font-awesome.min.css
+/theme/js/hidden.bs.modal 1 -
+/enterprise/css/style.css 3 http://openapp.ideah.ru/
+/members/img/pay/card.png 12 http://openapp.ideah.ru/members/products.htm
+/img/pay/webmoney.png 1 http://openapp.ideah.ru/process.htm
+/members/img/cover/cover-game.jpg 3 http://openapp.ideah.ru/members/affdetails.htm
+/example/ 1 http://openapp.ideah.ru/members/transactions.htm
+/UI/modals.html 1 http://openapp.ideah.ru/admins/members.htm
+/index.htm 2 -
+/admins/dist/img/credit/visa.png 2 http://openapp.ideah.ru/admins/transactions.htm
+/scripts/custom.js 4 http://openapp.ideah.ru/
+/admins/dist/img/credit/mastercard.png 2 http://openapp.ideah.ru/admins/transactions.htm
+/admins/dist/img/credit/american-express.png 2 http://openapp.ideah.ru/admins/transactions.htm
+/members/admins 2 -
+/img/pay/card.png 2 http://openapp.ideah.ru/process.htm
+/theme/img/pay/ 6 http://openapp.ideah.ru/members/withdraw.htm
+/admins/%3C 2 http://openapp.ideah.ru/admins/html-conf.htm
+/members/affdeetails.htm 1 -
+/list-view.html 2 -
+/theme/plugins/bootstrap/js/bs.alert 1 -
+/panels.html 3 -
+/charts/chartjs.html 1 http://openapp.ideah.ru/admins/mail-conf.htm
+/test.php 3 -
+/enterprise/about.htm 1 http://openapp.ideah.ru/
+/theme/plugins/bootstrap/js/closed.bs.alert 1 -
+/members/img/pay/swift.png 5 http://openapp.ideah.ru/members/products.htm
+/scripts/jqueryui.js 4 http://openapp.ideah.ru/
+/enterprise/images/signup.gif 3 http://openapp.ideah.ru/
+/test.htm 9 -
+/members/shop.htm 1 -
+/admin 3 -
+/img/pay/btc.png 1 http://openapp.ideah.ru/process.htm
+/members/img/pay/webmoney.png 5 http://openapp.ideah.ru/members/products.htm
+/modals.html 2 -
+/theme/js/section.background-image.full-height 1 -
+/members/img/pay/yandex.png 5 http://openapp.ideah.ru/members/products.htm
+/banners.htm 1 -
+/theme/js/slide.bs.carousel 1 -
+/enterprise/images/logo.gif 3 http://openapp.ideah.ru/
+/index.php 2 -
+/verify.htm 1 http://openapp.ideah.ru/shop.htm
+/signup.htm 1 -
+/scripts/jquery.js 4 http://openapp.ideah.ru/
+/members/closehtm 1 -
+/forms.html 2 -
+END_SIDER_404
+
+# Host - Pages - Hits - Bandwidth - Last visit date - [Start date of last visit] - [Last page of last visit]
+# [Start date of last visit] and [Last page of last visit] are saved only if session is not finished
+# The 10 first Hits must be first (order not required for others)
+BEGIN_VISITOR 78
+185.23.83.180 3867 5277 73292331 20170319230153 20170319205254 /about.htm
+178.219.51.139 96 105 708409 20170319194027
+109.206.134.39 79 143 2123795 20170316200808
+174.127.133.55 12 12 136242 20170312045220
+174.127.133.60 9 13 323680 20170312045359
+213.87.161.187 8 18 637467 20170315152215
+174.127.133.54 7 7 111412 20170312045424
+174.127.133.59 6 7 208915 20170312045054
+174.127.133.56 5 5 62623 20170312044907
+85.30.249.108 3 10 595203 20170316120138
+172.82.142.195 1 1 6967 20170312055338
+46.42.128.228 2 9 575076 20170316054335
+195.211.23.222 1 1 7945 20170315211406
+195.211.23.210 0 1 3854 
+195.211.23.212 0 1 2933 
+69.162.142.178 1 1 6965 20170312055339
+192.199.243.226 1 1 13229 20170312055322
+170.75.157.27 1 1 6965 20170312055338
+109.63.174.158 1 10 505345 20170316152446
+5.228.76.185 1 15 534371 20170314063815
+77.37.136.25 1 10 505345 20170317115220
+46.42.170.24 1 10 505316 20170318011203
+128.74.247.239 1 10 505345 20170316175914
+178.140.121.132 2 9 579382 20170314071416
+104.140.155.101 1 1 6959 20170312055339
+176.14.207.97 0 8 494738 
+195.211.23.224 0 1 3854 
+188.255.23.130 3 10 595174 20170317194436
+173.234.15.244 1 1 6958 20170312055338
+37.204.219.32 3 10 595203 20170317170042
+74.91.46.196 1 1 7308 20170312055339
+195.211.23.225 0 1 2933 
+128.75.40.28 2 2 4542 20170309135016
+173.234.180.167 1 1 7101 20170312055340
+195.211.23.217 1 1 7945 20170315095756
+174.127.135.57 2 16 624783 20170313173849
+176.195.100.220 1 10 505345 20170317183416
+77.41.25.174 1 2 10578 20170317235948
+174.127.133.58 3 5 195198 20170312042831
+174.127.188.37 1 1 11059 20170312032808
+95.28.174.3 1 10 475963 20170314231000
+23.19.205.192 1 1 10926 20170312055337
+69.162.152.213 1 1 6957 20170312055338
+162.223.30.6 1 1 6976 20170312055338
+172.82.142.182 1 1 7314 20170312055338
+74.91.43.88 1 1 7101 20170312055341
+173.208.35.70 1 1 6969 20170312055338
+195.211.23.220 0 1 2933 
+2.92.244.231 1 10 505316 20170318064828
+74.91.35.200 1 1 6958 20170312055339
+46.73.205.95 1 10 505345 20170316052339
+176.14.37.74 3 10 595174 20170317203427
+199.233.238.184 1 1 7031 20170312055339
+74.91.34.204 1 1 30064 20170312055320
+63.223.126.18 1 1 7384 20170312055339
+173.234.44.48 1 1 6963 20170312055338
+50.194.63.23 1 1 6724 20170317200344
+37.204.43.143 3 10 595203 20170317132032
+46.42.170.28 1 10 505345 20170317030533
+95.24.112.107 3 10 595203 20170316105935
+64.120.18.97 1 1 6249 20170312055321
+91.76.237.86 1 10 505316 20170317200732
+128.69.163.58 1 10 505345 20170316150006
+89.42.49.168 1 1 6962 20170312055339
+170.75.155.132 1 1 7724 20170312055337
+37.147.104.239 2 9 576047 20170314201535
+195.211.23.208 1 1 7945 20170315095756
+5.164.206.124 1 10 505345 20170316225158
+173.208.96.240 1 1 7308 20170312055338
+74.91.47.96 1 1 11059 20170312055337
+188.32.183.166 1 10 508753 20170314111537
+37.204.82.187 3 10 594699 20170314105813
+178.140.84.249 3 10 599509 20170314215550
+5.167.115.235 1 10 505345 20170317124234
+192.199.255.28 1 1 9182 20170312055320
+108.62.59.248 1 1 7705 20170312055338
+195.211.23.219 0 1 3854 
+37.204.200.19 3 10 595203 20170316144617
+END_VISITOR
+
+# Date - Pages - Hits - Bandwidth - Visits
+BEGIN_DAY 11
+20170309 150 163 1684131 6
+20170310 492 725 7371143 3
+20170311 640 766 11152385 3
+20170312 396 527 8089873 35
+20170313 232 486 5146190 5
+20170314 586 793 13802142 9
+20170315 780 996 15796616 10
+20170316 166 340 9083695 13
+20170317 410 576 14998352 14
+20170318 72 143 2673001 3
+20170319 252 414 4096664 4
+END_DAY
+
+# Session range - Number of visits
+BEGIN_SESSION 7
+1h+ 19
+5mn-15mn 1
+2mn-5mn 2
+0s-30s 69
+15mn-30mn 6
+30s-2mn 3
+30mn-1h 4
+END_SESSION
+
+# URL - Pages - Bandwidth - Entry - Exit
+# The 10 first Pages must be first (order not required for others)
+BEGIN_SIDER 66
+/admins/members.htm 415 6823439 1 6
+/admins/transactions.htm 369 7961041 1 2
+/members/index.htm 361 7020965 3 5
+/members/transactions.htm 294 5404746 1 3
+/members/deposit.htm 229 2372970 0 0
+/members/withdraw.htm 152 2112305 1 1
+/ 144 954046 31 8
+/members/login.htm 125 947943 10 7
+/members/products.htm 121 1474826 0 0
+/members/escrow.htm 116 1363907 0 0
+/members/bank.htm 1 7169 0 0
+/members/signup.htm 51 893310 1 0
+/agreement.htm 4 52846 1 1
+/contact.htm 27 194147 3 2
+/faq.htm 71 605136 0 0
+/members/donations.htm 33 377869 1 1
+/admins/langs-conf.htm 34 599355 0 0
+/admins/investment.htm 39 513261 0 1
+/admins/html-conf.htm 63 1132939 0 1
+/test.html 1 25 0 0
+/admins/faq_list.htm 46 856562 0 0
+/members/password.htm 25 268140 0 0
+/members/affbanners.htm 35 521198 0 1
+/members/verify.htm 4 43364 0 0
+/admins/login.htm 40 192792 0 0
+/admins/history.htm 12 64458 0 0
+/phpinfo.php 1 92100 0 0
+/policy.htm 39 682705 1 2
+/about.htm 31 239835 1 1
+/turing.htm 5 0 0 0
+/members/payment.htm 33 357430 0 0
+/members/generate.htm 35 431435 0 0
+/process.htm 59 650309 0 0
+/admins/payments.htm 25 323549 0 0
+/members/subscriptions.htm 40 504610 0 0
+/members/card.htm 4 30313 0 0
+/shop.htm 42 323055 22 23
+/members/news.htm 1 655 0 0
+/admins/faq_section.htm 53 917195 0 0
+/members/userinfo.htm 39 353877 0 0
+/admins/payment.htm 66 609027 0 0
+/members/verifemail.htm 1 6661 0 0
+/members/emails.htm 49 497472 0 1
+/index.htm 80 709567 23 16
+/members/request.htm 28 288217 1 0
+/admins/mail-conf.htm 29 502706 0 0
+/fees.htm 38 304206 1 0
+/admins/ 3 83246 0 0
+/members/close.htm 1 7273 0 0
+/members/affdownline.htm 26 237899 0 0
+/admins/shopcategories.htm 11 324479 0 0
+/members/confirm.htm 9 61152 0 0
+/admins/main-conf.htm 113 3931540 1 3
+/theme/admin/bootstrap/css/bootstrap.min.css.map 9 2168776 0 1
+/theme/plugins/font-awesome/fonts/fontawesome-webfont.eot 12 918216 0 12
+/members/profile.htm 45 852912 0 1
+/test.htm 76 360 0 1
+/members/login.htm/admin 1 7945 0 0
+/theme/plugins/font-awesome/fonts/fontawesome-webfont.woff 53 1265768 0 2
+/members/shopcart.htm 3 26689 0 0
+/members/mass.htm 29 320394 0 0
+/theme/plugins/bootstrap/fonts/glyphicons-halflings-regular.eot 9 181143 0 0
+/members/forgot.htm 27 204111 1 1
+/admins/index.htm 99 1831847 0 0
+/members/affdetails.htm 37 408726 0 0
+/members/send.htm 103 1074106 0 1
+END_SIDER

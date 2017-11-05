@@ -1,0 +1,72 @@
+<!-- saved from url=(0022)http://internet.e-mail -->
+<?
+
+###############################################################################
+$data['PageName']='SEND PAYMENT TO ANOTHER ACCOUNT';
+$data['PageFile']='send';
+###############################################################################
+include('../config.htm');
+###############################################################################
+if(!$_SESSION['login']){
+	header("Location:{$data['Host']}/index.htm");
+	echo('ACCESS DENIED.');
+	exit;
+}
+if(is_info_empty($uid)){
+	header("Location:{$data['Host']}/members/profile.htm");
+	echo('ACCESS DENIED.');
+	exit;
+}
+###############################################################################
+$post=select_info($uid, $post);
+$data['Balance']=select_balance($uid);
+###############################################################################
+if($post['send']){
+	if(!$post['receiver']){
+		$data['Error']='Пожалуйста, введите имя пользователя или адрес электронной почты получателя.';
+	}elseif($uid==get_member_id($post['receiver'])){
+		$data['Error']='Вы не можете отправить деньги себе.';
+	}elseif(!is_member_active($post['receiver'])&&is_member_found($post['receiver'], '')){
+		$data['Error']='Вы не можете отправить деньги неактивным или заблокированным участникам.';
+	}elseif(!$post['amount']){
+		$data['Error']='Введите действительную сумму для перевода.';
+	}elseif($post['amount']<$data['PaymentMinSum']){
+		$data['Error']="Сумма не может быть менее {$data['Currency']}{$data['PaymentMinSum']}.";
+	}elseif($post['amount']>$data['Balance']){
+		$data['Error']='У Вас недостаточно средств на счете.';
+	}elseif(get_member_status($uid)<2&&$post['amount']>$data['PaymentMaxSum']){
+		$data['Error']="Вы не можете отправить больше, чем {$data['Currency']}{$data['PaymentMaxSum']}".
+			" за транзакцию, потому что Вы неидентифицированный пользователь.";
+	}else{
+	
+		if(!is_member_found($post['receiver'], '')){
+			unreg_member_pay($uid, $receiver, $post['amount'], $post['comments']);
+			$data['PostSent']=true;
+		}else{
+		$receiver=get_user_id($post['receiver']);
+		$sender=get_user_id($post['sender']);
+		$fees=($post['amount']*$data['PaymentPercent']/100)+$data['PaymentFees'];
+		transaction(
+			$uid,
+			$receiver,
+			$post['amount'],
+			$fees,
+			0,
+			1,
+			$post['comments']
+		);
+		$post['fees']=$fees;
+		$post['email']=get_member_email($receiver);
+		$post['emailadr']=get_member_email($receiver);
+		send_email('SEND-MONEY', $post);
+		$data['Username']=get_member_name($receiver);
+		$data['PostSent']=true;
+		
+			
+		}
+	}
+}
+###############################################################################
+display('members');
+###############################################################################
+?>

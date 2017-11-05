@@ -1,0 +1,185 @@
+<?if(isset($data['ScriptLoaded'])){?><?if(!$post['PostSent']){?>
+<form method=post>
+<div id="wrapper">
+  <section class="bg-primary">
+			<div class="container">
+				<h3 class="color-white font-weight-300">Здравствуйте, <?=prntext($post['fname'])?> <?=prntext($post['lname'])?>!</h3>
+			</div>
+		</section>
+    <section class="profile-nav height-50 border-bottom-1 border-grey-300  hidden-xs">
+			<div class="tab-select sticky">
+				<div class="container">
+					<?showmenu('accv')?>
+				</div>
+			</div>
+		</section>
+     <section class="bg-grey-50">
+      <div class="container">
+				<div class="row">
+          <div class="col-md-3">
+            <div class="panel panel-default margin-bottom-30">
+							<div class="panel-body">
+								<p class="margin-bottom-5 color-black">Ваш остаток на счете</p>
+								<h3 class="text-success no-padding-top"><?=balance($data['Balance'])?> <?=prntext($data['Currency'])?></h3>
+							</div>
+						</div>
+            <a href="request.htm" class="btn btn-block btn-primary btn-outline margin-bottom-30"><i class="fa fa-plus" aria-hidden="true"></i> Выставить новый счет</a>
+            <?showmenu('vert')?>
+          </div>
+          <div class="col-md-9">
+            
+             <?if($data['Error']){?>
+            <div class="alert alert-danger alert-dismissible">
+									<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> 
+									<strong>Ошибка!</strong> <?=prntext($data['Error'])?> 
+								</div>
+            <?}?>
+
+						<div class="panel panel-default margin-bottom-30">
+							<div class="panel-heading color-black">Пополнение счета</div>
+								<div class="panel-body">
+									 <div class="form-group">
+									 	<label for="exampleInputEmail1">Сумма пополнения, <?=prntext($data['Currency'])?></label>
+										<input type="text" class="form-control" name=amount value="<?=prntext($post['amount'])?>" placeholder="50.00">
+										<p class="help-block">Минимальная сумма для пополнения <?=prnsumm($data['DepositMinSum'])?> <?=prntext($data['Currency'])?></p>
+									</div>
+									<div class="form-group">
+                        <?foreach($data['DepositMethod'] as $key=>$value){if($value['actv']){?>
+										    <div class="plan-card-group">
+										      <div class="radio-card" style="flex:0 1 250px">
+										        <input type="radio" class="planes-radio" name="dtype" value="<?=$key?>"<?if($key==$post['dtype']){?> checked<?}?> id="dtype_<?=$key?>"/>
+										        <label for="dtype_<?=$key?>" id="dtype_<?=$key?>">
+										          <span class="card-title"><img src="<?=$data['Host']?>/theme/img/pay/swift.png" alt=""></span>
+										        </label>
+										      </div>
+										    </div>
+                        <?}}?>
+									</div>
+								</div>
+								<div class="panel-footer text-right">
+								<button type="submit" class="btn btn-primary" name=send value="DEPOSIT NOW!">Далее</button>
+							</div>
+						</div>
+
+					</div>
+        </div>
+       </div>
+    </section>
+</div>
+</form>
+
+<?}else{?>
+<?if($post['dtype']=='pincode'){?>
+sss
+
+    <?}elseif($post['dtype']=='echeck'||$post['dtype']=='autorize'||$post['dtype']=='mail'){?>
+    <?if(!$post['ShowCheckInfo']){?>
+<form method=post>
+    <input type=hidden name=dtype value="<?=$post['dtype']?>">
+    <input type=hidden name=fees value="<?=$post['fees']?>">
+    <input type=hidden name=amount value="<?=$post['amount']?>">
+    <input type=hidden name=manual value="true">
+    <?}else{?>
+
+    <?if($post['dtype']=='autorize'){?>
+  
+  <?}else{?>
+    <?}}}?>
+  
+<div id="wrapper">
+  <section class="bg-primary">
+			<div class="container">
+				<h3 class="color-white font-weight-300">Здравствуйте, <?=prntext($post['fname'])?> <?=prntext($post['lname'])?>!</h3>
+			</div>
+		</section>
+    <section class="profile-nav height-50 border-bottom-1 border-grey-300  hidden-xs">
+			<div class="tab-select sticky">
+				<div class="container">
+					<?showmenu('accv')?>
+				</div>
+			</div>
+		</section>
+    <section class="bg-grey-50">
+      <div class="container">
+				<div class="row">
+          <div class="col-md-3">
+            <div class="panel panel-default margin-bottom-30">
+							<div class="panel-body">
+								<p class="margin-bottom-5 color-black">Ваш остаток на счете</p>
+								<h3 class="text-success no-padding-top"><?=balance($data['Balance'])?> <?=prntext($data['Currency'])?></h3>
+							</div>
+						</div>
+            <a href="request.htm" class="btn btn-block btn-primary btn-outline margin-bottom-30"><i class="fa fa-plus" aria-hidden="true"></i> Выставить новый счет</a>
+            <?showmenu('vert')?>
+          </div>
+          <div class="col-md-9">
+            <?if($post['dtype']!='autorize'){?>
+            <div class="panel panel-default margin-bottom-30">
+							<div class="panel-heading color-black">Детали транзакции</div>
+								<div class="panel-body">
+								
+                  <table class="table table-hover">
+													<tbody>
+														<tr>
+															<td class="color-black"><strong>Сумма:</strong></td> 
+															<td><?=prnpays($post['amount']).""?> <?=prntext($data['Currency'])?></td>         
+														</tr>
+														<tr>
+															<td class="color-black"><strong>Комиссия:</td> 
+															<td><?=prnpays(-$post['fees']).""?> <?=prntext($data['Currency'])?></td>         
+														</tr>
+														<tr>
+															<td class="color-black"><strong>Итого к оплате:</strong></td> 
+															<td> <?=prnpays($post['total']).""?> <?=prntext($data['Currency'])?></td>         
+														</tr>
+														
+													</tbody>
+												</table>
+									
+								</div>
+						</div>
+
+        <?if($post['dtype']=='mail'){?>
+        <?if(!$post['ShowCheckInfo']){?>
+
+           <div class="panel panel-default margin-bottom-30">
+							<div class="panel-heading color-black">Выполните банковский перевод по реквизитам</div>
+								<div class="panel-body">
+								
+                  <?=prntext($data['PostMailAddress'])?>
+                  
+								</div>
+                
+             <?}else{?><div class="alert alert-info">
+                        <strong>Ваш запрос принят!</strong> Статус операции "В ожидании". Мы сможем подтвердить пополнение, когда средства поступят на наш счет. Детали Вашего аккаунта - <?=prntext($post['CheckInfo'])?>
+                       </div><?}?>
+        <?}?>
+        <?}?><?if($post['dtype']=='autorize'){?>
+             
+									<?if(!$post['ShowCheckInfo']){?>
+				
+  
+            
+            <?}}?>
+             <?if(!$post['ShowCheckInfo']){?>
+             <div class="panel-footer text-right">
+								<button type="submit" class="btn btn-primary" name=send value="CONTINUE">Продолжить</button>
+							</div>
+						</div>
+            <?}?>
+            
+            
+
+
+</form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+           
+
+</div>
+</section>
+<?}?><?}else{?>SECURITY ALERT: Access Denied<?}?>

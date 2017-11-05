@@ -1,0 +1,148 @@
+<?if(isset($data['ScriptLoaded'])){?>
+<form method="post">
+<!-- wrapper -->
+	<div id="wrapper">	
+    <input type=hidden name=step value="<?=$post['step']?>">
+    <?if($post['step']==1){?>
+		<section class="bg-grey-50">
+			<div class="container">
+				<div class="row">
+
+					<div class="col-md-3">
+
+					</div>
+
+					<div class="col-md-6">
+            <?if($data['Error']){?>
+            <div class="alert alert-danger alert-dismissible">
+									<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> 
+									<strong>Ошибка!</strong> <?=prntext($data['Error'])?> 
+								</div>
+            <?}?>
+            
+						<div class="panel panel-default margin-bottom-30">
+								<div class="panel-body">
+									
+									<h3>Восстановление пароля (шаг 1)</h3>
+						<p></p>
+							<div class="form-group">
+                <label>Введите свой адрес электронной почты, который вы указали при создании учетной записи. Затем мы отправим ваш пароль на указанный адрес электронной почты.</label>
+								<input type="email" name="email" class="form-control" placeholder="Электронная почта" value="<?=prntext($post['email'])?>">
+							</div>
+                  
+              
+							<div class="pull-left margin-top-10">
+								<a href="login.htm">Я вспомнил пароль!</a>
+							</div>
+              <div class="form-group">
+							</div>
+									
+								</div>
+								<div class="panel-footer text-right">
+								<button type="submit" name="send" value="LOGIN NOW!" class="btn btn-primary">Продолжить</button>
+							</div>
+						</div>
+
+						<div class="col-md-3">
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</section>
+    <?}elseif($post['step']==2){?>
+    
+    <section class="bg-grey-50">
+			<div class="container">
+				<div class="row">
+
+					<div class="col-md-3">
+
+					</div>
+
+					<div class="col-md-6">
+            <?if($data['Error']){?>
+            <div class="alert alert-danger alert-dismissible">
+									<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> 
+									<strong>Ошибка!</strong> <?=prntext($data['Error'])?> 
+								</div>
+            <?}?>
+            
+						<div class="panel panel-default margin-bottom-30">
+								<div class="panel-body">
+									
+									<h3>Восстановление пароля (шаг 2)</h3>
+						<p></p>
+							<div class="form-group">
+                <label>Отеветьте на секретный вопрос: <?=prntext($post['question'])?></label>
+								<input type="text" name="answer" class="form-control" placeholder="Ответ" value="<?=prntext($post['answer'])?>">
+							</div>
+                  
+              
+							<div class="pull-left margin-top-10">
+								<a href="login.htm">Я вспомнил пароль!</a>
+							</div>
+              <div class="form-group">
+							</div>
+									
+								</div>
+								<div class="panel-footer text-right">
+								<button type="submit" name="send" value="LOGIN NOW!" class="btn btn-primary">Продолжить</button>
+							</div>
+						</div>
+
+						<div class="col-md-3">
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</section>
+    
+    <?}elseif($post['step']==3){?>
+    
+    <section class="bg-grey-50">
+			<div class="container">
+				<div class="row">
+
+					<div class="col-md-3">
+
+					</div>
+
+					<div class="col-md-6">
+            <?if($data['Error']){?>
+            <div class="alert alert-danger alert-dismissible">
+									<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> 
+									<strong>Ошибка!</strong> <?=prntext($data['Error'])?> 
+								</div>
+            <?}?>
+            
+						<div class="panel panel-default margin-bottom-30">
+								<div class="panel-body">
+									
+									<div class="title outline">
+									<h4><i class="fa fa-check"></i></h4>
+									<p>Благодарим Вас за терпение! Логин и пароль был выслан на вашу электронную почту</p>
+								</div>
+									
+								</div>
+								<div class="panel-footer text-right">
+								<a href="login.htm" class="btn btn-primary">Авторизоваться</a>
+							</div>
+						</div>
+
+						<div class="col-md-3">
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</section>
+    
+	</div>
+</form>
+	<!-- /#wrapper -->
+<?}?><?}else{?>SECURITY ALERT: Access Denied<?}?>

@@ -1,0 +1,296 @@
+<?if(isset($data['ScriptLoaded'])){?>
+<!-- Content Header (Page header) -->
+<?if($post['MemberInfo']){?>
+    <section class="content-header">
+      <h1>
+        Транзакции пользователя
+   <a href="members.htm?id=<?=$post['MemberInfo']['id']?>&action=detail"><?=$post['MemberInfo']['username']?></a>
+      </h1>
+    </section>
+<?}?><?if($post['ViewMode']=='select'){?>
+
+     <!-- Main content -->
+    <section class="content">
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box">
+            <div class="box-header with-border">
+              
+              <ul class="pagination pagination-sm no-margin pull-right">
+                <?if($post['status']<0){?> <li class="active"><a href="#">Все</a></li><?}else{?>
+                <li><a href="transactions.htm?<?if($post['bid']){?>bid=<?=$post['bid']?>&<?}?>type=<?=$post['type']?><?if($post['StartPage']){?>&page=<?=$post['StartPage']?><?}?>&action=select">Все</a></li>
+                <?}?>
+                <?if($post['status']==0){?><li class="active"><a href="#">В ожидании</a></li><?}else{?>
+                <li><a href="transactions.htm?<?if($post['bid']){?>bid=<?=$post['bid']?>&<?}?>type=<?=$post['type']?>&status=0&action=select">В ожидании</a></li>
+                <?}?>
+                 <?if($post['status']==1){?><li class="active"><a href="#">Выполнено</a></li><?}else{?>
+                <li><a href="transactions.htm?<?if($post['bid']){?>bid=<?=$post['bid']?>&<?}?>type=<?=$post['type']?>&status=1&action=select">Выполнено</a></li>
+                <?}?>
+                <?if($post['status']==2){?><li class="active"><a href="#">Закрыто</a></li><?}else{?>
+                <li><a href="transactions.htm?<?if($post['bid']){?>bid=<?=$post['bid']?>&<?}?>type=<?=$post['type']?>&status=2&action=select">Закрыто</a></li>
+                <?}?>
+                <?if($post['status']==3){?><li class="active"><a href="#">Возвращено</a></li><?}else{?>
+                <li><a href="transactions.htm?<?if($post['bid']){?>bid=<?=$post['bid']?>&<?}?>type=<?=$post['type']?>&status=3&action=select">Возвращено</a></li>
+                <?}?>
+              </ul>
+            </div>
+            
+            <!-- /.box-header -->
+            <div class="box-body table-responsive">
+              <table class="table table-bordered table-hover">
+                <tbody><tr>
+                  <th>Дата</th>
+                  <?if($post['type']<0){?>
+                  <th>Тип</th>
+                  <?}?><?if($post['status']<0){?>
+                  <th>Статус</th>
+                  <?}?>
+                  <th>Отправитель</th>
+                  <th>Получатель</th>
+                  <th>Сумма</th>
+                  <th>Комиссия</th>
+                  <th>Итог</th>
+                  <th>Действия</th>
+                </tr>
+                  <?if($data['TransactionsList']){?><?foreach($data['TransactionsList'] as $key=>$value){$bgcolor=$key%2?'':''?>
+                <tr>
+                  <td><?=prndate($value['tdate'])?></td>
+                   <?if($post['type']<0){?>
+                  <td><?=$value['type']?></td>
+                  <?}?><?if($post['status']<0){?>
+                  <td><?=$value['status']?></td>
+                  <?}?>
+                  <td><?if($value['sender']<0){?><?=$value['senduser']?><?}else{?><a href="members.htm?<?if($post['bid']){?>bid=<?=$post['bid']?>&<?}?>id=<?=$value['sender']?>&action=detail"><?=$value['senduser']?></a><?}?></td>
+                  <td><?if($value['receiver']<0){?><?=$value['recvuser']?><?}else{?><a href="members.htm?<?if($post['bid']){?>bid=<?=$post['bid']?>&<?}?>id=<?=$value['receiver']?>&action=detail"><?=$value['recvuser']?></a><?}?></td>
+                  <td><?=$value['amount']?></td>
+                  <td><?=$value['fees']?></td>
+                  <td><?=$value['nets']?></td>
+                  <td><a href="transactions.htm?<?if($post['bid']){?>bid=<?=$post['bid']?>&<?}?>id=<?=$value['id']?><?if($post['StartPage']){?>&page=<?=$post['StartPage']?><?}?>&type=<?=$post['type']?>&status=<?=$post['status']?>&action=details" class="btn btn-primary btn-xs" data-toggle="tooltip" title="Смотреть"><i class="fa fa-eye"></i></a><?if($value['ostatus']==0){?> <a href="transactions.htm?<?if($post['bid']){?>bid=<?=$post['bid']?>&<?}?>id=<?=$value['id']?><?if($post['StartPage']){?>&page=<?=$post['StartPage']?><?}?>&type=<?=$post['type']?>&status=<?=$post['status']?>&action=details" class="btn btn-success btn-xs" data-toggle="tooltip" title="Подтвердить"><i class="fa fa-check"></i></a> <?}?><?if($value['ostatus']==0||$value['ostatus']==1){?> <a href="transactions.htm?<?if($post['bid']){?>bid=<?=$post['bid']?>&<?}?>id=<?=$value['id']?><?if($post['StartPage']){?>&page=<?=$post['StartPage']?><?}?>&action=cancel" class="btn btn-danger btn-xs"><i class="fa fa-close" data-toggle="tooltip" title="Закрыть"></i></a><?}?></td>
+                </tr>
+               <?}?>
+                  </tbody></table>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix pull-right">
+              <?if($data['Pages']){?>
+                <?$count=count($data['Pages']);for($i=0; $i<$count; $i++){?><?if($data['Pages'][$i]==$post['StartPage']){?><?=$i+1?><?}else{?><a href="transactions.htm?<?if($post['bid']){?>bid=<?=$post['bid']?>&<?}?>page=<?=$data['Pages'][$i]?>&type=<?=$post['type']?>&status=<?=$post['status']?>&action=select"><?=$i+1?></a><?}?><?if($i<$count-1)echo("|");}?>
+      <?}?>
+            </div>
+          </div>
+          <!-- /.box -->
+        </div>
+      </div>
+
+    </section>
+<?}?>
+    <!-- /.content -->
+  <?}elseif($post['ViewMode']=='details'){?>
+  <!-- Main content -->
+
+    <section class="content">
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box">
+            <div class="box-header with-border">
+               <h3 class="box-title">Детали транзакции</h3>
+            </div>
+            
+            <!-- /.box-header -->
+            <div class="box-body">
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <tr>
+                    <th style="width:50%">Дата:</th>
+                    <td><?=$post['TransactionDetails']['tdate']?></td>
+                  </tr>
+                  <tr>
+                    <th>Тип</th>
+                    <td><?=$post['TransactionDetails']['type']?></td>
+                  </tr>
+                  <tr>
+                    <th>Статус</th>
+                    <td><?=$post['TransactionDetails']['status']?></td>
+                  </tr>
+                  <tr>
+                    <th>Детали</th>
+                    <td><?=$post['TransactionDetails']['ecomments']?></td>
+                  </tr>
+                  <tr>
+                    <th>Логин:</th>
+                    <td><?if($post['TransactionDetails']['userid']<0){?><?=$post['TransactionDetails']['username']?><?}else{?><?=$post['TransactionDetails']['username']?><?}?></td>
+                  </tr>
+                  <tr>
+                    <th>Комментарий:</th>
+                    <td><?=$post['TransactionDetails']['comments']?></td>
+                  </tr>
+                  <tr>
+                    <th>Сумма:</th>
+                    <td><?=$post['TransactionDetails']['amount']?></td>
+                  </tr>
+                  <tr>
+                    <th>Комиссия:</th>
+                    <td><?=prnpays($post['TransactionDetails']['fees'])?></td>
+                  </tr>
+                  <tr>
+                    <th><strong>Итого:</strong></th>
+                    <td><?=$post['TransactionDetails']['nets']?></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <a href="transactions.htm?<?if($post['bid']){?>bid=<?=$post['bid']?>&<?}?><?if($post['StartPage']){?>page=<?=$post['StartPage']?><?}?>&type=<?=$post['type']?>&status=<?=$post['status']?>&action=select" class="btn btn-primary pull-left">Назад</a>
+              <?if($post['TransactionDetails']['ostatus']==0){?>
+                <a href="transactions.htm?<?if($post['bid']){?>bid=<?=$post['bid']?>&<?}?>id=<?=$post['TransactionDetails']['id']?><?if($post['StartPage']){?>&page=<?=$post['StartPage']?><?}?>&action=confirm" onclick="return cfmform()" class="btn btn-success pull-right">Подтвердить</a><?}?> <?if($post['TransactionDetails']['ostatus']==0||$post['TransactionDetails']['ostatus']==1){?>    <a href="transactions.htm?<?if($post['bid']){?>bid=<?=$post['bid']?>&<?}?>id=<?=$post['TransactionDetails']['id']?><?if($post['StartPage']){?>&page=<?=$post['StartPage']?><?}?>&action=cancel" onclick="return cfmform()" class="btn btn-danger pull-right">Отменить</a>&nbsp;<?}?>
+              </div>
+           
+          </div>
+          <!-- /.box -->
+        </div>
+      </div>
+
+    </section>
+    <!-- /.content -->
+   <?}elseif($post['ViewMode']=='summary'){?>
+<form method=post>
+  <input type=hidden name=action value="summary">
+   <section class="content-header">
+      <h1>
+        Сводный отчет
+      </h1>
+    </section>
+<!-- Main content -->
+    <section class="content">
+
+      <div class="row">
+        <?if($post['day']>0&&$post['month']>0){?>
+        <div class="col-md-12">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Сводная статистика за <?=$post['day']?> <?=$data['StatMonth'][$post['month']]?> <?=$post['year']?></h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive">
+              <table class="table table-bordered table-hover">
+                <tbody>
+                  <tr>
+                    <?foreach($data['TransactionType'] as $value){?>
+                    <th class="text-center" colspan="2"><?=strtoupper($value)?></th>
+                    <?}?>
+                 </tr>
+                <tr>
+                  <?foreach($data['TransactionType'] as $value){?>
+                  <td class="text-center text-primary"><small>Сумма</small></td>
+                  <td class="text-center text-primary"><small>Сбор</small></td>
+                  <?}?>
+                </tr>
+                  <tr>
+                  <?foreach($post['Daily'] as $value){?>
+                  <td><?=$value['Summ']?></td>
+                  <td><?=$value['Fees']?></td>
+                  <?}?>
+                </tr>
+                
+              </tbody></table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        
+        
+         <?}?><?if($post['month']>0){?>
+        <div class="col-md-12">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Сводная статистика за <?=$data['StatMonth'][$post['month']]?> <?=$post['year']?></h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive">
+              <table class="table table-bordered table-hover">
+                <tbody>
+                  <tr>
+                    <?foreach($data['TransactionType'] as $value){?>
+                    <th class="text-center" colspan="2"><?=strtoupper($value)?></th>
+                    <?}?>
+                 </tr>
+                <tr>
+                  <?foreach($data['TransactionType'] as $value){?>
+                  <td class="text-center text-primary"><small>Сумма</small></td>
+                  <td class="text-center text-primary"><small>Сбор</small></td>
+                  <?}?>
+                </tr>
+                  <tr>
+                  <?foreach($post['Monthly'] as $value){?>
+                  <td><?=$value['Summ']?></td>
+                  <td><?=$value['Fees']?></td>
+                  <?}?>
+                </tr>
+                
+              </tbody></table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        
+        <?}?>
+        <div class="col-md-12">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Сводная статистика за <?=$post['year']?></h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive">
+              <table class="table table-bordered table-hover">
+                <tbody>
+                  <tr>
+                    <?foreach($data['TransactionType'] as $value){?>
+                    <th class="text-center" colspan="2"><?=strtoupper($value)?></th>
+                    <?}?>
+                 </tr>
+                <tr>
+                  <?foreach($data['TransactionType'] as $value){?>
+                  <td class="text-center text-primary"><small>Сумма</small></td>
+                  <td class="text-center text-primary"><small>Сбор</small></td>
+                  <?}?>
+                </tr>
+                  <tr>
+                 <?foreach($post['Yearly'] as $value){?>
+                  <td><?=$value['Summ']?></td>
+                  <td><?=$value['Fees']?></td>
+                  <?}?>
+                </tr>
+                
+              </tbody></table>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix">
+              <div class="row">
+                <div class="col-md-4">
+                  <select name=day onchange="submit()" class="form-control"><?=showselect($data['StatDays'], $post['day'])?></select>
+                </div>
+                  <div class="col-md-4">
+                    <select class="form-control" name=month onchange="submit()"><?=showselect($data['StatMonth'], $post['month'])?></select>
+                </div>
+                <div class="col-md-4">
+                    <select class="form-control" name=year onchange="submit()"><?=showselect($data['StatYear'], $post['year'])?></select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /.box -->
+        </div>
+      </div>
+
+    </section>
+    <!-- /.content -->
+</form>
+   <?}?>
+</center>
+
+
+<?}else{?>SECURITY ALERT: Access Denied<?}?>

@@ -1,0 +1,272 @@
+<!-- wrapper -->
+ <form method=post>
+ <input type=hidden name=step value="<?=$post['step']?>">
+ <?if($post['step']==1){?>
+	<div id="wrapper">	
+
+		<section class="bg-grey-50">
+			<div class="container">
+				<div class="row">
+
+					<div class="col-md-3">
+
+					</div>
+
+					<div class="col-md-6">
+            
+            <?if($data['Error']){?>
+            <div class="alert alert-danger alert-dismissible">
+									<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> 
+									<strong>Ошибка!</strong> <?=prntext($data['Error'])?> 
+								</div>
+            <?}?>
+
+						<div class="panel panel-default margin-bottom-30">
+							<div class="panel-heading color-black">Вы совершаете перевод другому пользователю</div>
+								<div class="panel-body">
+                  <?if($post['status']==0){?>
+                    <div class="alert alert-danger">
+									  Вы совершаете перевод <strong>анонимному пользователю</strong> с логином <?=prntext($post['member'])?>. Воспользуйтесь протекцией, если не уверены в получателе!
+									</div>
+                  <?}elseif($post['status']==1){?>
+                  <div class="alert alert-success">
+									  Вы совершаете перевод <strong>идентифицированному пользователю</strong> с логином <?=prntext($post['member'])?>, а значит ему можно доверять!
+									</div>
+                  <?}else{?>
+                    <div class="alert alert-info">
+									  Вы совершаете перевод <strong>профессиональному пользователю</strong> с логином <?=prntext($post['member'])?>. Пользователь прошел расширенную проверку, а значит ему можно доверять!
+									</div>
+                  <?}?>
+									<div class="panel panel-default margin-bottom-20">
+										<div class="panel-heading" id="headingTwo">
+											<a href="#collapseTwo" class="collapsed" data-toggle="collapse" data-parent="#accordion">
+												Детальная информация о переводе <span class="pull-right"><i class="fa fa-chevron-down" aria-hidden="true"></i></span>
+											</a>
+
+										</div>
+										<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel">
+											<div class="panel-body">
+												<table class="table table-hover">
+													<tbody>
+														<tr>
+															<td class="color-black"><strong><?if($post['action']!='donation'){?>Название:<?}else{?>Назначение<?}?></strong></td> 
+															<td><?=prntext($post['product'])?></td>         
+														</tr>
+                            <tr>
+															<td class="color-black"><strong><?if($post['action']!='donation'){?>Стоимость:<?}else{?>Сумма:<?}?></strong></td> 
+															<td><?if($post['action']!='donation'){?><?=prnsumm($post['price'])?> <?=prntext($data['Currency'])?><?}else{?><input type=text class="form-contral" name=price value="<?=prnsumm($post['price'])?>"><?}?></td>         
+														</tr>
+                            <?if($post['action']!='donation'){?>
+                             <?if($post['quantity']>0){?>
+														<tr>
+															<td class="color-black"><strong>Количество:</td> 
+															<td>1</td>         
+														</tr>
+                            <?}?>
+                            <?if($post['setup']>0){?>
+                            <tr>
+															<td class="color-black"><strong>Сервсиный сбор:</strong></td> 
+															<td><?=prnsumm($post['setup'])?> <?=prntext($data['Currency'])?></td>         
+														</tr>
+                            <?}?>
+                            <?if($post['tax']>0){?>
+														<tr>
+															<td class="color-black"><strong>Налог:</strong></td> 
+															<td><?=prnsumm($post['tax'])?> <?=prntext($data['Currency'])?></td>         
+														</tr>
+                            <?}?>
+                             <?if($post['shipping']>0){?>
+														<tr>
+															<td class="color-black"><strong>Доставка:</strong></td> 
+															<td><?=prnsumm($post['shipping'])?> <?=prntext($data['Currency'])?></td>         
+														</tr>
+                            <?}?>
+                            <?if($post['period']>0){?>
+														<tr>
+															<td class="color-black"><strong>Период:</strong></td> 
+															<td><?=prnintg($post['trial'])?> дней</td>         
+														</tr>
+                            <?}?>
+                            <?if($post['trial']>0){?>
+														<tr>
+															<td class="color-black"><strong>Пробный период:</strong></td> 
+															<td><?=prnintg($post['period'])?> дней</td>         
+														</tr>
+                            <?}?>
+                            <?if($post['comments']){?>
+														<tr>
+															<td class="color-black"><strong>Описание:</strong></td> 
+															<td><?=prntext($post['comments'])?></td>         
+														</tr>
+                            <?}?>
+                            <?}?>
+														<tr>
+															<td class="color-black"><strong>Итого:</strong></td> 
+															<td class="text-success h4"><strong><?=prnsumm($post['total'])?> <?=prntext($data['Currency'])?></strong></td>         
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									  </div>
+									<ul class="nav nav-tabs">
+										<li class="active"><a href="#tab1" data-toggle="tab">Оплата из кошелька</a></li>
+										<li><a href="#tab2" data-toggle="tab">Другие способы</a></li>
+										<li><a href="#tab3" data-toggle="tab">Безопасная сделка</a></li>
+									</ul>
+
+									<div class="tab-content">
+										<div class="tab-pane fade in active" id="tab1">
+											<div class="form-group">
+											 	<label for="exampleInputEmail1">Ваш логин</label>
+												<input type="text" class="form-control" name=username value="<?=$post['username']?>">
+											</div>
+											<div class="form-group">
+											 	<label for="exampleInputEmail1">Пароль</label>
+												<input type="password" class="form-control" name=password value="<?=$post['password']?>">
+											</div>
+                      <div class="form-group text-right">
+											 	<label for="exampleInputEmail1"></label>
+												<button type="submit" class="btn btn-primary" name=send value="CONTINUE">Продолжить</button>
+											</div>
+										</div>
+										<div class="tab-pane fade" id="tab2">
+											<div class="form-group">
+										    
+									</div>
+										</div>
+										<div class="tab-pane fade" id="tab3">
+											<div class="row">
+												<div class="col-md-3">
+													<img src="<?=$data['Host']?>/theme/img/icon/shield.png" class="img-responsive">
+												</div>
+												<div class="col-md-9">
+													Выбирете этот метод оплаты, если сомневаетесь в репутации продавца. Получатель перевода не сможет вывести деньги из системы до тех пор, пока Вы не получите заявленный товар или услугу. Протекция доступна для зарегистрированных пользователей.
+                          <div class="form-group text-right">
+											 	<label for="exampleInputEmail1"></label>
+												<a href="members/escrow.htm" class="btn btn-primary">Продолжить</a>
+											</div>
+												</div>
+                        
+											</div>
+										</div>				
+									</div>
+								</div>
+						</div>
+
+						<div class="col-md-3">
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	<!-- /#wrapper -->
+
+   
+   <?}elseif($post['step']==2){?>
+   
+   
+   <!-- wrapper -->
+	<div id="wrapper">	
+
+		<section class="bg-grey-50">
+			<div class="container">
+				<div class="row">
+
+					<div class="col-md-3">
+
+					</div>
+
+					<div class="col-md-6">
+
+						<div class="panel panel-default margin-bottom-30">
+							<div class="panel-heading color-black">Подтверждение перевода</div>
+								<div class="panel-body">
+                  
+                  <table class="table table-hover">
+													<tbody>
+														<tr>
+															<td class="color-black"><strong>Получатель платежа:</strong></td> 
+															<td><?=prntext($post['member'])?></td>         
+														</tr>
+														<tr>
+															<td class="color-black"><strong>Назначение:</td> 
+															<td><?=prntext($post['product'])?></td>         
+														</tr>
+														<tr>
+															<td class="color-black"><strong>Комментарий:</strong></td> 
+															<td><textarea class="form-control" name=notes cols=30 rows=5><?=prntext($post['notes'])?></textarea></td>         
+														</tr>
+														<tr>
+															<td class="color-black"><strong>Итого:</strong></td> 
+															<td class="text-success h4"><strong><?=prnsumm($post['total'])?> <?=prntext($data['Currency'])?></strong></td>         
+														</tr>
+													</tbody>
+												</table>
+									
+								</div>
+								<div class="panel-footer text-right">
+								<button type="submit" name=send value="CHECKOUT" class="btn btn-primary">Подтвердить</button>
+							</div>
+						</div>
+
+						<div class="col-md-3">
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	<!-- /#wrapper -->
+   
+
+   
+   <?}elseif($post['step']==3){?>
+   
+   <!-- wrapper -->
+	<div id="wrapper">	
+
+		<section class="bg-grey-50">
+			<div class="container">
+				<div class="row">
+
+					<div class="col-md-3">
+
+					</div>
+
+					<div class="col-md-6">
+
+						<div class="panel panel-default margin-bottom-30">
+								<div class="panel-body">
+                  
+                  <div class="title outline">
+									<h4><i class="fa fa-check"></i> Перевод выполнен</h4>
+									<p>Продавец получит уведомление о Вашем переводе. Благодарим Вас за использование нашей системы!</p>
+								</div>
+									
+								</div>
+								<div class="panel-footer text-right">
+								<a herf="<?=$data['Host']?>" class="btn btn-primary">На главную</a>
+							</div>
+						</div>
+
+						<div class="col-md-3">
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	<!-- /#wrapper -->
+   
+   <?}?>
+   
+</form>
+   

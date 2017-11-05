@@ -1,0 +1,20 @@
+<?
+
+###############################################################################
+include('../config.htm');
+###############################################################################
+if(!$_SESSION['login']){
+	header("Location:{$data['Host']}/index.htm");
+	echo('ACCESS DENIED.');
+	exit;
+}
+###############################################################################
+set_last_access_date($_SESSION['uid'], true);
+unset($_SESSION['login']);
+unset($_SESSION['uid']);
+session_destroy();
+header("Location:{$data['Host']}");
+echo('ACCESS DENIED.');
+exit;
+###############################################################################
+?>

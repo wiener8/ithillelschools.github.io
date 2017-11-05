@@ -1,0 +1,31 @@
+<?
+
+###############################################################################
+$data['PageName']='SEND MESSAGE TO ALL MEMBERS';
+$data['PageFile']='mass-mail';
+###############################################################################
+include('../config.htm');
+###############################################################################
+if(!$_SESSION['adm_login']){
+	header("Location:{$data['Admins']}/login.htm");
+	echo('ACCESS DENIED.');
+	exit;
+}
+###############################################################################
+if($post['send']){
+	if(!$post['subject']){
+		$data['Error']='Please enter subject text for your message.';
+	}elseif(!$post['message']){
+		$data['Error']='Please enter your message.';
+	}else{
+		#send_mass_email($post['subject'], $post['message'], $post['rtype']);
+		#$data['Error']='This feature does not work in the test mode.';
+		$data['PostSent']=true;
+	}
+}
+###############################################################################
+$data['SystemBalance']=select_balance(-1);
+###############################################################################
+display('admins');
+###############################################################################
+?>

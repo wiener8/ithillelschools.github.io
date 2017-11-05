@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- META -->
+	<meta charset="<?=prntext($data['SiteCharset'])?>">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="description" content="<?=prntext($data['SiteDescription'])?>">
+	<meta name="keywords" content="<?=prntext($data['SiteKeywords'])?>">
+  <meta name="license_key" content="GDHDY-W3722-13838-EUWJF">
+
+	<title><?=prntext($data['SiteTitle'])?></title>
+	
+	<!-- FAVICON -->
+	<link rel="shortcut icon" href="<?=$data['Host']?>/theme/img/favicon.ico">
+	
+	<!-- CORE CSS -->
+	<link href="<?=$data['Host']?>/theme/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="<?=$data['Host']?>/theme/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700' rel='stylesheet' type='text/css'> 
+    
+	<!-- PLUGINS -->
+	<link href="<?=$data['Host']?>/theme/plugins/animate/animate.min.css" rel="stylesheet">
+
+	<!-- THEME CSS -->
+	<link href="<?=$data['Host']?>/theme/css/theme.css" rel="stylesheet">
+	<link href="<?=$data['Host']?>/theme/css/custom.css" rel="stylesheet">
+  
+  <!-- LOCK CONTENT -->
+  <script type=text/javascript>function s(){window.status="<?=prntext($data['SiteTitle'])?>";return true};if(document.layers)document.captureEvents(Event.MOUSEOVER|Event.MOUSEOUT|Event.CLICK|Event.DBLCLICK);document.onmouseover=s;document.onmouseout=s;</script>
+</head>
+
+<body class="fixed-header">
+	<header>
+		<div class="container">
+			<span class="bar hide"></span>
+			<a href="<?=$data['Host']?>" class="logo"><img src="<?=$data['Host']?>/theme/img/ui-logo.png" alt=""></a>
+      <!-- Main menu -->
+			<?showmenu('horz')?>
+      <!-- Main menu -->
+			<div class="nav-right">
+        <!-- Non login -->
+        <?if(!$_SESSION['login']){?>
+        <div class="nav-profile dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="<?=$data['Host']?>/theme/img/user/user.png" alt=""> <span>Личный кабинет</span></a>
+					<ul class="dropdown-menu">
+						<li><a href="<?=$data['Members']?>/login.htm"><i class="fa fa-user"></i> Вход</a></li>
+						<li><a href="<?=$data['Members']?>/signup.htm"><i class="fa fa-user-plus"></i> Регистрация</a></li>
+					</ul>
+				</div>
+        <!-- Non login -->
+        <!-- Eys login -->
+				<?}else{?><?showmenu('acch')?>
+        <!-- Eys login -->
+       <?}?>
+			</div>
+		</div>
+	</header>
+	<!-- /header -->

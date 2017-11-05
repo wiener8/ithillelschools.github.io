@@ -1,0 +1,42 @@
+<?
+
+###############################################################################
+$data['PageName']='SHOP';
+$data['PageFile']='shop';
+###############################################################################
+include('config.htm');
+###############################################################################
+$data['IsLogin']=true;
+$data['IsSignup']=true;
+###############################################################################
+if(!$post['action'])$post['action']='view';
+$where_pred = " parentid=0 ";
+$data['RootCategoriesList']=get_shop_categories_list_where_pred($where_pred);
+###############################################################################
+if ($post['action']=='add' && is_numeric($post["cid"]) && $post["cid"] > 0 && !empty($post['shopname']) && !empty($post['shopurl'])) {
+  if(!$_SESSION['login'])header("Location:{$data['Members']}/login.htm");
+  insert_shop_item($post['cid'], $post['shopname'], $post['shopurl'], $post['shopdescription']);
+  $post['action'] = 'view';
+}
+###############################################################################
+if ($post['action']=='search' && $post['keyword']) {
+  $data['PageName']='SEARCH';
+  $where_pred = " UPPER(`name`) LIKE '%" . strtoupper(addslashes($post['keyword'])) . "%' OR UPPER(`description`) LIKE '%".strtoupper(addslashes($post['keyword']))."%' ";
+	$data['CategoriesList']=get_shop_categories_list_where_pred($where_pred);
+  $where_pred = " UPPER(`name`) LIKE '%" . strtoupper(addslashes($post['keyword'])) . "%' OR UPPER(`url`) LIKE '%" . strtoupper(addslashes($post['keyword'])) . "%' OR UPPER(`description`) LIKE '%".strtoupper(addslashes($post['keyword']))."%' ";
+	$data['ItemsList']=get_shop_items_list_where_pred($where_pred);
+} elseif ($post['action']=='search') $post['action']='view';
+###############################################################################
+if ($post['action']=='view') {
+  if (!$post["cid"]) $post["cid"] = get_first_root_category_id();
+	$data['CategoriesList']=get_shop_categories_list($post["cid"]);
+  $data['ItemsCount']=get_shop_items_count($post["cid"]);
+	for($i=0; $i<$data['ItemsCount']; $i+=$data['MaxRowsByPage'])$data['Pages'][]=$i;
+	$data['ItemsList']=get_shop_items_list($post["cid"]);
+}
+###############################################################################
+$data['SystemBalance']=select_balance(-1);
+###############################################################################
+display();
+###############################################################################
+?>

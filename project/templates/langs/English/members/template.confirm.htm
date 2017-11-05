@@ -1,0 +1,91 @@
+<?if(isset($data['ScriptLoaded'])){?><?if(!$data['PostSent']){?>
+<form method=post>
+	<!-- wrapper -->
+	<div id="wrapper">	
+
+		<section class="bg-grey-50">
+			<div class="container">
+				<div class="row">
+
+					<div class="col-md-3">
+
+					</div>
+
+					<div class="col-md-6">
+            
+            <?if($data['Error']){?>
+            <div class="alert alert-danger alert-dismissible">
+									<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> 
+									<strong>Ошибка!</strong> <?=prntext($data['Error'])?> 
+								</div>
+            <?}?>
+
+						<div class="panel panel-default margin-bottom-30">
+								<div class="panel-body">
+									
+									<h3>Подтверждение почты</h3>
+                  <p></p>
+							<div class="form-group">
+                <label>Введите код подтверждения, который был выслан на Вашу электронную почту</label>
+								<input type="text" class="form-control" placeholder="Код подтверждения" name=cid value="<?=prntext($post['cid'])?>">
+							</div>
+									
+								</div>
+								<div class="panel-footer text-right">
+								<button type="submit" name=confirm value="CONTINUE REGISTRATION!" class="btn btn-primary">Продолжить</button>
+							</div>
+						</div>
+
+						<div class="col-md-3">
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	<!-- /#wrapper -->
+  <?}else{?>
+  
+  <!-- wrapper -->
+	<div id="wrapper">	
+
+		<section class="bg-grey-50">
+			<div class="container">
+				<div class="row">
+
+					<div class="col-md-2">
+
+					</div>
+
+					<div class="col-md-8">
+
+						<div class="panel panel-default margin-bottom-30">
+								<div class="panel-body">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="title outline">
+                          <h4><i class="fa fa-check"></i></h4>
+                          <p>Электронная почта подтверждена. теперь Вы можете авторизоваться в Личном кабинете.</p>
+                        </div>
+											</div>
+										</div>
+								</div>
+								<div class="panel-footer text-right">
+								<a href="login.htm" class="btn btn-primary">Продолжить</a>
+							</div>
+						</div>
+
+						<div class="col-md-2">
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	<!-- /#wrapper -->
+  
+  <?}?><?}else{?>SECURITY ALERT: Access Denied<?}?>

@@ -1,0 +1,83 @@
+<?
+
+###############################################################################
+$data['PageName']='SIGN UP FOR YOUR FREE ACCOUNT TODAY';
+$data['PageFile']='signup';
+###############################################################################
+include('../config.htm');
+###############################################################################
+if($post['action']=='go')optimize('common');
+if($post['send']){
+	if(!$post['newuser']){
+		$data['Error']='Ваше имя пользователя не может быть пустым.';
+	}elseif(verify_username($post['newuser'])){
+		$data['Error']='Для имени пользователя Вы можете использовать только следующие символы [A..Z, a..z, 0..9].';
+	}elseif(!$post['newpass']){
+		$data['Error']='Ваш пароль не может быть пустым.';
+	}elseif(strlen($post['newpass'])<$data['PassLen']){
+		$data['Error']="Ваш пароль должен содержать не менее {$data['PassLen']} симолов.";
+	}elseif($post['newpass']!=$post['cfmpass']){
+		$data['Error']='Ваш новый пароль и подтверждение пароля должны совпадать.';
+	}elseif($post['newuser']==$post['newpass']){
+		$data['Error']='Ваш пароль не может совпадать с Вашим именем пользователя.';
+	}elseif(!$post['newques']){
+		$data['Error']='Пожалуйста, введите действующий контрольный вопрос.';
+	}elseif(!$post['newansw']){
+		$data['Error']='Пожалуйста, введите действующий ответ на контрольный вопрос.';
+	}elseif(!$post['newmail']||verify_email($post['newmail'])){
+		$data['Error']='Укажите Ваш действующий адрес электронной почты.';
+   }elseif($data['UseExtRegForm']&&!$post['newfname']){
+		$data['Error']='Пожалуйста, введите Ваше имя.';
+   }elseif($data['UseExtRegForm']&&!$post['newlname']){
+		$data['Error']='Пожалуйста, введите Вашу фамилию.';
+   }elseif($data['UseExtRegForm']&&!$post['newaddress']){
+		$data['Error']='Пожалуйста, введите свой адрес.';
+   }elseif($data['UseExtRegForm']&&!$post['newcity']){
+		$data['Error']='Пожалуйста, введите свой город.';
+   }elseif($data['UseExtRegForm']&&!$post['newcountry']){
+		$data['Error']='Укажите свою страну.';
+   }elseif($data['UseExtRegForm']&&!$post['newzip']){
+      $data['Error']='Укажите свой почтовый индекс.';
+   }elseif($data['UseExtRegForm']&&!$post['newphone']){
+      $data['Error']='Введите свой номер телефона.';
+	}elseif($data['UseTuringNumber']&&
+		(!$post['turing']||strtoupper($post['turing'])!=$_SESSION['turing'])
+	){
+		$data['Error']='Пожалуйста, введите верно введите капчу.';
+	}elseif($post['terms']!='on'){
+		$data['Error']='Пожалуйста, прочитайте Пользовательское соглашение, прежде чем зарегистрироваться.';
+	}elseif(!is_user_available($post['newuser'])){
+		$data['Error']='Извините, но это имя пользователя уже занято.';
+	}elseif(!is_mail_available($post['newmail'])){
+		$data['Error']='Извините, но этот адрес электронной почты уже используется.';
+	}else{
+		create_confirmation(
+			$post['newuser'],
+			$post['newpass'],
+			$post['newques'],
+			$post['newansw'],
+			$post['newmail'],
+			$post['newfname'],
+			$post['newlname'],
+			$post['newcompany'],
+			$post['newregnum'],
+			$post['newdrvnum'],
+			$post['newaddress'],
+			$post['newcity'],
+			$post['newcountry'],
+			$post['newstate'],
+			$post['newzip'],
+			$post['newphone'],
+			$post['newfax'],
+			get_member_id($_SESSION['sponsor'])
+		);
+		unset($_SESSION['turing']);
+		$data['PostSent']=true;
+	}
+}else{
+	if($data['UseTuringNumber'])$_SESSION['turing']=gencode();
+}
+###############################################################################
+display('members');
+###############################################################################
+?>

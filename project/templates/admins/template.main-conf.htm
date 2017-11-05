@@ -1,0 +1,336 @@
+<?if(isset($data['ScriptLoaded'])){?>
+<form method=post>
+<!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Настройки
+      </h1>
+    </section>
+
+ <!-- Main content -->
+    <section class="content">
+
+      <div class="row">
+        
+        <div class="col-md-12">
+           <?if($data['Message']){?>
+           <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+               <?=$data['Message']?>
+              </div>
+          <?}?>
+         <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#tab_1" data-toggle="tab">Глобальные параметры</a></li>
+              <li><a href="#tab_2" data-toggle="tab">Конфигурация</a></li>
+              <li><a href="#tab_3" data-toggle="tab">Внутренние переводы</a></li>
+              <li><a href="#tab_4" data-toggle="tab">Пополнения</a></li>
+              <li><a href="#tab_5" data-toggle="tab">Вывод средств</a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane active" id="tab_1">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                       <label for="exampleInputEmail1">Название сайта</label>
+                       <input type="text" class="form-control" name=n_site_name value="<?=$data['SiteName']?>">
+                    </div>
+                    
+                     <div class="form-group">
+                       <label for="exampleInputEmail1">Кодировка сайта</label>
+                       <input type="text" class="form-control" name=n_site_charset value="<?=$data['SiteCharset']?>">
+                    </div>
+                    
+                    <div class="form-group">
+                       <label for="exampleInputEmail1">META KEYWORDS</label>
+                       <textarea class="form-control" name=n_site_keywords rows="3"><?=$data['SiteKeywords']?></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                       <label for="exampleInputEmail1">Email администратора</label>
+                       <input type="text" class="form-control" name=n_admin_email value="<?=$data['AdminEmail']?>">
+                    </div>
+                    
+                    <div class="form-group">
+                       <label for="exampleInputEmail1">Пароль администратора</label>
+                       <input type="text" class="form-control" name=n_admin_password value="<?=$data['AdminPassword']?>">
+                    </div>
+                  </div>
+                  
+                   <div class="col-md-6">
+                    <div class="form-group">
+                       <label for="exampleInputEmail1">META TITLE сайта</label>
+                       <input type="text" class="form-control" name=n_site_title value="<?=$data['SiteTitle']?>">
+                    </div>
+                     <div class="form-group">
+                       <label for="exampleInputEmail1">Копирайт</label>
+                       <input type="text" class="form-control" name=n_site_copyrights value="<?=$data['SiteCopyrights']?>">
+                    </div>
+                     <div class="form-group">
+                       <label for="exampleInputEmail1">META DESCRIPTION</label>
+                       <textarea class="form-control" name=n_site_description rows="3"><?=$data['SiteDescription']?></textarea>
+                    </div>
+                     
+                     <div class="form-group">
+                       <label for="exampleInputEmail1">Логин администратора</label>
+                       <input type="text" class="form-control" name=n_admin_username value="<?=$data['AdminUsername']?>">
+                    </div>
+                      <label for="exampleInputEmail1">Проверка IP администратора</label>
+                     <div class="input-group">
+                          <span class="input-group-addon">
+                            <input type="checkbox" name=n_admin_check_ip value=true<?if($data['AdminCheckIp']){?> checked<?}?>>
+                          </span>
+                      <input type="text" class="form-control" name=n_admin_ip_address value="<?=$data['AdminIpAddress']?>">
+                    </div>
+                  </div>
+                  
+                </div>
+                <div class="box-footer">
+                <button type="submit" name=send value="SAVE CHANGES" class="btn btn-primary pull-right">Сохранить</button>
+            </div>
+              </div>
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_2">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                       <label for="exampleInputEmail1">Язык по умолчанию</label>
+                       <select class="form-control" name=n_default_language>
+                          <? show_default_select_lang(); ?>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                       <label for="exampleInputEmail1">Минимальная длина пароля</label>
+                        <input type="text" class="form-control" name=n_passlen value="<?=$data['PassLen']?>">
+                    </div>
+                    
+                     <div class="form-group">
+                       <label for="exampleInputEmail1">Точность валюты</label>
+                        <input type="text" class="form-control" name=n_currsize value="<?=$data['CurrSize']?>">
+                    </div>
+                    
+                     <label for="exampleInputEmail1">Бонус при регистрации</label>
+                     <div class="input-group">
+                          <span class="input-group-addon">
+                            <input type="checkbox" name=n_signup_use value=true<?if($data['SignupPays']){?> checked<?}?>>
+                          </span>
+                      <input type="text" class="form-control" name=n_signup_bonus value="<?=$data['SignupBonus']?>">
+                    </div>
+                  </div>
+                  
+                   <div class="col-md-6">
+                    <div class="form-group">
+                       <label for="exampleInputEmail1">Количество попыток входа</label>
+                       <input type="text" class="form-control" name=n_passatt value="<?=$data['PassAtt']?>">
+                    </div>
+                     
+                     <div class="form-group">
+                       <label for="exampleInputEmail1">Символ валюты</label>
+                       <input type="text" class="form-control" name=n_currency value="<?=$data['Currency']?>">
+                    </div>
+                     
+                     <div class="form-group">
+                       <label for="exampleInputEmail1">Максимальное количество Email</label>
+                        <input type="text" class="form-control" name=n_maxemails value="<?=$data['maxemails']?>"<?if($data['SignupPays']){?> checked<?}?>>
+                    </div>
+                     
+                  </div>
+                </div>
+                <div class="box-footer">
+                <button type="submit" name=send value="SAVE CHANGES" class="btn btn-primary pull-right">Сохранить</button>
+            </div>
+              </div>
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_3">
+                <div class="row">
+                  <div class="col-md-6">
+                    
+                    <div class="form-group">
+                       <label for="exampleInputEmail1">Минимальная сумма перевода, <?=$data['Currency']?></label>
+                        <input type="text" class="form-control" name=n_minimal_transfer value="<?=$data['PaymentMinSum']?>">
+                    </div>
+                    
+                    <div class="form-group">
+                       <label for="exampleInputEmail1">Комиссия в процентах</label>
+                        <input type="text" class="form-control" name=n_transfer_percent value="<?=$data['PaymentPercent']?>">
+                    </div>
+                    
+                    <div class="form-group">
+                       <label for="exampleInputEmail1">Период для возврата</label>
+                        <input type="text" class="form-control" name=n_refund_period value="<?=$data['RefundPeriod']?>">
+                    </div>
+                    
+                  </div>
+                  
+                   <div class="col-md-6">
+                    <div class="form-group">
+                       <label for="exampleInputEmail1">Максимальная сумма перевода для анонимных аккаунтов</label>
+                       <input type="text" class="form-control" name=n_maximal_transfer value="<?=$data['PaymentMaxSum']?>">
+                    </div>
+                     
+                     <div class="form-group">
+                       <label for="exampleInputEmail1">Фиксированная комиссия, <?=$data['Currency']?></label>
+                        <input type="text" class="form-control" name=n_transfer_fee value="<?=$data['PaymentFees']?>">
+                    </div>
+                     
+                  </div>
+                </div>
+                <div class="box-footer">
+                <button type="submit" name=send value="SAVE CHANGES" class="btn btn-primary pull-right">Сохранить</button>
+            </div>
+              </div>
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_4">
+                <div class="row">
+                  <div class="col-md-6">
+                    
+                    <div class="form-group">
+                       <label for="exampleInputEmail1">Минимальная сумма пополнения, <?=$data['Currency']?></label>
+                        <input type="text" class="form-control" name=n_dep_minimal value="<?=$data['DepositMinSum']?>">
+                    </div>
+                    
+                    
+                  </div>
+                  
+                   <div class="col-md-6">
+                    <div class="form-group">
+                       <label for="exampleInputEmail1">Максимальная сумма пополнения для анонимных аккаунтов</label>
+                       <input type="text" class="form-control" name=n_dep_maximal value="<?=$data['DepositMaxSum']?>">
+                    </div>
+                     
+                  </div>
+                  
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Использовать SWIFT</label>
+                       <div class="input-group">
+                            <span class="input-group-addon">
+                              <input type="checkbox" name=n_dep_mc_use value=true<?if($data['DepositMethod']['mail']['actv']){?> checked<?}?>>
+                            </span>
+                        <input type="text" class="form-control" name=n_mail_address value="<?=$data['PostMailAddress']?>">
+                      </div>
+                    </div>
+                     
+                  </div>
+                  
+                   <div class="col-md-6">
+                    
+                    <div class="form-group">
+                       <label for="exampleInputEmail1">Фиксированная комиссия, <?=$data['Currency']?></label>
+                        <input type="text" class="form-control" name=n_dep_mc_fee value="<?=$data['DepositMethod']['mail']['fees']?>">
+                    </div>
+                    
+                    
+                  </div>
+                  
+                   <div class="col-md-6">
+                    <div class="form-group">
+                       <label for="exampleInputEmail1">Комиссия в процентах</label>
+                       <input type="text" class="form-control" name=n_dep_mc_percent value="<?=$data['DepositMethod']['mail']['prcn']?>">
+                    </div>
+                     
+                  </div>
+                  
+                </div>
+                <div class="box-footer">
+                <button type="submit" name=send value="SAVE CHANGES" class="btn btn-primary pull-right">Сохранить</button>
+            </div>
+              </div>
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_5">
+                <div class="row">
+                  <div class="col-md-6">
+                    
+                    <div class="form-group">
+                       <label for="exampleInputEmail1">Минимальная сумма вывода, <?=$data['Currency']?></label>
+                        <input type="text" class="form-control" name=n_wdr_minimal value="<?=$data['WithdrawMinSum']?>">
+                    </div>
+                    
+                     <div class="form-group">
+                      <label for="exampleInputEmail1">Использовать PayPal и комиссия</label>
+                       <div class="input-group">
+                            <span class="input-group-addon">
+                              <input type="checkbox" type=checkbox name=n_wdr_pp_use value=true<?if($data['WithdrawMethod']['paypal']['actv']){?> checked<?}?>>
+                            </span>
+                        <input type="text" class="form-control" name=n_wdr_pp_fee value="<?=$data['WithdrawMethod']['paypal']['fees']?>">
+                      </div>
+                    </div>
+                    
+                     <div class="form-group">
+                      <label for="exampleInputEmail1">Использовать Яндекс Деньги и комиссия</label>
+                       <div class="input-group">
+                            <span class="input-group-addon">
+                              <input type="checkbox" type=checkbox name=n_wdr_np_use value=true<?if($data['WithdrawMethod']['netpay']['actv']){?> checked<?}?>>
+                            </span>
+                        <input type="text" class="form-control" name=n_wdr_np_fee value="<?=$data['WithdrawMethod']['netpay']['fees']?>">
+                      </div>
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Использовать Bitcoin и комиссия</label>
+                       <div class="input-group">
+                            <span class="input-group-addon">
+                              <input type="checkbox" name=n_wdr_mb_use value=true<?if($data['WithdrawMethod']['moneybookers']['actv']){?> checked<?}?>>
+                            </span>
+                        <input type="text" class="form-control" name=n_wdr_mb_fee value="<?=$data['WithdrawMethod']['moneybookers']['fees']?>">
+                      </div>
+                    </div>
+
+                    
+                  </div>
+                  
+                   <div class="col-md-6">
+                     
+                    <div class="form-group">
+                       <label for="exampleInputEmail1">Максимальная сумма вывода для анонимных аккаунтов</label>
+                       <input type="text" class="form-control" name=n_wdr_maximal value="<?=$data['WithdrawMaxSum']?>">
+                    </div>
+                     
+                      <div class="form-group">
+                      <label for="exampleInputEmail1">Использовать Банковские карты и комиссия</label>
+                       <div class="input-group">
+                            <span class="input-group-addon">
+                              <input type="checkbox" type=checkbox name=n_wdr_sp_use value=true<?if($data['WithdrawMethod']['stormpay']['actv']){?> checked<?}?>>
+                            </span>
+                        <input type="text" class="form-control" name=n_wdr_sp_fee value="<?=$data['WithdrawMethod']['stormpay']['fees']?>">
+                      </div>
+                    </div>
+                     
+                     <div class="form-group">
+                      <label for="exampleInputEmail1">Использовать WebMoney и комиссия</label>
+                       <div class="input-group">
+                            <span class="input-group-addon">
+                              <input type="checkbox" type=checkbox name=n_wdr_eg_use value=true<?if($data['WithdrawMethod']['egold']['actv']){?> checked<?}?>>
+                            </span>
+                        <input type="text" class="form-control" name=n_wdr_eg_fee value="<?=$data['WithdrawMethod']['egold']['fees']?>">
+                      </div>
+                    </div>
+                     
+                     <div class="form-group">
+                      <label for="exampleInputEmail1">Использовать SWIFT</label>
+                       <div class="input-group">
+                            <span class="input-group-addon">
+                              <input type="checkbox" type=checkbox name=n_wdr_bw_use value=true<?if($data['WithdrawMethod']['bwire']['actv']){?> checked<?}?>>
+                            </span>
+                        <input type="text" class="form-control" name=n_wdr_bw_fee value="<?=$data['WithdrawMethod']['bwire']['fees']?>">
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="box-footer">
+                <button type="submit" name=send value="SAVE CHANGES" class="btn btn-primary pull-right">Сохранить</button>
+            </div>
+              </div>
+            </div>
+            <!-- /.tab-content -->
+          </div>
+          <!-- /.box -->
+        </div>
+      </div>
+
+    </section>
+    <!-- /.content -->
+</form>
+<?}else{?>SECURITY ALERT: Access Denied<?}?>

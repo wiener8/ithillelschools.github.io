@@ -1,0 +1,143 @@
+<?if(isset($data['ScriptLoaded'])){?>
+
+
+<section class="bg-primary">
+			<div class="container">
+				<h3 class="color-white font-weight-300">Помощь</h3>
+			</div>
+		</section>
+
+		<section class="bg-grey-50 padding-bottom-60">
+			<div class="container">
+				<div class="headline">
+					<h4 class="no-padding-top">Часто задаваемые вопросы <small>Найдите ответ на свой вопрос</small></h4>
+					<div class="pull-right">
+						<a href="contact.htm" class="btn btn-primary btn-icon-left"><i class="fa fa-envelope-o"></i> Написать в поддержку</a>
+					</div>
+				</div>
+				
+				<?	if($_REQUEST["farea"]){
+		ob_start();
+?>
+<?
+		$qr1 = mysql_query("SELECT * FROM dp_faq_list WHERE cat='".$_REQUEST["farea"]."' ORDER BY cat");
+		$qr2 = mysql_query("SELECT * FROM dp_faq_list WHERE cat='".$_REQUEST["farea"]."' ORDER BY cat");
+		$num = 0;
+		for ($i = mysql_num_rows($qr2) - 1; $i >= 0; $i--){
+			if (mysql_result($qr2, $i, 'question')){
+				$num++;
+			}
+		}
+		$middle = (int)($num / 3);
+		$mr = 1;
+		$mycnt = 0;
+		$abc = 0;
+		while ($r1 = mysql_fetch_object($qr1)){
+			if (!$r1->question) continue;
+?>
+<?		
+		$mycnt++;
+	}
+?>
+
+<?
+		$qr1 = mysql_query("SELECT * FROM dp_faq_list WHERE cat='".$_REQUEST["farea"]."' ORDER BY cat");
+		$qr2 = mysql_query("SELECT * FROM dp_faq_list WHERE cat='".$_REQUEST["farea"]."' ORDER BY cat");
+		$num = 0;
+		for ($i = mysql_num_rows($qr2) - 1; $i >= 0; $i--){
+			if (mysql_result($qr2, $i, 'question')){
+				$num++;
+			}
+		}
+		$middle = (int)($num / 3);
+		$mr = 1;
+		$mycnt = 0;
+		$abc = 0;
+		while ($r1 = mysql_fetch_object($qr1)){
+			if (!$r1->question) continue;
+?>
+				<div class="forum-post">
+					<div class="forum-panel">
+						<div class="forum-body">
+							<h4><?=$r1->question?></h4>
+							<p><?=$r1->answer?></p>
+						</div>
+					</div>
+					
+				</div>
+				<?		
+			$mycnt++;
+		}
+?>
+
+<?
+		$faqs = ob_get_contents();
+		ob_end_clean(); 
+	}else{
+		ob_start();
+?>
+
+				<div class="forum">
+					<?
+		$qr1 = mysql_query("SELECT * FROM dp_faq_cat_list ORDER BY id") or die( mysql_error() );
+		$qr2 = mysql_query("SELECT * FROM dp_faq_cat_list ORDER BY id");
+		$num = 0;
+		for ($i = mysql_num_rows($qr2) - 1; $i >= 0; $i--){
+			if (mysql_result($qr2, $i, 'title')){
+				$num++;
+			}
+		}
+		$middle = (int)($num / 2);
+		$mr = 1;
+		while ($r1 = mysql_fetch_object($qr1)){
+			if (!$r1->title) continue;
+			list($cnt) = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM dp_faq_list WHERE cat=".$r1->id));
+?>
+					<div class="forum-group">
+						<div class="forum-icon"><i class="fa fa-question-circle-o"></i></div>
+						<div class="forum-title">
+							<h4><a href="faq.htm?farea=<?=$r1->id?>&brand=$brand"><?=$r1->title?></a></h4>
+							<p>Кликните для открытия категории</p>
+						</div>
+					</div>
+					<?
+		}
+?>
+				</div>
+
+<?
+		$cats = ob_get_contents();
+		ob_end_clean(); 
+	}
+	ob_start();
+
+	if($_REQUEST["farea"]){
+		$catname = getCatTitle($_REQUEST["farea"]);
+?>
+
+		
+<?	}	?>
+<?
+	//echo "<br><br>";
+	$breadcrumb = ob_get_contents();
+	ob_end_clean(); 
+	if (!$_REQUEST["farea"]){$faqs = $cats;}
+	if ($_REQUEST["srch"]){
+		$faqs = FAQSearch($_REQUEST["srch"]);
+	}
+	$tpl = join("", file("defaultfaq.htm"));
+	$vars = array(	
+		"breadcrumb" => $breadcrumb,
+		"faqs" => $faqs,
+		"cats" => $cats,
+	);
+	while ($a = each($vars)){
+		$tpl = str_replace("[[{$a[0]}]]", $a[1], $tpl);
+	}
+	echo $tpl;
+?>
+				
+				
+		</section>
+
+<?}else{?>SECURITY ALERT: Access Denied<?}?>

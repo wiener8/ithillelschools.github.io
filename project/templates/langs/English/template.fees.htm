@@ -1,0 +1,70 @@
+<section class="hero height-350 hero-game" style="background-image: url(http://www.rycorsoftware.com/SFimages/default-source/acorn-online-payments/keyboardhands.jpg?sfvrsn=0);">
+			<div class="hero-bg"></div>
+			<div class="container">
+				<div class="page-header">
+					<div class="page-title">Тарифная политика</div>
+
+					<a href="members/signup.htm" class="btn btn-success text-initial" data-toggle="lightbox" data-width="1280">Открыть аккаунт</a>
+				</div>
+			</div>
+		</section>
+
+<section class="padding-30">
+			<div class="container text-center">
+				<h2 class="font-size-22 font-weight-300">Информация о комиссиях системы</h2>
+			</div>
+		</section>
+
+<section class="bg-grey-50 padding-bottom-60">
+			<div class="container">
+				
+				<div class="row">
+					<div class="col-md-12">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<table class="table table-hover">
+									<thead>
+										<tr>
+											<th class="text-primary">Наименование услуги</th>
+											<th class="text-primary">Комиссия</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>Открытие аккаунта</td>
+											<td>Бесплатно<?if($data['SignupPays']){?> (Приветственный бонус при регистрации <?=prnsumm($data['SignupBonus'])?> <?=prntext($data['Currency'])?>)<?}?>  </td>                    
+										</tr>
+										<tr>
+											<td>Исходящий перевод</td>
+											<td>Бесплатно</td>              
+										</tr>
+										<tr>
+											<td>Входящий перевод</td>
+											<td><?=prnsumm($data['PaymentPercent'])?>% + <?=prnsumm($data['PaymentFees'])?> <?=prntext($data['Currency'])?></td>              
+										</tr>
+										<?$idx=1;foreach($data['DepositMethod'] as $key=>$value){if($data['DepositMethod'][$key]['actv']){?>
+										<tr>
+											<td>Пополнение с помощью <?=prntext($data['DepositMethod'][$key]['name'])?></td>
+											<td><?=prnsumm($data['DepositMethod'][$key]['prcn'])?>% + <?=prnsumm($data['DepositMethod'][$key]['fees'])?> <?=prntext($data['Currency'])?></td>              
+										</tr>
+										<?}$idx++;}?>
+										<?$idx=1;foreach($data['WithdrawMethod'] as $key=>$value){if($data['WithdrawMethod'][$key]['actv']){?>
+										<tr>
+											<td>Вывод средств на <?=prntext($data['WithdrawMethod'][$key]['name'])?></td>
+											<td><?=prnsumm($data['WithdrawMethod'][$key]['fees'])?> <?=prntext($data['Currency'])?></td>              
+										</tr>
+										<?}$idx++;}?>
+									</tbody>
+								</table>	
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</section>
+
+<section class="bg-primary promo">
+			<h2>Откройте аккаунт и получите бонус 5$ на первые покупки</h2>
+			<a href="members/signup.htm" target="_blank" class="btn btn-white btn-outline">Открыть бесплатно</a>
+		</section>
